@@ -14,7 +14,6 @@ redis:
     enabled: false
 
 common_env:
-  NODE_ENV: "production"
   REDIS_HOSTNAME: '{{ printf "%s-master" (include "common.names.fullname" .) }}'
   DB_HOSTNAME: '{{ include "common.names.name" . }}-postgresql'
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
@@ -31,6 +30,8 @@ common_env:
 
 server:
   enabled: true
+  env:
+    NODE_ENV: "production"
   service:
     main:
       enabled: true
@@ -56,6 +57,7 @@ server:
 microservice:
   enabled: true
   env:
+    NODE_ENV: "production"
     JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
   service:
     main:
@@ -105,10 +107,7 @@ machine_learning:
   args:
     - "./entrypoint.sh"
   env:
-    foo: '{{ include "web.servicename" . }}'
-    fo2o: '{{ include "server.servicename" . }}'
-    fo3o: '{{ include "microservice.servicename" . }}'
-    fo4o: '{{ include "machine_learning.servicename" . }}'
+    NODE_ENV: "production"
 
 web:
   enabled: true
@@ -119,6 +118,8 @@ web:
     tag: release
     # -- image pull policy
     pullPolicy: IfNotPresent
+  env:
+    NODE_ENV: "production"
 
   service:
     main:
