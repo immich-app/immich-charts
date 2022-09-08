@@ -1,0 +1,86 @@
+---
+
+# Project information
+site_name: Immich | Helm charts | Docs
+site_description: Docs for the Immich Helm charts repository
+site_author: PixelJonas
+site_url: https://immich.github.io/immich-charts/docs
+
+# Repository
+repo_name: immich/immich-charts
+repo_url: https://github.com/immich/immich-charts
+edit_uri: ""
+
+# Configuration
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github-alt
+  language: en
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tracking
+    # - navigation.indexes
+    - search.highlight
+    - search.share
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+
+docs_dir: ../../docs
+site_dir: ../../_site
+
+# Plugins
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pixeljonas
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/sTMX7Vh
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - pymdownx.highlight
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+
+# Page tree
+nav:
+  - Home: index.md
+  - Common Library:
+      - Introduction: common-library/introduction.md
+      - Common Storage: common-library/common-library-storage.md
+      - Common Add-ons: common-library/common-library-add-ons.md
+  - App Template:
+      - Introduction: app-template/introduction.md

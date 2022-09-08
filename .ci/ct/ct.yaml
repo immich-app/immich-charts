@@ -1,0 +1,16 @@
+chart-yaml-schema: .ci/ct/chart_schema.yaml
+lint-conf: .ci/ct/lintconf.yaml
+
+remote: origin
+target-branch: main
+
+helm-extra-args: --timeout 600s
+
+chart-dirs:
+  - charts/library
+  - charts/apps
+  - charts/other
+
+chart-repos:
+  - bitnami=https://charts.bitnami.com/bitnami
+  - immich=https://immich.github.io/immich-charts

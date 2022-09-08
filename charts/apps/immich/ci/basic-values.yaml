@@ -1,0 +1,50 @@
+image:
+  repository: altran1502/immich-server
+  tag: release
+  pullPolicy: IfNotPresent
+
+command: "/bin/bash"
+args: ["-c", "./start-server.sh"]
+
+env:
+  NODE_ENV: "production"
+  DB_HOSTNAME: "immich_postgres"
+  DB_USERNAME: "immich"
+  DB_PASSWORD: "immich"
+  DB_DATABASE_NAME: "immich"
+  REDIS_HOSTNAME: "immich_redis"
+  JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
+  # ENABLE_MAPBOX is either true of false -> if true, you have to provide MAPBOX_KEY
+  ENABLE_MAPBOX: false
+  MAPBOX_KEY: ""
+
+
+persistence:
+  upload:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    accessMode: ReadWriteOnce
+    storageClass: test
+    size: 5Gi
+
+
+microservice:
+  labels: {}
+
+service:
+  main:
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  main:
+    enabled: true
+
+probes:
+  liveness:
+    enabled: true
+  readiness:
+    enabled: true
+  startup:
+    enabled: true
