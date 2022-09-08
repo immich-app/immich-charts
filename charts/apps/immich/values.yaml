@@ -19,6 +19,9 @@ common_env:
   DB_HOSTNAME: '{{ include "common.names.name" . }}-postgresql'
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+  # ENABLE_MAPBOX is either true of false -> if true, you have to provide MAPBOX_KEY
+  ENABLE_MAPBOX: false
+  MAPBOX_KEY: ""
   DB_PASSWORD:
     valueFrom:
       secretKeyRef:
@@ -39,9 +42,6 @@ server:
           primary: true
           port: 3001
           protocol: HTTP
-
-  env:
-    JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
   image:
     # -- image repository
     repository: altran1502/immich-server
@@ -55,6 +55,8 @@ server:
 
 microservice:
   enabled: true
+  env:
+    JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
   service:
     main:
       enabled: false
@@ -66,10 +68,6 @@ microservice:
           primary: true
           port: 3001
           protocol: HTTP
-  env:
-    # ENABLE_MAPBOX is either true of false -> if true, you have to provide MAPBOX_KEY
-    ENABLE_MAPBOX: false
-    MAPBOX_KEY: ""
   image:
     # -- image repository
     repository: altran1502/immich-server
