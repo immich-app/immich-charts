@@ -18,6 +18,7 @@ common_env:
   DB_HOSTNAME: '{{ include "common.names.name" . }}-postgresql'
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+  JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
   # ENABLE_MAPBOX is either true of false -> if true, you have to provide MAPBOX_KEY
   ENABLE_MAPBOX: false
   MAPBOX_KEY: ""
@@ -58,7 +59,6 @@ microservice:
   enabled: true
   env:
     NODE_ENV: "production"
-    JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
   service:
     main:
       enabled: false
