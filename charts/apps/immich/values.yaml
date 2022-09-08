@@ -14,7 +14,7 @@ redis:
     enabled: false
 
 common_env:
-  REDIS_HOSTNAME: '{{ printf "%s-master" (include "common.names.fullname" .) }}'
+  REDIS_HOSTNAME: '{{ printf "%s-redis-master" (include "common.names.fullname" .) }}'
   DB_HOSTNAME: '{{ include "common.names.name" . }}-postgresql'
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
