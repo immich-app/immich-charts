@@ -49,9 +49,8 @@ server:
     tag: release
     # -- image pull policy
     pullPolicy: IfNotPresent
-  command: "/bin/bash"
+  command: "/bin/sh"
   args:
-    - "-c"
     - "./start-server.sh"
 
 microservice:
@@ -78,9 +77,8 @@ microservice:
     tag: release
     # -- image pull policy
     pullPolicy: IfNotPresent
-  command: "/bin/bash"
+  command: "/bin/sh"
   args:
-    - "-c"
     - "./start-microservices.sh"
 
 machine_learning:
@@ -105,9 +103,8 @@ machine_learning:
           port: 3003
           protocol: HTTP
 
-  command: "/bin/bash"
+  command: "/bin/sh"
   args:
-    - "-c"
     - "./entrypoint.sh"
   env:
     foo: '{{ include "web.servicename" . }}'
@@ -137,9 +134,8 @@ web:
           port: 3000
           protocol: HTTP
 
-  command: "/bin/bash"
+  command: "/bin/sh"
   args:
-    - "-c"
     - "./entrypoint.sh"
 
 # -- Configure persistence for the chart here.
