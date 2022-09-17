@@ -137,51 +137,52 @@ web:
   args:
     - "./entrypoint.sh"
 
-# -- Configure persistence for the chart here.
-# Additional items can be added by adding a dictionary key similar to the 'config' key.
-# [[ref]](https://bjw-s.github.io/helm-charts/docs/common-library/common-library-storage)
-# @default -- See below
+proxy:
+  enabled: true
+  image:
+    # -- image repository
+    repository: altran1502/immich-proxy
+    # -- image tag
+    tag: release
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 8080
+          protocol: HTTP
+
+ingress:
+  main:
+    enabled: false
+    primary: true
+    annotations: {}
+    labels: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          path: /
+          pathType: Prefix
+          service:
+            name: immich-proxy
+            port: 8080
+    tls: []
+
 persistence:
-  # -- Default persistence for configuration files.
-  # @default -- See below
   config:
-    # -- Enables or disables the persistence item
     enabled: true
-
-    # -- Sets the persistence type
-    # Valid options are pvc, emptyDir, hostPath, secret, configMap or custom
     type: pvc
-
-    # -- Where to mount the volume in the main container.
-    # Defaults to `/<name_of_the_volume>`,
-    # setting to '-' creates the volume but disables the volumeMount.
     mountPath: /usr/src/app/upload # /config
-    # -- Specify if the volume should be mounted read-only.
     readOnly: false
-    # -- Override the name suffix that is used for this volume.
-    nameOverride:
-
-    # -- Storage Class for the config volume.
-    # If set to `-`, dynamic provisioning is disabled.
-    # If set to something else, the given storageClass is used.
-    # If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.
-    storageClass: # "-"
-
-    # -- If you want to reuse an existing claim, the name of the existing PVC can be passed here.
-    existingClaim: # your-claim
-
-    # -- Used in conjunction with `existingClaim`. Specifies a sub-path inside the referenced volume instead of its root
-    subPath: # some-subpath
-
-    # -- AccessMode for the persistent volume.
-    # Make sure to select an access mode that is supported by your storage provider!
-    # [[ref]](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
     accessMode: ReadWriteMany
-
-    # -- The amount of storage that is requested for the persistent volume.
     size: 1Gi
-
-    # -- Set to true to retain the PVC upon `helm uninstall`
     retain: false
 
   # -- Create an emptyDir volume to share between all containers
@@ -512,52 +513,6 @@ service:
 # -- Configure the ingresses for the chart here.
 # Additional ingresses can be added by adding a dictionary key similar to the 'main' ingress.
 # @default -- See below
-ingress:
-  main:
-    # -- Enables or disables the ingress
-    enabled: false
-
-    # -- Make this the primary ingress (used in probes, notes, etc...).
-    # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
-    primary: true
-
-    # -- Override the name suffix that is used for this ingress.
-    nameOverride:
-
-    # -- Provide additional annotations which may be required.
-    annotations:
-      {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-
-    # -- Provide additional labels which may be required.
-    labels: {}
-
-    # -- Set the ingressClass that is used for this ingress.
-    # Requires Kubernetes >=1.19
-    ingressClassName: # "nginx"
-
-    ## Configure the hosts for the ingress
-    hosts:
-      - # -- Host address. Helm template can be passed.
-        host: chart-example.local
-        ## Configure the paths for the host
-        paths:
-          - # -- Path.  Helm template can be passed.
-            path: /
-            # -- Ignored if not kubeVersion >= 1.14-0
-            pathType: Prefix
-            service:
-              # -- Overrides the service name reference for this path
-              name:
-              # -- Overrides the service port reference for this path
-              port:
-
-    # -- Configure TLS for the ingress. Both secretName and hosts can process a Helm template.
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
 
 # -- Used in conjunction with `controller.type: statefulset` to create individual disks for each instance.
 volumeClaimTemplates: []
