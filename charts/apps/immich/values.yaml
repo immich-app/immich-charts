@@ -165,9 +165,8 @@ ingress:
           - path: "/"
     tls: []
 
-
 persistence:
-  config:
+  library:
     enabled: false
     type: pvc
     mountPath: /usr/src/app/upload
