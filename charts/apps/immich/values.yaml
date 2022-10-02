@@ -163,10 +163,8 @@ ingress:
       - host: chart-foo.local
         paths:
           - path: "/"
-            service:
-              name: immich-proxy
-              port: 8080
     tls: []
+
 
 persistence:
   config:

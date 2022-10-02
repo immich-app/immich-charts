@@ -11,5 +11,3 @@ global:
 
 {{- end -}}
 {{- $_ := mergeOverwrite .Values (include "app-template.hardcodedValues" . | fromYaml) -}}
-
-{{ include "common.ingress" .  | nindent 0 }}
