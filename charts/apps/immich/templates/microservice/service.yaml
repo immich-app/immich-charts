@@ -1,0 +1,1 @@
+ {{ include "microservice.service" . | nindent 0 }}

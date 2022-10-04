@@ -1,0 +1,5 @@
+excluded-charts-lint: []
+
+excluded-charts-install:
+  - apps/alertmanager-bot
+

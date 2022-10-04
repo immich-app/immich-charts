@@ -1,0 +1,17 @@
+---
+version: "3"
+
+vars:
+  PROJECT_DIR:
+    sh: "git rev-parse --show-toplevel"
+
+includes:
+  charts: .taskfiles/charts.yaml
+  docs: .taskfiles/docs.yaml
+  precommit: .taskfiles/precommit.yaml
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task -l

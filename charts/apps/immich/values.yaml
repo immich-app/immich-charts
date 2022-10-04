@@ -1,0 +1,260 @@
+---
+postgresql:
+  enabled: false
+  global:
+    postgresql:
+      auth:
+        username: immich
+        database: immich
+
+redis:
+  enabled: false
+  architecture: standalone
+  auth:
+    enabled: false
+
+common_env:
+  REDIS_HOSTNAME: '{{ printf "%s-redis-master" (include "common.names.fullname" .) }}'
+  DB_HOSTNAME: '{{ include "common.names.name" . }}-postgresql'
+  DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
+  DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+  JWT_SECRET: "randomstringthatissolongandpowerfulthatnoonecanguess"
+  # ENABLE_MAPBOX is either true of false -> if true, you have to provide MAPBOX_KEY
+  ENABLE_MAPBOX: false
+  MAPBOX_KEY: ""
+  # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
+  DB_PASSWORD: "thisshouldnotbeyourpassword"
+
+server:
+  enabled: true
+  env:
+    NODE_ENV: "production"
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3001
+          protocol: HTTP
+  image:
+    # -- image repository
+    repository: altran1502/immich-server
+    # -- image tag
+    tag: v1.30.0_46-dev
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+  command: "/bin/sh"
+  args:
+    - "./start-server.sh"
+
+microservice:
+  enabled: true
+  env:
+    NODE_ENV: "production"
+  service:
+    main:
+      enabled: false
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3001
+          protocol: HTTP
+  image:
+    # -- image repository
+    repository: altran1502/immich-server
+    # -- image tag
+    tag: v1.30.0_46-dev
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+  command: "/bin/sh"
+  args:
+    - "./start-microservices.sh"
+
+machine_learning:
+  enabled: true
+  image:
+    # -- image repository
+    repository: altran1502/immich-machine-learning
+    # -- image tag
+    tag: v1.30.0_46-dev
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3003
+          protocol: HTTP
+
+  command: "/bin/sh"
+  args:
+    - "./entrypoint.sh"
+  env:
+    NODE_ENV: "production"
+
+web:
+  enabled: true
+  image:
+    # -- image repository
+    repository: altran1502/immich-web
+    # -- image tag
+    tag: v1.30.0_46-dev
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+  env:
+    NODE_ENV: "production"
+
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3000
+          protocol: HTTP
+
+  command: "/bin/sh"
+  args:
+    - "./entrypoint.sh"
+
+proxy:
+  enabled: true
+  image:
+    # -- image repository
+    repository: altran1502/immich-proxy
+    # -- image tag
+    tag: v1.30.0_46-dev
+    # -- image pull policy
+    pullPolicy: IfNotPresent
+
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 8080
+          protocol: HTTP
+
+ingress:
+  main:
+    enabled: false
+    primary: false
+    hosts:
+      - host: chart-foo.local
+        paths:
+          - path: "/"
+    tls: []
+
+persistence:
+  library:
+    enabled: false
+    type: pvc
+    mountPath: /usr/src/app/upload
+    readOnly: false
+    accessMode: ReadWriteMany
+    size: 1Gi
+    retain: false
+
+  geocoding-dump:
+    enabled: true
+    type: emptyDir
+    mountPath: /usr/src/app/.reverse-geocoding-dump
+    # -- Set the medium to "Memory" to mount a tmpfs (RAM-backed filesystem) instead
+    # of the storage medium that backs the node.
+    medium: # Memory
+    # -- If the `SizeMemoryBackedVolumes` feature gate is enabled, you can
+    # specify a size for memory backed volumes.
+    sizeLimit: # 1Gi
+
+global:
+  # -- Set an override for the prefix of the fullname
+  nameOverride:
+  # -- Set the entire name definition
+  fullnameOverride:
+  # -- Set additional global labels. Helm templates can be used.
+  labels: {}
+  # -- Set additional global annotations. Helm templates can be used.
+  annotations: {}
+
+controller:
+  # -- enable the controller.
+  enabled: false
+
+serviceAccount:
+  create: false
+
+# -- Probe configuration
+# -- [[ref]](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+# @default -- See below
+probes:
+  # -- Liveness probe configuration
+  # @default -- See below
+  liveness:
+    # -- Enable the liveness probe
+    enabled: true
+    # -- Set this to `true` if you wish to specify your own livenessProbe
+    custom: false
+    # -- The spec field contains the values for the default livenessProbe.
+    # If you selected `custom: true`, this field holds the definition of the livenessProbe.
+    # @default -- See below
+    spec:
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+
+  # -- Redainess probe configuration
+  # @default -- See below
+  readiness:
+    # -- Enable the readiness probe
+    enabled: true
+    # -- Set this to `true` if you wish to specify your own readinessProbe
+    custom: false
+    # -- The spec field contains the values for the default readinessProbe.
+    # If you selected `custom: true`, this field holds the definition of the readinessProbe.
+    # @default -- See below
+    spec:
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+
+  # -- Startup probe configuration
+  # @default -- See below
+  startup:
+    # -- Enable the startup probe
+    enabled: true
+    # -- Set this to `true` if you wish to specify your own startupProbe
+    custom: false
+    # -- The spec field contains the values for the default startupProbe.
+    # If you selected `custom: true`, this field holds the definition of the startupProbe.
+    # @default -- See below
+    spec:
+      initialDelaySeconds: 0
+      timeoutSeconds: 1
+      ## This means it has a maximum of 5*30=150 seconds to start up before it fails
+      periodSeconds: 5
+      failureThreshold: 30
+
+termination:
+  gracePeriodSeconds:

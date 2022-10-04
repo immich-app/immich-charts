@@ -1,0 +1,1 @@
+ {{ include "proxy.service" . | nindent 0 }}
