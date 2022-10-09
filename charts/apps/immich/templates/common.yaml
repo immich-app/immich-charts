@@ -10,4 +10,6 @@ global:
 {{ end }}
 
 {{- end -}}
+
+{{- include "common.pvc" . -}}
 {{- $_ := mergeOverwrite .Values (include "app-template.hardcodedValues" . | fromYaml) -}}
