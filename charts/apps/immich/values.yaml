@@ -44,7 +44,7 @@ server:
     # -- image repository
     repository: altran1502/immich-server
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.31.1_49-dev
     # -- image pull policy
     pullPolicy: IfNotPresent
   command: "/bin/sh"
@@ -70,7 +70,7 @@ microservice:
     # -- image repository
     repository: altran1502/immich-server
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.31.1_49-dev
     # -- image pull policy
     pullPolicy: IfNotPresent
   command: "/bin/sh"
@@ -83,7 +83,7 @@ machine_learning:
     # -- image repository
     repository: altran1502/immich-machine-learning
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.31.1_49-dev
     # -- image pull policy
     pullPolicy: IfNotPresent
 
@@ -111,7 +111,7 @@ web:
     # -- image repository
     repository: altran1502/immich-web
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.31.1_49-dev
     # -- image pull policy
     pullPolicy: IfNotPresent
   env:
@@ -139,7 +139,7 @@ proxy:
     # -- image repository
     repository: altran1502/immich-proxy
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.31.1_49-dev
     # -- image pull policy
     pullPolicy: IfNotPresent
 
