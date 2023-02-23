@@ -44,7 +44,7 @@ server:
     # -- image repository
     repository: altran1502/immich-server
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.49.0
     # -- image pull policy
     pullPolicy: IfNotPresent
   command: "/bin/sh"
@@ -70,7 +70,7 @@ microservice:
     # -- image repository
     repository: altran1502/immich-server
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.49.0
     # -- image pull policy
     pullPolicy: IfNotPresent
   command: "/bin/sh"
@@ -83,7 +83,7 @@ machine_learning:
     # -- image repository
     repository: altran1502/immich-machine-learning
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.49.0
     # -- image pull policy
     pullPolicy: IfNotPresent
 
@@ -99,11 +99,12 @@ machine_learning:
           port: 3003
           protocol: HTTP
 
-  command: "/bin/sh"
+  command: "python"
   args:
-    - "./entrypoint.sh"
+    - "src/main.py"
   env:
     NODE_ENV: "production"
+    TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
 
 web:
   enabled: true
@@ -111,7 +112,7 @@ web:
     # -- image repository
     repository: altran1502/immich-web
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.49.0
     # -- image pull policy
     pullPolicy: IfNotPresent
   env:
@@ -139,7 +140,7 @@ proxy:
     # -- image repository
     repository: altran1502/immich-proxy
     # -- image tag
-    tag: v1.30.0_46-dev
+    tag: v1.49.0
     # -- image pull policy
     pullPolicy: IfNotPresent
 
@@ -179,6 +180,17 @@ persistence:
     enabled: true
     type: emptyDir
     mountPath: /usr/src/app/.reverse-geocoding-dump
+    # -- Set the medium to "Memory" to mount a tmpfs (RAM-backed filesystem) instead
+    # of the storage medium that backs the node.
+    medium: # Memory
+    # -- If the `SizeMemoryBackedVolumes` feature gate is enabled, you can
+    # specify a size for memory backed volumes.
+    sizeLimit: # 1Gi
+
+  transformers-cache:
+    enabled: true
+    type: emptyDir
+    mountPath: /usr/src/app/.transformers_cache
     # -- Set the medium to "Memory" to mount a tmpfs (RAM-backed filesystem) instead
     # of the storage medium that backs the node.
     medium: # Memory
