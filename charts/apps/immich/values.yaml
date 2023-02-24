@@ -98,10 +98,6 @@ machine_learning:
           primary: true
           port: 3003
           protocol: HTTP
-
-  command: "python"
-  args:
-    - "src/main.py"
   env:
     NODE_ENV: "production"
     TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
