@@ -13,7 +13,7 @@ Once Helm is set up properly, add the repo as follows:
 helm repo add immich https://immich-app.github.io/helm-charts
 ```
 
-You can then run `helm search repo grafana` to see the charts.
+You can then run `helm search repo immich` to see the charts.
 
 Chart documentation is available in the [immich repository](https://github.com/immich-app/immich-charts).
 
