@@ -11,12 +11,9 @@ It leverages bjw-s the [library-chart](https://github.com/bjw-s/helm-charts/tree
 
 # Installation
 
-Currently these helm-charts are not (yet) deployed to a helm-registry. So you have to install them by checking out this repo
-
 ```
-$ git checkout https://github.com/immich-app/immich-charts.git
-$ cd immich-charts
-$ helm install charts/apps/immich -f myvalues.yaml
+$ helm repo add immich https://immich-app.github.io/helm-charts
+$ helm install immich immich/immich
 ```
 
 # Configuration
