@@ -1,4 +1,4 @@
-name: Release Charts
+name: release
 
 on:
   push:
@@ -10,17 +10,17 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: configure git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Run chart-releaser
+      - name: run chart-releaser
         uses: helm/chart-releaser-action@v1.1.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
