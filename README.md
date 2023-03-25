@@ -10,7 +10,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repo as follows:
 
 ```console
-helm repo add immich https://immich-app.github.io/helm-charts
+helm repo add immich https://immich-app.github.io/immich-charts
 ```
 
 You can then run `helm search repo immich` to see the charts.
