@@ -19,10 +19,10 @@ Chart documentation is available in the [immich repository](https://github.com/i
 
 ## Contributing
 
-We'd love to have you contribute! Please refer to our [contribution guidelines](https://immich.app/docs/overview/support-the-project) for details.
+We'd love to have you contribute! Please refer to our [contribution guidelines](https://github.com/immich-app/immich-charts/blob/main/CONTRIBUTING.md) for details.
 
 ## License
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
-[MIT License](https://github.com/immich-app/immich/blob/main/LICENSE).
+[MIT License](https://github.com/immich-app/immich-charts/blob/main/LICENSE).
 
