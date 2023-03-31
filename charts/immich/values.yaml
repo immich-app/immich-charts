@@ -58,6 +58,14 @@ microservices:
   enabled: true
   env:
     NODE_ENV: "production"
+    REVERSE_GEOCODING_DUMP_DIRECTORY: /geodata-cache
+  persistence:
+    geodata-cache:
+      enabled: false
+      type: pvc
+      size: 1Gi
+      accessMode: ReadWriteOnce
+      # storageClass: your-class
   service:
     main:
       enabled: false
@@ -99,7 +107,14 @@ machine-learning:
           protocol: HTTP
   env:
     NODE_ENV: "production"
-    TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
+    TRANSFORMERS_CACHE: /cache
+  persistence:
+    cache:
+      enabled: false
+      type: pvc
+      size: 10Gi
+      accessMode: ReadWriteOnce
+      # storageClass: your-class
 
 web:
   enabled: true
