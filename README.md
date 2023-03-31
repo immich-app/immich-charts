@@ -12,7 +12,7 @@ It leverages bjw-s the [library-chart](https://github.com/bjw-s/helm-charts/tree
 # Installation
 
 ```
-$ helm repo add immich https://immich-app.github.io/helm-charts
+$ helm repo add immich https://immich-app.github.io/immich-charts
 $ helm install --create-namespace --namespace immich immich immich/immich
 ```
 
