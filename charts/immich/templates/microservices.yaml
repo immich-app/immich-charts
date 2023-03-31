@@ -1,0 +1,9 @@
+{{- define "immich.microservices.hardcodedValues" -}}
+global:
+  nameOverride: microservices
+{{- end }}
+
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}

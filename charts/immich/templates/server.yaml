@@ -1,0 +1,9 @@
+{{- define "immich.server.hardcodedValues" -}}
+global:
+  nameOverride: server
+{{- end }}
+
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}

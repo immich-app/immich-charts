@@ -1,0 +1,9 @@
+{{- define "immich.proxy.hardcodedValues" -}}
+global:
+  nameOverride: proxy
+{{- end }}
+
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "proxy" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.proxy.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}

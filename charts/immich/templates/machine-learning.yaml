@@ -1,0 +1,9 @@
+{{- define "immich.machine-learning.hardcodedValues" -}}
+global:
+  nameOverride: machine-learning
+{{- end }}
+
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "machine-learning" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.machine-learning.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
