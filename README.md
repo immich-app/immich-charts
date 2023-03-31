@@ -1,38 +1,28 @@
-# Immich Charts
+# Immich Kubernetes Helm Charts
 
-Installs [Immich](https://github.com/immich-app/immich), a self-hosted photo and video backup solution directly 
-from your mobile phone. 
+The code is provided as-is with no warranties.
 
-# Goal
+## Usage
 
-This repo contains helm charts the immich community developed to help deploying Immich on Kubernetes cluster.
+[Helm](https://helm.sh) must be installed to use the charts.
+Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
-It leverages bjw-s the [library-chart](https://github.com/bjw-s/helm-charts/tree/main/charts/library/common) to make configuration as easy as possible. 
-
-# Installation
-
-```
-$ helm repo add immich https://immich-app.github.io/helm-charts
-$ helm install --create-namespace --namespace immich immich immich/immich
-```
-
-# Configuration
-
-The immich chart is highly customizable. You can see a detailed documentation
-of all possible changes within the `charts/immich/values.yaml` file.
-
-## Uninstalling the Chart
-
-To see the currently installed Immich chart:
+Once Helm is set up properly, add the repo as follows:
 
 ```console
-helm ls --namespace immich
+helm repo add immich https://immich-app.github.io/immich-charts
 ```
 
-To uninstall/delete the `immich` chart:
+You can then run `helm search repo immich` to see the charts.
 
-```console
-helm delete --namespace immich immich
-```
+Chart documentation is available in the [immich repository](https://github.com/immich-app/immich-charts).
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+## Contributing
+
+We'd love to have you contribute! Please refer to our [contribution guidelines](https://github.com/immich-app/immich-charts/blob/main/CONTRIBUTING.md) for details.
+
+## License
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+[MIT License](https://github.com/immich-app/immich-charts/blob/main/LICENSE).
+
