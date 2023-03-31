@@ -28,6 +28,47 @@ redis:
   auth:
     enabled: false
 
+typesense:
+  enabled: false
+  env:
+    TYPESENSE_DATA_DIR: /tsdata
+  persistence:
+    tsdata:
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      # storageClass: storage-class
+  service:
+    main:
+      enabled: true
+      primary: true
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 8108
+          protocol: HTTP
+  image:
+    repository: docker.io/typesense/typesense
+    tag: 0.24.0
+    pullPolicy: IfNotPresent
+  probes:
+    liveness: &ts-probes
+      enabled: true
+      custom: true
+      spec:
+        httpGet:
+          path: /health
+          port: 8108
+        initialDelaySeconds: 0
+        periodSeconds: 10
+        timeoutSeconds: 1
+        failureThreshold: 3
+    readiness: *ts-probes
+    startup:
+      enabled: false
+
 # Immich components
 
 server:

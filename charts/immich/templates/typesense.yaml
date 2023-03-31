@@ -1,0 +1,11 @@
+{{- define "immich.typesense.hardcodedValues" -}}
+global:
+  nameOverride: typesense
+{{- end }}
+
+{{ if .Values.typesense.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "typesense" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.typesense.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}
