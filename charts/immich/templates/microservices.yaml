@@ -3,7 +3,9 @@ global:
   nameOverride: microservices
 {{- end }}
 
+{{ if .Values.microservices.enabled }}
 {{- $ctx := deepCopy . -}}
 {{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
 {{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}

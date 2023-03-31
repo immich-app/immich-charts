@@ -3,7 +3,9 @@ global:
   nameOverride: web
 {{- end }}
 
+{{ if .Values.web.enabled }}
 {{- $ctx := deepCopy . -}}
 {{- $_ := get .Values "web" | mergeOverwrite $ctx.Values -}}
 {{- $_ = include "immich.web.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}
