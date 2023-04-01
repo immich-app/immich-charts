@@ -7,7 +7,7 @@ env:
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
   # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
   DB_PASSWORD: "thisshouldnotbeyourpassword"
-  TYPESENSE_API_KEY: "typesense"
+  TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
 
 image:
   tag: v1.52.1
@@ -32,42 +32,17 @@ typesense:
   enabled: false
   env:
     TYPESENSE_DATA_DIR: /tsdata
+    TYPESENSE_API_KEY: typesense
   persistence:
     tsdata:
       enabled: false
       accessMode: ReadWriteOnce
       size: 1Gi
       # storageClass: storage-class
-  service:
-    main:
-      enabled: true
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 8108
-          protocol: HTTP
   image:
     repository: docker.io/typesense/typesense
     tag: 0.24.0
     pullPolicy: IfNotPresent
-  probes:
-    liveness: &ts-probes
-      enabled: true
-      custom: true
-      spec:
-        httpGet:
-          path: /health
-          port: 8108
-        initialDelaySeconds: 0
-        periodSeconds: 10
-        timeoutSeconds: 1
-        failureThreshold: 3
-    readiness: *ts-probes
-    startup:
-      enabled: false
 
 # Immich components
 
@@ -75,25 +50,9 @@ server:
   enabled: true
   env:
     NODE_ENV: "production"
-  service:
-    main:
-      enabled: true
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 3001
-          protocol: HTTP
   image:
-    # -- image repository
     repository: ghcr.io/immich-app/immich-server
-    # -- image pull policy
     pullPolicy: IfNotPresent
-  command: "/bin/sh"
-  args:
-    - "./start-server.sh"
 
 microservices:
   enabled: true
@@ -107,47 +66,16 @@ microservices:
       size: 1Gi
       accessMode: ReadWriteOnce
       # storageClass: your-class
-  service:
-    main:
-      enabled: false
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 3001
-          protocol: HTTP
   image:
-    # -- image repository
     repository: ghcr.io/immich-app/immich-server
-    # -- image pull policy
     pullPolicy: IfNotPresent
-  command: "/bin/sh"
-  args:
-    - "./start-microservices.sh"
 
 machine-learning:
   enabled: true
   image:
-    # -- image repository
     repository: ghcr.io/immich-app/immich-machine-learning
-    # -- image pull policy
     pullPolicy: IfNotPresent
-
-  service:
-    main:
-      enabled: true
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 3003
-          protocol: HTTP
   env:
-    NODE_ENV: "production"
     TRANSFORMERS_CACHE: /cache
   persistence:
     cache:
@@ -160,48 +88,16 @@ machine-learning:
 web:
   enabled: true
   image:
-    # -- image repository
     repository: ghcr.io/immich-app/immich-web
-    # -- image pull policy
     pullPolicy: IfNotPresent
   env:
     NODE_ENV: "production"
 
-  service:
-    main:
-      enabled: true
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 3000
-          protocol: HTTP
-
-  command: "/bin/sh"
-  args:
-    - "./entrypoint.sh"
-
 proxy:
   enabled: true
   image:
-    # -- image repository
     repository: ghcr.io/immich-app/immich-proxy
-    # -- image pull policy
     pullPolicy: IfNotPresent
-
-  service:
-    main:
-      enabled: true
-      primary: true
-      type: ClusterIP
-      ports:
-        http:
-          enabled: true
-          primary: true
-          port: 8080
-          protocol: HTTP
 
   ingress:
     main:

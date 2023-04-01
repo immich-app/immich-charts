@@ -1,6 +1,18 @@
 {{- define "immich.machine-learning.hardcodedValues" -}}
 global:
   nameOverride: machine-learning
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 3003
+        protocol: HTTP
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}

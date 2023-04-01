@@ -1,6 +1,10 @@
 {{- define "immich.microservices.hardcodedValues" -}}
 global:
   nameOverride: microservices
+
+command: "/bin/sh"
+args:
+  - "./start-microservices.sh"
 {{- end }}
 
 {{ if .Values.microservices.enabled }}

@@ -1,6 +1,34 @@
 {{- define "immich.typesense.hardcodedValues" -}}
 global:
   nameOverride: typesense
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 8108
+        protocol: HTTP
+
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /health
+        port: 8108
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: false
 {{- end }}
 
 {{ if .Values.typesense.enabled }}
