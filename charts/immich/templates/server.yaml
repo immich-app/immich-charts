@@ -17,6 +17,12 @@ service:
         primary: true
         port: 3001
         protocol: HTTP
+
+persistence:
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
