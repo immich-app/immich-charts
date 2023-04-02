@@ -5,6 +5,10 @@ global:
 command: "/bin/sh"
 args:
   - "./start-microservices.sh"
+
+service:
+  main:
+    enabled: false
 {{- end }}
 
 {{ if .Values.microservices.enabled }}
