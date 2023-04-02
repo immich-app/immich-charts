@@ -6,7 +6,7 @@ env:
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
   # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
-  DB_PASSWORD: "thisshouldnotbeyourpassword"
+  DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
   TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
   IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
   IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
@@ -24,6 +24,7 @@ postgresql:
       auth:
         username: immich
         database: immich
+        password: immich
 
 redis:
   enabled: false
