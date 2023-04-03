@@ -18,6 +18,22 @@ service:
         port: 3001
         protocol: HTTP
 
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /server-info/ping
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: false
+
 persistence:
   library:
     enabled: true

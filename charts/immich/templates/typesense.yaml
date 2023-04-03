@@ -21,7 +21,7 @@ probes:
     spec:
       httpGet:
         path: /health
-        port: 8108
+        port: http
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
