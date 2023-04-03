@@ -75,9 +75,10 @@ microservices:
     REVERSE_GEOCODING_DUMP_DIRECTORY: /geodata-cache
   persistence:
     geodata-cache:
-      enabled: false
-      type: pvc
+      enabled: true
       size: 1Gi
+      # Optional: Set this to pvc to avoid downloading the geodata every start.
+      type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class
   image:
@@ -93,9 +94,10 @@ machine-learning:
     TRANSFORMERS_CACHE: /cache
   persistence:
     cache:
-      enabled: false
-      type: pvc
+      enabled: true
       size: 10Gi
+      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class
 
