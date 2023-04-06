@@ -1,3 +1,7 @@
+## This chart relies on the common library chart from bjw-s
+## You can find it at https://github.com/bjw-s/helm-charts/tree/main/charts/library/common
+## Refer there for more detail about the supported values
+
 # These entries are shared between all the Immich components
 
 env:
@@ -61,7 +65,7 @@ typesense:
 # Immich components
 
 server:
-  enabled: true
+  enabled: true 
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
