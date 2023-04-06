@@ -62,8 +62,6 @@ typesense:
 
 server:
   enabled: true
-  env:
-    NODE_ENV: "production"
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
@@ -71,7 +69,6 @@ server:
 microservices:
   enabled: true
   env:
-    NODE_ENV: "production"
     REVERSE_GEOCODING_DUMP_DIRECTORY: /geodata-cache
   persistence:
     geodata-cache:
@@ -106,8 +103,6 @@ web:
   image:
     repository: ghcr.io/immich-app/immich-web
     pullPolicy: IfNotPresent
-  env:
-    NODE_ENV: "production"
   persistence:
     library:
       enabled: false
