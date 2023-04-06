@@ -3,7 +3,7 @@ apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
 version: 0.1.0
-appVersion: v1.52.1
+appVersion: v1.53.0
 maintainers:
   - name: PixelJonas
     email: 5434875+PixelJonas@users.noreply.github.com
