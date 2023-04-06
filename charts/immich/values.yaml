@@ -53,6 +53,7 @@ typesense:
     TYPESENSE_API_KEY: typesense
   persistence:
     tsdata:
+      # Enabling typesense persistence is recommended to avoid slow reindexing
       enabled: false
       accessMode: ReadWriteOnce
       size: 1Gi
