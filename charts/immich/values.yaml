@@ -16,7 +16,7 @@ env:
   TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
   IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
   IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3001" .Release.Name }}'
+  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
   tag: v1.52.1
@@ -65,7 +65,7 @@ typesense:
 # Immich components
 
 server:
-  enabled: true 
+  enabled: true
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
