@@ -6,6 +6,34 @@ entries:
         - kind: added
           description: Automatically set `global.nameOverride` to release name
     apiVersion: v2
+    appVersion: v1.53.0
+    created: "2023-04-15T19:23:43.188146336Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 1.4.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.8.1
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.1.4
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: 198211f717e2f69e08009edee23d53991be45ae2d9c55daa03ada359afb65e96
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    name: immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.1.0/immich-0.1.0.tgz
+    version: 0.1.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Automatically set `global.nameOverride` to release name
+    apiVersion: v2
     appVersion: v1.30.0_46-dev
     created: "2023-03-31T10:54:11.667257697Z"
     dependencies:
@@ -29,4 +57,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2023-03-31T10:54:11.667269297Z"
+generated: "2023-04-15T19:23:43.188161338Z"
