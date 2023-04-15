@@ -1,0 +1,25 @@
+{{- define "immich.microservices.hardcodedValues" -}}
+global:
+  nameOverride: microservices
+
+command: "/bin/sh"
+args:
+  - "./start-microservices.sh"
+
+service:
+  main:
+    enabled: false
+
+persistence:
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- end }}
+
+{{ if .Values.microservices.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}

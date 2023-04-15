@@ -1,0 +1,46 @@
+{{- define "immich.machine-learning.hardcodedValues" -}}
+global:
+  nameOverride: machine-learning
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 3003
+        protocol: HTTP
+
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /ping
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: false
+
+persistence:
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- end }}
+
+{{- /* Have to reference with index here because the dash breaks a normal dereference */}}
+{{ if (index .Values "machine-learning").enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "machine-learning" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.machine-learning.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}

@@ -1,0 +1,49 @@
+{{- define "immich.server.hardcodedValues" -}}
+global:
+  nameOverride: server
+
+command: "/bin/sh"
+args:
+  - "./start-server.sh"
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 3001
+        protocol: HTTP
+
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /server-info/ping
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: false
+
+persistence:
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- end }}
+
+{{ if .Values.server.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}

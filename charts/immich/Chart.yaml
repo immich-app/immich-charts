@@ -2,15 +2,15 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.0.4
-appVersion: v1.30.0_46-dev
+version: 0.1.0
+appVersion: v1.53.0
 maintainers:
   - name: PixelJonas
     email: 5434875+PixelJonas@users.noreply.github.com
 dependencies:
   - name: common
     repository: https://bjw-s.github.io/helm-charts
-    version: 0.1.0
+    version: 1.4.0
   - name: postgresql
     condition: postgresql.enabled
     repository: https://charts.bitnami.com/bitnami
