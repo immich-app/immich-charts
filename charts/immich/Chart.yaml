@@ -2,11 +2,18 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.1.0
+version: 0.1.1
 appVersion: v1.53.0
+home: https://immich.app/
+icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+sources:
+  - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+  - https://github.com/immich-app/immich
 maintainers:
   - name: PixelJonas
     email: 5434875+PixelJonas@users.noreply.github.com
+  - name: bo0tzz
+    email: immich@bo0tzz.me
 dependencies:
   - name: common
     repository: https://bjw-s.github.io/helm-charts
@@ -20,6 +27,7 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: 17.1.4
 annotations:
+  artifacthub.io/category: storage
   artifacthub.io/changes: |-
-    - kind: added
-      description: Automatically set `global.nameOverride` to release name
+    - kind: changed
+      description: Polish for better display on artifacthub
