@@ -14,7 +14,6 @@ env:
   TYPESENSE_ENABLED: "{{ .Values.typesense.enabled }}"
   TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
   TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
   tag: v1.79.1
