@@ -16,7 +16,7 @@ env:
   TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
 
 image:
-  tag: v1.79.1
+  tag: v1.88.0
 
 immich:
   persistence:
