@@ -14,8 +14,6 @@ env:
   TYPESENSE_ENABLED: "{{ .Values.typesense.enabled }}"
   TYPESENSE_API_KEY: "{{ .Values.typesense.env.TYPESENSE_API_KEY }}"
   TYPESENSE_HOST: '{{ printf "%s-typesense" .Release.Name }}'
-  IMMICH_WEB_URL: '{{ printf "http://%s-web:3000" .Release.Name }}'
-  IMMICH_SERVER_URL: '{{ printf "http://%s-server:3001" .Release.Name }}'
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
@@ -114,23 +112,3 @@ machine-learning:
       type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class
-
-web:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-web
-    pullPolicy: IfNotPresent
-  persistence:
-    library:
-      enabled: false
-
-proxy:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-proxy
-    pullPolicy: IfNotPresent
-
-  persistence:
-    library:
-      enabled: false
-
