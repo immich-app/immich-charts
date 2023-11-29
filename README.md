@@ -25,6 +25,17 @@ There are a few things that you are required to configure in your values.yaml be
 The immich chart is highly customizable. You can see a detailed documentation
 of all possible changes within the `charts/immich/values.yaml` file.
 
+# Postgres
+
+If you are upgrading from a previous version of the chart, you should set 
+`postgresql.global.postgresql.auth.postgresPassword` in your `values.yaml` to the privileged `postgres` password that is currently set. It may have been 
+auto-generated when the Postgres instance was first installed. You can find 
+this value by running:
+
+```
+kubectl get secret --namespace immich immich-postgresql -o jsonpath="{.data.postgres-password}" | base64 --decode
+```
+
 ## Chart architecture 
 
 This chart uses the [common library](https://github.com/bjw-s/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common). The top level `env` and `image` keys are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s/helm-charts/blob/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common/values.yaml) to see what keys are available.

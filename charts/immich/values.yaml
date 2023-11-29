@@ -7,7 +7,7 @@
 env:
   REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
   DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
-  DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
+  DB_USERNAME: "postgres"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
   # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
   DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
@@ -34,6 +34,7 @@ postgresql:
   global:
     postgresql:
       auth:
+        postgresPassword: immich
         username: immich
         database: immich
         password: immich
