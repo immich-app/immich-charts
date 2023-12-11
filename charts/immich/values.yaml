@@ -37,6 +37,13 @@ postgresql:
         username: immich
         database: immich
         password: immich
+  primary:
+    initdb:
+      scripts:
+        create-extensions.sql: |
+          CREATE EXTENSION cube;
+          CREATE EXTENSION earthdistance;
+          CREATE EXTENSION vectors;
 
 redis:
   enabled: false
