@@ -29,12 +29,6 @@ probes:
   readiness: *probes
   startup:
     enabled: false
-
-persistence:
-  library:
-    enabled: true
-    mountPath: /usr/src/app/upload
-    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}
