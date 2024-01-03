@@ -10,6 +10,7 @@ common:
         # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
         DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
         IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+        TYPESENSE_API_KEY: "some-random-string"
 
   service:
     main:
@@ -78,6 +79,11 @@ common:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-secret"
                   key: IMMICH_MACHINE_LEARNING_URL
+            TYPESENSE_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: TYPESENSE_API_KEY
       persistence:
         library:
           enabled: true
@@ -124,6 +130,11 @@ common:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-secret"
                   key: IMMICH_MACHINE_LEARNING_URL
+            TYPESENSE_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: TYPESENSE_API_KEY
       ingress:
         main:
           enabled: false
@@ -194,6 +205,40 @@ common:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-secret"
                   key: IMMICH_MACHINE_LEARNING_URL
+            TYPESENSE_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: TYPESENSE_API_KEY
+          probes:
+            liveness: &probes
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /ping
+                  port: http
+                initialDelaySeconds: 0
+                periodSeconds: 10
+                timeoutSeconds: 1
+                failureThreshold: 3
+            readiness: *probes
+            startup:
+              enabled: false
+    typesense:
+      containers:
+        main:
+          image:
+            repository: typesense/typesense
+            tag: 0.24.0
+            pullPolicy: IfNotPresent
+          env:
+            TYPESENSE_DATA_DIR: /typesense-data
+            TYPESENSE_API_KEY:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: TYPESENSE_API_KEY
           probes:
             liveness: &probes
               enabled: true
@@ -221,6 +266,12 @@ common:
         machine-learning:
           main:
             - path: /cache
+    typesense-data:
+      type: emptyDir
+      advancedMounts:
+        typesense:
+          main:
+            - path: /typesense-data
     library:
       type: emptyDir
       globalMounts:
