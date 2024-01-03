@@ -15,6 +15,15 @@ common:
   service:
     main:
       enabled: false
+    server:
+      controller: microservices
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 2283
+          protocol: HTTP
     microservices:
       controller: microservices
       type: ClusterIP
@@ -88,6 +97,21 @@ common:
         library:
           enabled: true
           mountPath: /usr/src/app/upload
+      probes:
+        liveness: &probes
+          enabled: true
+          custom: true
+          spec:
+            httpGet:
+              path: /server-info/ping
+              port: 3001
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+        readiness: *probes
+        startup:
+          enabled: false
 
     server:
       containers:
@@ -153,7 +177,7 @@ common:
           spec:
             httpGet:
               path: /server-info/ping
-              port: http
+              port: 2283
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
@@ -217,7 +241,7 @@ common:
               spec:
                 httpGet:
                   path: /ping
-                  port: http
+                  port: 3003
                 initialDelaySeconds: 0
                 periodSeconds: 10
                 timeoutSeconds: 1
@@ -240,21 +264,7 @@ common:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-secret"
                   key: TYPESENSE_API_KEY
-          probes:
-            liveness: &probes
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /ping
-                  port: http
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-            readiness: *probes
-            startup:
-              enabled: false
+
   persistence:
     machine-learning-cache:
       enabled: true
