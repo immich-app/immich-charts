@@ -124,6 +124,7 @@ common:
           args:
             - "./start-server.sh"
           env:
+            SERVER_PORT: 3001
             REDIS_HOSTNAME:
               valueFrom:
                 secretKeyRef:
@@ -159,17 +160,6 @@ common:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-secret"
                   key: TYPESENSE_API_KEY
-      ingress:
-        main:
-          enabled: false
-          annotations:
-            # proxy-body-size is set to 0 to remove the body limit on file uploads
-            nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          hosts:
-            - host: immich.local
-              paths:
-                - path: "/"
-          tls: []
       probes:
         liveness: &probes
           enabled: true
@@ -177,7 +167,7 @@ common:
           spec:
             httpGet:
               path: /server-info/ping
-              port: 2283
+              port: 3001
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
@@ -296,6 +286,17 @@ common:
       globalMounts:
         - path: /usr/src/app/.transformers_cache
 
+  ingress:
+    server:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: immich.local
+          paths:
+            - path: "/"
+      tls: []
 postgresql:
   enabled: false
   image:
