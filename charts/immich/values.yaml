@@ -14,15 +14,13 @@ common:
 
   service:
     main:
-      enabled: false
-    server:
-      controller: microservices
+      controller: main
       type: ClusterIP
       ports:
         http:
           enabled: true
           primary: true
-          port: 2283
+          port: 3001
           protocol: HTTP
     microservices:
       controller: microservices
@@ -44,9 +42,6 @@ common:
           protocol: HTTP
 
   controllers:
-    main:
-      enabled: false
-
     microservices:
       containers:
         main:
@@ -113,7 +108,7 @@ common:
         startup:
           enabled: false
 
-    server:
+    main:
       containers:
         main:
           image:
@@ -287,7 +282,7 @@ common:
         - path: /usr/src/app/.transformers_cache
 
   ingress:
-    server:
+    main:
       enabled: false
       annotations:
         # proxy-body-size is set to 0 to remove the body limit on file uploads
@@ -296,7 +291,12 @@ common:
         - host: immich.local
           paths:
             - path: "/"
+              pathType: Prefix
+              service:
+                name: main
+                port:
       tls: []
+
 postgresql:
   enabled: false
   image:
