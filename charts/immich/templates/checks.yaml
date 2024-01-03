@@ -1,1 +1,0 @@
-{{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}

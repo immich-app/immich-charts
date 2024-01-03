@@ -1,30 +1,238 @@
-## This chart relies on the common library chart from bjw-s
-## You can find it at https://github.com/bjw-s/helm-charts/tree/main/charts/library/common
-## Refer there for more detail about the supported values
+common:
+  secrets:
+    secret:
+      enabled: true
+      stringData:
+        REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+        DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
+        DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
+        DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
+        # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
+        DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
+        IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
-# These entries are shared between all the Immich components
+  service:
+    main:
+      enabled: false
+    microservices:
+      controller: microservices
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3001
+          protocol: HTTP
+    machine-learning:
+      controller: machine-learning
+      type: ClusterIP
+      ports:
+        http:
+          enabled: true
+          primary: true
+          port: 3003
+          protocol: HTTP
 
-env:
-  REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
-  DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
-  DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
-  DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
-  # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
-  DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+  controllers:
+    main:
+      enabled: false
 
-image:
-  tag: v1.91.4
+    microservices:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
+            tag: v1.77.0
+          command: "/bin/sh"
+          args:
+            - "./start-microservices.sh"
+          env:
+            REDIS_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: REDIS_HOSTNAME
+            DB_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_HOSTNAME
+            DB_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_USERNAME
+            DB_DATABASE_NAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_DATABASE_NAME
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_PASSWORD
+            IMMICH_MACHINE_LEARNING_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: IMMICH_MACHINE_LEARNING_URL
+      persistence:
+        library:
+          enabled: true
+          mountPath: /usr/src/app/upload
 
-immich:
+    server:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
+            tag: v1.77.0
+          command: "/bin/sh"
+          args:
+            - "./start-server.sh"
+          env:
+            REDIS_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: REDIS_HOSTNAME
+            DB_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_HOSTNAME
+            DB_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_USERNAME
+            DB_DATABASE_NAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_DATABASE_NAME
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_PASSWORD
+            IMMICH_MACHINE_LEARNING_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: IMMICH_MACHINE_LEARNING_URL
+      ingress:
+        main:
+          enabled: false
+          annotations:
+            # proxy-body-size is set to 0 to remove the body limit on file uploads
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          hosts:
+            - host: immich.local
+              paths:
+                - path: "/"
+          tls: []
+      probes:
+        liveness: &probes
+          enabled: true
+          custom: true
+          spec:
+            httpGet:
+              path: /server-info/ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+        readiness: *probes
+        startup:
+          enabled: false
+      persistence:
+        library:
+          enabled: true
+          mountPath: /usr/src/app/upload
+
+    machine-learning:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            tag: v1.47.0
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
+            REDIS_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: REDIS_HOSTNAME
+            DB_HOSTNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_HOSTNAME
+            DB_USERNAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_USERNAME
+            DB_DATABASE_NAME:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_DATABASE_NAME
+            DB_PASSWORD:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: DB_PASSWORD
+            IMMICH_MACHINE_LEARNING_URL:
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-secret"
+                  key: IMMICH_MACHINE_LEARNING_URL
+          probes:
+            liveness: &probes
+              enabled: true
+              custom: true
+              spec:
+                httpGet:
+                  path: /ping
+                  port: http
+                initialDelaySeconds: 0
+                periodSeconds: 10
+                timeoutSeconds: 1
+                failureThreshold: 3
+            readiness: *probes
+            startup:
+              enabled: false
   persistence:
-    # Main data store for all photos shared between different components.
+    machine-learning-cache:
+      enabled: true
+      size: 10Gi
+      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      type: emptyDir
+      accessMode: ReadWriteMany
+      # storageClass: your-class
+      advancedMounts:
+        machine-learning:
+          main:
+            - path: /cache
     library:
-      # Automatically creating the library volume is not supported by this chart
-      # You have to specify an existing PVC to use
-      existingClaim:
-
-# Dependencies
+      type: emptyDir
+      globalMounts:
+        - path: /usr/src/app/upload
+    geocoding-dump:
+      type: emptyDir
+      globalMounts:
+        - path: /usr/src/app/.reverse-geocoding-dump
+    transformers-cache:
+      type: emptyDir
+      globalMounts:
+        - path: /usr/src/app/.transformers_cache
 
 postgresql:
   enabled: false
@@ -50,45 +258,3 @@ redis:
   architecture: standalone
   auth:
     enabled: false
-
-# Immich components
-
-server:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
-  
-  ingress:
-    main:
-      enabled: false
-      annotations:
-        # proxy-body-size is set to 0 to remove the body limit on file uploads
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
-      hosts:
-        - host: immich.local
-          paths:
-            - path: "/"
-      tls: []
-
-microservices:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
-
-machine-learning:
-  enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
-  env:
-    TRANSFORMERS_CACHE: /cache
-  persistence:
-    cache:
-      enabled: true
-      size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
-      type: emptyDir
-      accessMode: ReadWriteMany
-      # storageClass: your-class
