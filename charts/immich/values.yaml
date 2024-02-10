@@ -12,6 +12,8 @@ env:
   # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
   DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+  # -- Uncomment and set your timezone - if assets have already been imported, run the Extract metadata job again
+  # TZ="America/New_York"
 
 image:
   tag: v1.91.4
