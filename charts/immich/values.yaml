@@ -14,7 +14,7 @@ env:
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
-  tag: v1.91.4
+  tag: v1.95.1
 
 immich:
   persistence:
@@ -30,7 +30,7 @@ postgresql:
   enabled: false
   image:
     repository: tensorchord/pgvecto-rs
-    tag: pg14-v0.1.11
+    tag: pg14-v0.2.0
   global:
     postgresql:
       auth:
@@ -70,12 +70,26 @@ server:
           paths:
             - path: "/"
       tls: []
+  # persistence:
+  #   external-library:
+  #     enabled: true
+  #     readOnly: true
+  #     type: nfs
+  #     server: your-server
+  #     path: /mnt/to/photos
 
 microservices:
   enabled: true
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
+  # persistence:
+  #   external-library:
+  #     enabled: true
+  #     readOnly: true
+  #     type: nfs
+  #     server: your-server
+  #     path: /mnt/to/photos
 
 machine-learning:
   enabled: true
