@@ -2,8 +2,8 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.3.1
-appVersion: v1.91.4
+version: 0.4.0
+appVersion: v1.95.1
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
 sources:
@@ -30,4 +30,7 @@ annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
     - kind: changed
-      description: Removed unused library mount from machine learning container
+      description: Bumped pgvecto-rs to pg14-v0.2.0
+      links:
+        - name: Release Notes Breaking Changes
+          url: https://github.com/immich-app/immich/releases/tag/v1.95.1
