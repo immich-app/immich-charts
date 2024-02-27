@@ -70,26 +70,12 @@ server:
           paths:
             - path: "/"
       tls: []
-  # persistence:
-  #   external-library:
-  #     enabled: true
-  #     readOnly: true
-  #     type: nfs
-  #     server: your-server
-  #     path: /mnt/to/photos
 
 microservices:
   enabled: true
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
-  # persistence:
-  #   external-library:
-  #     enabled: true
-  #     readOnly: true
-  #     type: nfs
-  #     server: your-server
-  #     path: /mnt/to/photos
 
 machine-learning:
   enabled: true
