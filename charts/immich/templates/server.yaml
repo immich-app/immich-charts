@@ -24,7 +24,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /server-info/ping
+        path: /api/server-info/ping
         port: http
       initialDelaySeconds: 0
       periodSeconds: 10
