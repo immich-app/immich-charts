@@ -25,7 +25,6 @@ service:
 serviceMonitor:
   main:
     enabled: true
-    serviceName: server
     endpoints:
       - port: mon
         scheme: http

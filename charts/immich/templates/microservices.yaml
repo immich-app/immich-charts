@@ -12,7 +12,7 @@ service:
     primary: true
     type: ClusterIP
     ports:
-      mon: 
+      http: 
         enabled: true
         primary: true
         port: 8081
@@ -21,11 +21,10 @@ service:
 serviceMonitor:
   main:
     enabled: true
-    serviceName: microservices
     endpoints:
-      - port: mon
+      - port: http
         scheme: http
-        
+
 persistence:
   library:
     enabled: true
