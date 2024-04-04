@@ -8,8 +8,24 @@ args:
 
 service:
   main:
-    enabled: false
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      mon: 
+        enabled: true
+        primary: true
+        port: 8081
+        protocol: HTTP
 
+serviceMonitor:
+  main:
+    enabled: true
+    serviceName: microservices
+    endpoints:
+      - port: mon
+        scheme: http
+        
 persistence:
   library:
     enabled: true
