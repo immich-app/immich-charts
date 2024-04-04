@@ -18,6 +18,7 @@ image:
 
 immich:
   metrics:
+    # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
     enabled: false
   persistence:
     # Main data store for all photos shared between different components.
