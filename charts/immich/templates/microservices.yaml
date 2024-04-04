@@ -13,22 +13,22 @@ env:
 
 service:
   main:
-    enabled: {{ .Values.immich.metrics.enabled | default "false" }}
+    enabled: {{ .Values.immich.metrics.enabled }}
     type: ClusterIP
     ports:
       http:
-        enabled: true
+        enabled: false
         primary: true
         port: 3002
         protocol: HTTP
       metrics: 
-        enabled: {{ .Values.immich.metrics.enabled | default "false" }}
+        enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
         protocol: HTTP
 
 serviceMonitor:
   main:
-    enabled: {{ .Values.immich.metrics.enabled | default "false" }}
+    enabled: {{ .Values.immich.metrics.enabled }}
     endpoints:
       - port: metrics
         scheme: http
