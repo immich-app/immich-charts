@@ -16,7 +16,12 @@ service:
     enabled: {{ .Values.immich.metrics.enabled | default "false" }}
     type: ClusterIP
     ports:
-      http: 
+      http:
+        enabled: true
+        primary: true
+        port: 3002
+        protocol: HTTP
+      metrics: 
         enabled: {{ .Values.immich.metrics.enabled | default "false" }}
         port: 8081
         protocol: HTTP
@@ -25,7 +30,7 @@ serviceMonitor:
   main:
     enabled: {{ .Values.immich.metrics.enabled | default "false" }}
     endpoints:
-      - port: http
+      - port: metrics
         scheme: http
 
 persistence:
