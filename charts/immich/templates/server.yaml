@@ -6,6 +6,11 @@ command: "/bin/sh"
 args:
   - "./start-server.sh"
 
+env:
+  {{ if .Values.immich.metrics.enabled }}
+      IMMICH_METRICS: true
+  {{ end }}
+
 service:
   main:
     enabled: true
@@ -17,16 +22,16 @@ service:
         primary: true
         port: 3001
         protocol: HTTP
-      mon:
-        enabled: true
+      metrics:
+        enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
         protocol: HTTP
 
 serviceMonitor:
   main:
-    enabled: true
+    enabled: {{ .Values.immich.metrics.enabled }}
     endpoints:
-      - port: mon
+      - port: metrics
         scheme: http
 
 probes:

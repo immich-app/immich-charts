@@ -6,21 +6,24 @@ command: "/bin/sh"
 args:
   - "./start-microservices.sh"
 
+env:
+  {{ if .Values.immich.metrics.enabled }}
+      IMMICH_METRICS: true
+  {{ end }}
+
 service:
   main:
-    enabled: true
-    primary: true
+    enabled: {{ .Values.immich.metrics.enabled | default "false" }}
     type: ClusterIP
     ports:
       http: 
-        enabled: true
-        primary: true
+        enabled: {{ .Values.immich.metrics.enabled | default "false" }}
         port: 8081
         protocol: HTTP
 
 serviceMonitor:
   main:
-    enabled: true
+    enabled: {{ .Values.immich.metrics.enabled | default "false" }}
     endpoints:
       - port: http
         scheme: http
