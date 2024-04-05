@@ -23,6 +23,19 @@ immich:
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:
+  # configuration is immich-config.json converted to yaml
+  # If not provided or empty configuration can be changed from UI
+  # {
+  #   "trash": {
+  #     "enabled": true,
+  #     "days": 30
+  #   }
+  # }
+  # can be provided as example below
+  configuration: {}
+    # trash:
+    #   enabled: true
+    #   days: 30
 
 # Dependencies
 

@@ -34,7 +34,26 @@ probes:
   startup:
     enabled: false
 
+{{- if .Values.immich.configuration }}
+env:
+  IMMICH_CONFIG_FILE: /config/immich-config.json
+configMaps:
+  config:
+    enabled: true
+    labels: {}
+    annotations: {}
+    data:
+      immich-config.json: |
+{{- .Values.immich.configuration | toJson | nindent 8 }}
+{{- end }}
+
 persistence:
+{{- if .Values.immich.configuration }}
+  config:
+    enabled: true
+    type: configMap
+    name: {{ .Release.Name }}-server-config
+{{- end }}
   library:
     enabled: true
     mountPath: /usr/src/app/upload
