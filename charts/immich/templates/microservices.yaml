@@ -6,9 +6,32 @@ command: "/bin/sh"
 args:
   - "./start-microservices.sh"
 
+env:
+  {{ if .Values.immich.metrics.enabled }}
+      IMMICH_METRICS: true
+  {{ end }}
+
 service:
   main:
-    enabled: false
+    enabled: {{ .Values.immich.metrics.enabled }}
+    type: ClusterIP
+    ports:
+      http:
+        enabled: false
+        primary: true
+        port: 3002
+        protocol: HTTP
+      metrics: 
+        enabled: {{ .Values.immich.metrics.enabled }}
+        port: 8081
+        protocol: HTTP
+
+serviceMonitor:
+  main:
+    enabled: {{ .Values.immich.metrics.enabled }}
+    endpoints:
+      - port: metrics
+        scheme: http
 
 persistence:
   library:
