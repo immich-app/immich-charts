@@ -10,6 +10,9 @@ env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_METRICS: true
   {{ end }}
+  {{- if .Values.immich.configuration }}
+      IMMICH_CONFIG_FILE: /config/immich-config.json
+  {{- end }}
 
 service:
   main:
@@ -51,8 +54,6 @@ probes:
     enabled: false
 
 {{- if .Values.immich.configuration }}
-env:
-  IMMICH_CONFIG_FILE: /config/immich-config.json
 configMaps:
   config:
     enabled: true
