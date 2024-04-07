@@ -10,6 +10,9 @@ env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_METRICS: true
   {{ end }}
+  {{- if .Values.immich.configuration }}
+      IMMICH_CONFIG_FILE: /config/immich-config.yaml
+  {{- end }}
 
 service:
   main:
@@ -33,7 +36,24 @@ serviceMonitor:
       - port: metrics
         scheme: http
 
+{{- if .Values.immich.configuration }}
+configMaps:
+  config:
+    enabled: true
+    labels: {}
+    annotations: {}
+    data:
+      immich-config.yaml: |
+{{- .Values.immich.configuration | toYaml | nindent 8 }}
+{{- end }}
+
 persistence:
+{{- if .Values.immich.configuration }}
+  config:
+    enabled: true
+    type: configMap
+    name: {{ .Release.Name }}-microservices-config
+{{- end }}
   library:
     enabled: true
     mountPath: /usr/src/app/upload

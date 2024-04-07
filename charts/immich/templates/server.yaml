@@ -11,7 +11,7 @@ env:
       IMMICH_METRICS: true
   {{ end }}
   {{- if .Values.immich.configuration }}
-      IMMICH_CONFIG_FILE: /config/immich-config.json
+      IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
 
 service:
@@ -60,8 +60,8 @@ configMaps:
     labels: {}
     annotations: {}
     data:
-      immich-config.json: |
-{{- .Values.immich.configuration | toJson | nindent 8 }}
+      immich-config.yaml: |
+{{- .Values.immich.configuration | toYaml | nindent 8 }}
 {{- end }}
 
 persistence:
