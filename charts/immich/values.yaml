@@ -30,31 +30,16 @@ immich:
   # ref: https://immich.app/docs/install/config-file/
   #
   # WARNING: for storageTemplate->template it contains `{{` and `}}` which interferes with templating
-  # replace All : {{ with {{`{{`}}  AND  }} with {{`{{`}}
+  # wrap value in "{{`<value>`}}"
   # for more examples see PR https://github.com/immich-app/immich-charts/pull/76
-  # 
-  # If not provided or empty, configuration can be changed from UI
-  #
-  # {
-  #   "trash": {
-  #     "enabled": true,
-  #     "days": 30
-  #   },
-  #   "storageTemplate": {
-  #     "enabled": true
-  #     "template": "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
-  #   }
-  # }
-  # can be provided as example below.
   #
   configuration: {}
-    # Example 
     # trash:
     #   enabled: false
     #   days: 30
     # storageTemplate:
     #   enabled: true
-    #   template: "{{`{{`}}y{{`}}`}}-{{`{{`}}MM{{`}}`}}-{{`{{`}}dd{{`}}`}}/{{`{{`}}filename{{`}}`}}"
+    #   template: "{{`{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}`}}"
 
 # Dependencies
 
