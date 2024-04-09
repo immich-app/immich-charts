@@ -10,6 +10,14 @@ env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_METRICS: true
   {{ end }}
+  {{- if .Values.immich.configuration }}
+      IMMICH_CONFIG_FILE: /config/immich-config.yaml
+  {{- end }}
+
+{{- if .Values.immich.configuration }}
+podAnnotations:
+  checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
+{{- end }}
 
 service:
   main:
@@ -51,6 +59,12 @@ probes:
     enabled: false
 
 persistence:
+{{- if .Values.immich.configuration }}
+  config:
+    enabled: true
+    type: configMap
+    name: {{ .Release.Name }}-immich-config
+{{- end }}
   library:
     enabled: true
     mountPath: /usr/src/app/upload
