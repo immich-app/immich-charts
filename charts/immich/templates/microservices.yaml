@@ -14,6 +14,11 @@ env:
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
 
+{{- if .Values.immich.configuration }}
+podAnnotations:
+  checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
+{{- end }}
+
 service:
   main:
     enabled: {{ .Values.immich.metrics.enabled }}
@@ -36,23 +41,12 @@ serviceMonitor:
       - port: metrics
         scheme: http
 
-{{- if .Values.immich.configuration }}
-configMaps:
-  config:
-    enabled: true
-    labels: {}
-    annotations: {}
-    data:
-      immich-config.yaml: |
-{{- .Values.immich.configuration | toYaml | nindent 8 }}
-{{- end }}
-
 persistence:
 {{- if .Values.immich.configuration }}
   config:
     enabled: true
     type: configMap
-    name: {{ .Release.Name }}-microservices-config
+    name: {{ .Release.Name }}-immich-config
 {{- end }}
   library:
     enabled: true
