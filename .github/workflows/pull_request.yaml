@@ -1,0 +1,53 @@
+name: pull-request-validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - feature/pr-action
+
+jobs:
+  build_lint_validate_diff:
+    name: lint, validate and diff from main
+    permissions: write-all
+    runs-on: ubuntu-latest
+    container:
+      image: alpine/helm:3.14.3
+    steps:
+      - name: checkout pr head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: install chart dependencies
+        run: helm dependency build charts/immich
+
+      - name: lint helm chart
+        run: helm lint charts/immich --set immich.persistence.library.existingClaim=test-pvc
+
+      - name: prepare
+        run: mkdir -p charts/immich/build
+      - name: create full manifest from pr head
+        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc > charts/immich/build/manifest.yaml
+
+      - name: checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+          path: main
+
+      - name: install chart dependencies
+        run: helm dependency build main/charts/immich
+
+      - name: prepare
+        run: mkdir -p main/charts/immich/build
+      - name: create full manifest from main
+        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc > main/charts/immich/build/manifest.yaml
+
+      - name: create diff comment
+        uses: int128/diff-action@v1
+        with:
+          base: main/charts/immich/build
+          head: charts/immich/build
+          comment-header: "## Changes in Final Manifest"
