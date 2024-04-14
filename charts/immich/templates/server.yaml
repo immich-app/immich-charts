@@ -41,6 +41,11 @@ serviceMonitor:
     endpoints:
       - port: metrics
         scheme: http
+        metricRelabelings:
+          - sourceLabels: [__name__]
+            targetLabel: __name__
+            regex: '(.*)'
+            replacement: "immich_$1"
 
 probes:
   liveness: &probes
