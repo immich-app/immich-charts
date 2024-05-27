@@ -68,6 +68,7 @@ redis:
 
 server:
   enabled: true
+  nameOverride: ''
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
@@ -85,12 +86,14 @@ server:
 
 microservices:
   enabled: true
+  nameOverride: ''
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
 
 machine-learning:
   enabled: true
+  nameOverride: ''
   image:
     repository: ghcr.io/immich-app/immich-machine-learning
     pullPolicy: IfNotPresent

@@ -1,6 +1,6 @@
 {{- define "immich.server.hardcodedValues" -}}
 global:
-  nameOverride: server
+  nameOverride: {{ .Values.server.nameOverride | default "server" | quote }}
 
 command: "/bin/sh"
 args:
