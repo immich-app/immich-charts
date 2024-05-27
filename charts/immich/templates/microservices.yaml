@@ -1,6 +1,6 @@
 {{- define "immich.microservices.hardcodedValues" -}}
 global:
-  nameOverride: {{ .Values.server.nameOverride | default "microservices" | quote }}
+  nameOverride: {{ .Values.microservices.nameOverride | default "microservices" | quote }}
 
 command: "/bin/sh"
 args:

@@ -1,6 +1,6 @@
 {{- define "immich.machine-learning.hardcodedValues" -}}
 global:
-  nameOverride: {{ .Values.server.nameOverride | default "machine-learning" | quote }}
+  nameOverride: {{ (index .Values "machine-learning").nameOverride | default "machine-learning" | quote }}
 
 service:
   main:
