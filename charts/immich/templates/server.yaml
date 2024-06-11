@@ -1,7 +1,7 @@
 {{- define "immich.server.hardcodedValues" -}}
 global:
   nameOverride: server
-  
+
 env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_METRICS: true
@@ -26,16 +26,23 @@ service:
         primary: true
         port: 3001
         protocol: HTTP
-      metrics:
+      metrics-api:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
         protocol: HTTP
+      metrics-microservices:
+        enabled: {{ .Values.immich.metrics.enabled }}
+        port: 8082
+        protocol: HTTP
+
 
 serviceMonitor:
   main:
     enabled: {{ .Values.immich.metrics.enabled }}
     endpoints:
-      - port: metrics
+      - port: metrics-api
+        scheme: http
+      - port: metrics-microservices
         scheme: http
 
 probes:
