@@ -1,11 +1,7 @@
 {{- define "immich.server.hardcodedValues" -}}
 global:
   nameOverride: server
-
-command: "/bin/sh"
-args:
-  - "./start-server.sh"
-
+  
 env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_METRICS: true
