@@ -30,7 +30,7 @@ service:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
         protocol: HTTP
-      metrics-microservices:
+      metrics-ms:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8082
         protocol: HTTP
@@ -42,7 +42,7 @@ serviceMonitor:
     endpoints:
       - port: metrics-api
         scheme: http
-      - port: metrics-microservices
+      - port: metrics-ms
         scheme: http
 
 probes:
