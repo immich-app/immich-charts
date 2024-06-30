@@ -1,0 +1,59 @@
+{{- define "immich.microservices.hardcodedValues" -}}
+global:
+  nameOverride: microservices
+
+env:
+      IMMICH_WORKERS_INCLUDE: microservices
+  {{- if .Values.immich.metrics.enabled }}
+      IMMICH_METRICS: true
+  {{- end }}
+  {{- if .Values.immich.configuration }}
+      IMMICH_CONFIG_FILE: /config/immich-config.yaml
+  {{- end }}
+
+{{- if .Values.immich.configuration }}
+podAnnotations:
+  checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
+{{- end }}
+
+service:
+  main:
+    enabled: {{ .Values.immich.metrics.enabled }}
+    type: ClusterIP
+    ports:
+      http:
+        enabled: false
+        primary: true
+        port: 3001
+        protocol: HTTP
+      metrics:
+        enabled: {{ .Values.immich.metrics.enabled }}
+        port: 8082
+        protocol: HTTP
+
+serviceMonitor:
+  main:
+    enabled: {{ .Values.immich.metrics.enabled }}
+    endpoints:
+      - port: metrics
+        scheme: http
+
+persistence:
+{{- if .Values.immich.configuration }}
+  config:
+    enabled: true
+    type: configMap
+    name: {{ .Release.Name }}-immich-config
+{{- end }}
+  library:
+    enabled: true
+    mountPath: /usr/src/app/upload
+    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- end }}
+
+{{ if .Values.microservices.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}

@@ -9,6 +9,9 @@ env:
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
+  {{- if .Values.microservices.enabled }}
+      IMMICH_WORKERS_EXCLUDE: microservices
+  {{- end }}
 
 {{- if .Values.immich.configuration }}
 podAnnotations:
@@ -31,7 +34,7 @@ service:
         port: 8081
         protocol: HTTP
       metrics-ms:
-        enabled: {{ .Values.immich.metrics.enabled }}
+        enabled: {{ and .Values.immich.metrics.enabled ( not .Values.microservices.enabled ) }}
         port: 8082
         protocol: HTTP
 
@@ -42,8 +45,10 @@ serviceMonitor:
     endpoints:
       - port: metrics-api
         scheme: http
+{{- if not .Values.microservices.enabled}}
       - port: metrics-ms
         scheme: http
+{{- end }}
 
 probes:
   liveness: &probes

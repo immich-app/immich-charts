@@ -83,6 +83,15 @@ server:
             - path: "/"
       tls: []
 
+microservices:
+  # setting this will split api and microservices workers, by disabling
+  # microservices in the main server and launching separate deployment for
+  # microservices
+  enabled: false
+  image:
+    repository: ghcr.io/immich-app/immich-server
+    pullPolicy: IfNotPresent
+
 machine-learning:
   enabled: true
   image:
