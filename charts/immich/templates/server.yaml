@@ -72,6 +72,10 @@ persistence:
     enabled: true
     mountPath: /usr/src/app/upload
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+  extraVolume:
+    enabled: {{ .Values.immich.persistence.extraVolume.enabled }}
+    mountPath: /usr/src/app/existing-library
+    existingClaim: {{ .Values.immich.persistence.extraVolume.existingClaim }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
