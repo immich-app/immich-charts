@@ -14,7 +14,7 @@ env:
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
-  tag: v1.106.1
+  tag: v1.112.1
 
 immich:
   metrics:
@@ -43,7 +43,7 @@ postgresql:
   enabled: false
   image:
     repository: tensorchord/pgvecto-rs
-    tag: pg14-v0.2.0
+    tag: pg14-v0.3.0
   global:
     postgresql:
       auth:
