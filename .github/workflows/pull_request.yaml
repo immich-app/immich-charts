@@ -28,7 +28,7 @@ jobs:
       - name: prepare
         run: mkdir -p charts/immich/build
       - name: create full manifest from pr head
-        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc > charts/immich/build/manifest.yaml
+        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
       - name: prepare
         run: mkdir -p main/charts/immich/build
       - name: create full manifest from main
-        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc > main/charts/immich/build/manifest.yaml
+        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc | tee main/charts/immich/build/manifest.yaml
 
       - name: create diff comment
         uses: int128/diff-action@v1
