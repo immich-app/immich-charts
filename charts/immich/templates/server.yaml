@@ -59,7 +59,16 @@ probes:
       failureThreshold: 3
   readiness: *probes
   startup:
-    enabled: false
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /api/server-info/ping
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 30
 
 persistence:
 {{- if .Values.immich.configuration }}
