@@ -26,9 +26,6 @@ immich:
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:
-      # Used in conjunction with `existingClaim`. Specifies a sub-path inside the referenced volume instead of its root
-      # Useful when you want to use one PV for multiple services
-      subPath: ""
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #

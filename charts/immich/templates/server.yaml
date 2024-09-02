@@ -81,7 +81,7 @@ persistence:
     enabled: true
     mountPath: /usr/src/app/upload
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
-    subPath: {{ .Values.immich.persistence.library.subPath }}
+    {{- toYaml .Values.immich.persistence.library | nindent 4 }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
