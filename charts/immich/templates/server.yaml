@@ -51,7 +51,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /api/server-info/ping
+        path: /api/server/ping
         port: http
       initialDelaySeconds: 0
       periodSeconds: 10
@@ -63,7 +63,7 @@ probes:
     custom: true
     spec:
       httpGet:
-        path: /api/server-info/ping
+        path: /api/server/ping
         port: http
       initialDelaySeconds: 0
       periodSeconds: 10
