@@ -14,7 +14,7 @@ env:
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
-  tag: v1.106.1
+  tag: v1.117.0
 
 immich:
   metrics:
@@ -51,6 +51,8 @@ postgresql:
         database: immich
         password: immich
   primary:
+    containerSecurityContext:
+      readOnlyRootFilesystem: false
     initdb:
       scripts:
         create-extensions.sql: |
