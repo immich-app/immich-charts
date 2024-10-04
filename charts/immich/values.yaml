@@ -51,6 +51,8 @@ postgresql:
         database: immich
         password: immich
   primary:
+    containerSecurityContext:
+      readOnlyRootFilesystem: false
     initdb:
       scripts:
         create-extensions.sql: |
