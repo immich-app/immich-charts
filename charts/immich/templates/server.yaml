@@ -24,7 +24,7 @@ service:
       http:
         enabled: true
         primary: true
-        port: 3001
+        port: 2283
         protocol: HTTP
       metrics-api:
         enabled: {{ .Values.immich.metrics.enabled }}
