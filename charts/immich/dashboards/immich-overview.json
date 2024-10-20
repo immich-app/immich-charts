@@ -749,49 +749,311 @@
                 "x": 0,
                 "y": 15
             },
-            "id": 2,
+            "id": 17,
             "panels": [],
-            "title": "Logging",
+            "title": "HTTP Metrics",
             "type": "row"
         },
         {
             "datasource": {
-                "default": false,
-                "type": "loki",
-                "uid": "${DS_LOKI}"
+                "name": "${DS_PROMETHEUS}",
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
             },
-            "description": "",
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "min": 0,
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            }
+                        ]
+                    },
+                    "unit": "ms"
+                },
+                "overrides": []
+            },
             "gridPos": {
-                "h": 12,
-                "w": 24,
+                "h": 8,
+                "w": 12,
                 "x": 0,
                 "y": 16
             },
-            "id": 1,
+            "id": 18,
             "options": {
-                "dedupStrategy": "none",
-                "enableLogDetails": true,
-                "prettifyLogMessage": false,
-                "showCommonLabels": true,
-                "showLabels": false,
-                "showTime": true,
-                "sortOrder": "Descending",
-                "wrapLogMessage": false
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "right",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
             },
             "targets": [
                 {
                     "datasource": {
-                        "type": "loki",
-                        "uid": "${DS_LOKI}"
+                        "type": "prometheus",
+                        "uid": "${DS_PROMETHEUS}"
                     },
-                    "editorMode": "builder",
-                    "expr": "{namespace=\"$NAMESPACE\"}",
-                    "queryType": "range",
-                    "refId": "A"
+                    "disableTextWrap": false,
+                    "editorMode": "code",
+                    "expr": "avg by(http_method, http_status_code) (rate(http_server_duration_sum{namespace=\"$NAMESPACE\", endpoint=\"metrics-api\"}[$__rate_interval])) / avg by(http_method, http_status_code) (rate(http_server_duration_count{namespace=\"$NAMESPACE\", endpoint=\"metrics-api\"}[$__rate_interval]))",
+                    "fullMetaSearch": false,
+                    "hide": false,
+                    "includeNullMetadata": true,
+                    "legendFormat": "{{http_method}} {{http_status_code}}",
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
                 }
             ],
-            "title": "Immich Server Logs (Promtail)",
-            "type": "logs"
+            "title": "Request Duration",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "default": false,
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 16
+            },
+            "id": 19,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "right",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${DS_PROMETHEUS}"
+                    },
+                    "disableTextWrap": false,
+                    "editorMode": "code",
+                    "expr": "(sum(rate(http_server_duration_count{namespace=\"$NAMESPACE\", endpoint=\"metrics-api\"}[$__rate_interval])) by (http_method, http_status_code)) * $__interval_ms / 1000",
+                    "fullMetaSearch": false,
+                    "hide": false,
+                    "includeNullMetadata": true,
+                    "legendFormat": "{{http_method}} {{http_status_code}}",
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "Total Requests",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "default": false,
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "color": {
+                        "mode": "palette-classic"
+                    },
+                    "custom": {
+                        "axisBorderShow": false,
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
+                        "axisLabel": "",
+                        "axisPlacement": "auto",
+                        "barAlignment": 0,
+                        "barWidthFactor": 0.6,
+                        "drawStyle": "line",
+                        "fillOpacity": 0,
+                        "gradientMode": "none",
+                        "hideFrom": {
+                            "legend": false,
+                            "tooltip": false,
+                            "viz": false
+                        },
+                        "insertNulls": false,
+                        "lineInterpolation": "linear",
+                        "lineWidth": 1,
+                        "pointSize": 5,
+                        "scaleDistribution": {
+                            "type": "linear"
+                        },
+                        "showPoints": "auto",
+                        "spanNulls": false,
+                        "stacking": {
+                            "group": "A",
+                            "mode": "none"
+                        },
+                        "thresholdsStyle": {
+                            "mode": "off"
+                        }
+                    },
+                    "mappings": [],
+                    "thresholds": {
+                        "mode": "absolute",
+                        "steps": [
+                            {
+                                "color": "green",
+                                "value": null
+                            },
+                            {
+                                "color": "red",
+                                "value": 80
+                            }
+                        ]
+                    }
+                },
+                "overrides": []
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 24
+            },
+            "id": 20,
+            "options": {
+                "legend": {
+                    "calcs": [],
+                    "displayMode": "list",
+                    "placement": "bottom",
+                    "showLegend": true
+                },
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                }
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${DS_PROMETHEUS}"
+                    },
+                    "disableTextWrap": false,
+                    "editorMode": "builder",
+                    "expr": "sum by(http_method, http_status_code) (increase(http_server_duration_sum{namespace=\"$NAMESPACE\", endpoint=\"metrics-api\", http_status_code=~\"4.*|5.*\"}[$__rate_interval]))",
+                    "fullMetaSearch": false,
+                    "hide": false,
+                    "includeNullMetadata": true,
+                    "legendFormat": "{{http_method}} {{http_status_code}}",
+                    "range": true,
+                    "refId": "A",
+                    "useBackend": false
+                }
+            ],
+            "title": "Total Errors (4XX | 5XX)",
+            "type": "timeseries"
         },
         {
             "collapsed": true,
@@ -799,7 +1061,60 @@
                 "h": 1,
                 "w": 24,
                 "x": 0,
-                "y": 28
+                "y": 32
+            },
+            "id": 2,
+            "panels": [
+                {
+                    "datasource": {
+                        "default": false,
+                        "type": "loki",
+                        "uid": "${DS_LOKI}"
+                    },
+                    "description": "",
+                    "gridPos": {
+                        "h": 12,
+                        "w": 24,
+                        "x": 0,
+                        "y": 34
+                    },
+                    "id": 1,
+                    "options": {
+                        "dedupStrategy": "none",
+                        "enableLogDetails": true,
+                        "prettifyLogMessage": false,
+                        "showCommonLabels": true,
+                        "showLabels": false,
+                        "showTime": true,
+                        "sortOrder": "Descending",
+                        "wrapLogMessage": false
+                    },
+                    "targets": [
+                        {
+                            "datasource": {
+                                "type": "loki",
+                                "uid": "${DS_LOKI}"
+                            },
+                            "editorMode": "builder",
+                            "expr": "{namespace=\"$NAMESPACE\"}",
+                            "queryType": "range",
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "Immich Server Logs (Promtail)",
+                    "type": "logs"
+                }
+            ],
+            "title": "Logging",
+            "type": "row"
+        },
+        {
+            "collapsed": true,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 33
             },
             "id": 7,
             "panels": [
@@ -869,7 +1184,7 @@
                         "h": 12,
                         "w": 24,
                         "x": 0,
-                        "y": 29
+                        "y": 61
                     },
                     "id": 3,
                     "options": {
