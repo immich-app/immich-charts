@@ -2,10 +2,21 @@
 global:
   nameOverride: machine-learning
 
+controllers:
+  machine-learning:
+    containers:
+      main:
+        enabled: true
+        image:
+          repository: ghcr.io/immich-app/immich-machine-learning
+          pullPolicy: IfNotPresent
+          tag: {{ .Values.immich.image.tag }}
+
 service:
-  main:
+  machine-learning:
     enabled: true
     primary: true
+    controller: machine-learning
     type: ClusterIP
     ports:
       http:
@@ -29,12 +40,13 @@ probes:
   readiness: *probes
   startup:
     enabled: false
+# end of define
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}
 {{ if (index .Values "machine-learning").enabled }}
-{{- $ctx := deepCopy . -}}
-{{- $_ := get .Values "machine-learning" | mergeOverwrite $ctx.Values -}}
-{{- $_ = include "immich.machine-learning.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $ctx := deepCopy (omit . "Values") }}
+{{- $_ := set $ctx "Values" dict }}
+{{- $_ := merge $ctx.Values (deepCopy .Values.common) (include "immich.machine-learning.hardcodedValues" . | fromYaml) (deepCopy (get .Values "machine-learning")) -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
-{{ end }}
+{{- end }}

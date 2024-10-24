@@ -4,19 +4,18 @@
 
 # These entries are shared between all the Immich components
 
-env:
-  REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
-  DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
-  DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
-  DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
-  # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
-  DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
-
-image:
-  tag: v1.118.0
-
 immich:
+  image:
+    tag: v1.118.0
+  env:
+    REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+    DB_HOSTNAME: '{{ .Release.Name }}-postgresql'
+    DB_USERNAME: '{{ .Values.postgresql.global.postgresql.auth.username }}'
+    DB_DATABASE_NAME: '{{ .Values.postgresql.global.postgresql.auth.database }}'
+    # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
+    DB_PASSWORD: '{{ .Values.postgresql.global.postgresql.auth.password }}'
+    IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+
   metrics:
     # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
     enabled: false
@@ -29,16 +28,16 @@ immich:
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #
-  configuration: {}
+  configuration:
+    {}
     # trash:
     #   enabled: false
     #   days: 30
     # storageTemplate:
     #   enabled: true
-    #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+    #   template: '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}'
 
 # Dependencies
-
 postgresql:
   enabled: false
   image:
@@ -67,36 +66,48 @@ redis:
     enabled: false
 
 # Immich components
-
 server:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
   ingress:
     main:
       enabled: false
       annotations:
         # proxy-body-size is set to 0 to remove the body limit on file uploads
-        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        nginx.ingress.kubernetes.io/proxy-body-size: '0'
       hosts:
         - host: immich.local
           paths:
-            - path: "/"
+            - path: '/'
       tls: []
 
 machine-learning:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
   env:
     TRANSFORMERS_CACHE: /cache
   persistence:
     cache:
       enabled: true
       size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      # Optional: Set this to a persistentVolumeClaim to avoid downloading the ML models every start.
       type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class
+
+workers:
+  enabled: false
+  controllers:
+    api:
+      replicas: 1
+    microservices:
+      replicas: 1
+  ingress:
+    api:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: '0'
+      hosts:
+        - host: immich.local
+          paths:
+            - path: '/'
+      tls: []

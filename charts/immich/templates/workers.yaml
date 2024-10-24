@@ -1,6 +1,25 @@
-{{- define "immich.server.hardcodedValues" -}}
+
+{{- define "immich.workers.hardcodedValues" -}}
 global:
-  nameOverride: server
+  nameOverride: workers
+
+env:
+  {{ if .Values.immich.metrics.enabled }}
+      IMMICH_METRICS: true
+  {{ end }}
+  {{- if .Values.immich.configuration }}
+      IMMICH_CONFIG_FILE: /config/immich-config.yaml
+  {{- end }}
+
+{{- $worker_env := deepCopy .Values.immich.env }}
+{{ if .Values.immich.metrics.enabled }}
+{{- $_ := merge $worker_env (dict "IMMICH_METRICS" "true") }}
+{{- end }}
+{{ if .Values.immich.configuration }}
+{{- $_ := merge $worker_env (dict "IMMICH_CONFIG_FILE" "/config/immich-config.yaml") }}
+{{- end }}
+{{- $apiEnv := merge (deepCopy $worker_env) (dict "IMMICH_WORKERS_INCLUDE" "api")}}
+{{- $microservicesEnv := merge (deepCopy $worker_env) (dict "IMMICH_WORKERS_EXCLUDE" "api")}}
 
 {{- if .Values.immich.configuration }}
 defaultPodOptions:
@@ -9,7 +28,8 @@ defaultPodOptions:
 {{- end }}
 
 controllers:
-  immich-server:
+  api:
+    enabled: true
     containers:
       main:
         enabled: true
@@ -17,19 +37,23 @@ controllers:
           repository: ghcr.io/immich-app/immich-server
           pullPolicy: IfNotPresent
           tag: {{ .Values.immich.image.tag }}
-        env:
-          {{ if .Values.immich.metrics.enabled }}
-              IMMICH_METRICS: true
-          {{ end }}
-          {{- if .Values.immich.configuration }}
-              IMMICH_CONFIG_FILE: /config/immich-config.yaml
-          {{- end }}
-
+        env: {{ $apiEnv | toYaml | nindent 10 }}
+  microservices:
+    enabled: true
+    containers:
+      main:
+        enabled: true
+        image:
+          repository: ghcr.io/immich-app/immich-server
+          pullPolicy: IfNotPresent
+          tag: {{ .Values.immich.image.tag }}
+        env: {{ $microservicesEnv | toYaml | nindent 10 }}
 service:
-  immich-server:
+  api:
     enabled: true
     primary: true
-    controller: immich-server
+    controller: api
+    nameOverride: api
     type: ClusterIP
     ports:
       http:
@@ -41,19 +65,31 @@ service:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
         protocol: HTTP
+{{- if .Values.immich.metrics.enabled }}
+  microservices:
+    enabled: true
+    primary: true
+    controller: microservices
+    nameOverride: microservices
+    type: ClusterIP
+    ports:
       metrics-ms:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8082
         protocol: HTTP
-
+{{ end }}
 
 serviceMonitor:
-  immich-server:
+  api:
     enabled: {{ .Values.immich.metrics.enabled }}
-    serviceName: immich-server
+    serviceName: immich-workers-api
     endpoints:
       - port: metrics-api
         scheme: http
+  microservices:
+    enabled: {{ .Values.immich.metrics.enabled }}
+    serviceName: immich-workers-microservices
+    endpoints:
       - port: metrics-ms
         scheme: http
 
@@ -101,11 +137,12 @@ persistence:
 # end of define
 {{- end }}
 
-{{- if .Values.server.enabled }}
+{{- if .Values.workers.enabled }}
 {{- $ctx := deepCopy (omit . "Values") }}
 {{- $_ := set $ctx "Values" dict }}
 {{- /* This part is needed so that bjw-s can reflectively resolve values like .Values.postgresql.global.postgresql.auth.username in the envVars */ -}}
 {{- $_ := set $ctx.Values "postgresql" (deepCopy .Values.postgresql) }}
-{{- $_ := merge $ctx.Values (deepCopy .Values.common) (include "immich.server.hardcodedValues" . | fromYaml) (deepCopy .Values.server) -}}
+{{- $_ := merge $ctx.Values (deepCopy .Values.common) (include "immich.workers.hardcodedValues" . | fromYaml) (deepCopy .Values.workers) -}}
+
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{- end }}
