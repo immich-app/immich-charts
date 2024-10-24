@@ -1,1 +1,4 @@
 {{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}
+{{- if and (eq .Values.workers.enabled true) (eq .Values.workers.enabled .Values.server.enabled) }}
+{{- fail (printf "Only one of workers.enabled or server.enabled must be true.") }}
+{{- end }}
