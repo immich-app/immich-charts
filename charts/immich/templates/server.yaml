@@ -4,7 +4,7 @@ global:
 
 env:
   {{ if .Values.immich.metrics.enabled }}
-      IMMICH_METRICS: true
+      IMMICH_TELEMETRY_INCLUDE: all
   {{ end }}
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
