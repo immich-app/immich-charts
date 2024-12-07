@@ -28,7 +28,16 @@ probes:
       failureThreshold: 3
   readiness: *probes
   startup:
-    enabled: false
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /ping
+        port: http
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 60
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}
