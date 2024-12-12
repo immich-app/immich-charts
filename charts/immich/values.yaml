@@ -59,6 +59,12 @@ postgresql:
           CREATE EXTENSION cube;
           CREATE EXTENSION earthdistance;
           CREATE EXTENSION vectors;
+    resources:
+      # recommended to set the memory limit to at least 2Gi
+      requests:
+        memory: 1Gi
+      limits:
+        memory: 2Gi
 
 redis:
   enabled: false
