@@ -2,7 +2,7 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.8.5
+version: 0.9.0
 appVersion: v1.119.0
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
@@ -28,5 +28,9 @@ dependencies:
     version: 19.5.3
 annotations:
   artifacthub.io/category: storage
-  artifacthub.io/changes: |
-    - Added default startupProbe for machine-learning to allow for preloading models
+  artifacthub.io/changes: |-
+    - kind: deprecated
+      description: Deprecated postgres chart dependency
+      links:
+        - name: Details
+          url: https://github.com/immich-app/immich-charts/issues/149
