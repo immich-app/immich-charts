@@ -28,5 +28,9 @@ dependencies:
     version: 19.5.3
 annotations:
   artifacthub.io/category: storage
-  artifacthub.io/changes: |
-    - Added default startupProbe for machine-learning to allow for preloading models
+  artifacthub.io/changes: |-
+    - kind: deprecated
+      description: Deprecated postgres chart dependency
+      links:
+        - name: Details
+          url: https://github.com/immich-app/immich-charts/issues/149
