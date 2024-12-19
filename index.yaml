@@ -3,6 +3,45 @@ entries:
   immich:
   - annotations:
       artifacthub.io/category: storage
+      artifacthub.io/changes: |-
+        - kind: deprecated
+          description: Deprecated postgres chart dependency
+          links:
+            - name: Details
+              url: https://github.com/immich-app/immich-charts/issues/149
+    apiVersion: v2
+    appVersion: v1.119.0
+    created: "2024-12-19T14:27:19.898316221Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 1.4.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.5.3
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: 6c50dbc1de5f0bd84cd0ec876f0c118c8497e91ee66f11f4b4306b22efba8026
+    home: https://immich.app/
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: immich@bo0tzz.me
+      name: bo0tzz
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.9.0/immich-0.9.0.tgz
+    version: 0.9.0
+  - annotations:
+      artifacthub.io/category: storage
       artifacthub.io/changes: |
         - Added default startupProbe for machine-learning to allow for preloading models
     apiVersion: v2
@@ -737,4 +776,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2024-12-10T10:24:05.741858866Z"
+generated: "2024-12-19T14:27:19.898506917Z"
