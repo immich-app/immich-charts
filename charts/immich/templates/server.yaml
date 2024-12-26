@@ -81,7 +81,14 @@ persistence:
     enabled: true
     mountPath: /usr/src/app/upload
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- range .Values.immich.persistence.additionalClaims}}
+  {{ .claimName}}:
+    enabled: true
+    mountPath: {{ .mountPath }}
+    existingClaim: {{ .claimName}}
 {{- end }}
+{{- end }}
+
 
 {{ if .Values.server.enabled }}
 {{- $ctx := deepCopy . -}}
