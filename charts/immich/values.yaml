@@ -6,6 +6,7 @@
 
 env:
   REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+  REDIS_PORT: "6379"
   DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
   DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
   DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
