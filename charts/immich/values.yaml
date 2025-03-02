@@ -23,6 +23,8 @@ immich:
   persistence:
     # Main data store for all photos shared between different components.
     library:
+      enabled: true
+      mountPath: /usr/src/app/upload
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:

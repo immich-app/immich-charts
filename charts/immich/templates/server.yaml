@@ -77,10 +77,7 @@ persistence:
     type: configMap
     name: {{ .Release.Name }}-immich-config
 {{- end }}
-  library:
-    enabled: true
-    mountPath: /usr/src/app/upload
-    existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+  library: {{ .Values.immich.persistence.library |  toYaml | nindent 4 }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
