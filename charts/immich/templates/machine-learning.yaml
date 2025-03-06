@@ -2,6 +2,9 @@
 global:
   nameOverride: machine-learning
 
+controller:
+  strategy: RollingUpdate
+
 service:
   main:
     enabled: true
