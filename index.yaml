@@ -4,6 +4,44 @@ entries:
   - annotations:
       artifacthub.io/category: storage
       artifacthub.io/changes: |-
+        - kind: added
+          description: Proper generated changelogs on GitHub
+        - kind: fixed
+          description: Set the deployment strategy to RollingUpdate, which should have been the default all along.
+    apiVersion: v2
+    appVersion: v1.119.0
+    created: "2025-03-06T15:25:30.795607107Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 1.4.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.5.3
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: cfd88f03970a3a811c371ff905b07ce1c8d174604c4ee36b7f0142fb7dd3b390
+    home: https://immich.app/
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: immich@bo0tzz.me
+      name: bo0tzz
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.9.1/immich-0.9.1.tgz
+    version: 0.9.1
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |-
         - kind: deprecated
           description: Deprecated postgres chart dependency
           links:
@@ -776,4 +814,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2024-12-19T14:27:19.898506917Z"
+generated: "2025-03-06T15:25:30.795741838Z"
