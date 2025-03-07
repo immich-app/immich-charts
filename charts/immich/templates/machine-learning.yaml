@@ -2,6 +2,9 @@
 global:
   nameOverride: machine-learning
 
+env:
+  IMMICH_PORT: 3003
+
 controller:
   strategy: RollingUpdate
 
