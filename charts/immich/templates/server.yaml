@@ -9,6 +9,7 @@ env:
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
+  IMMICH_PORT: 2283
 
 {{- if .Values.immich.configuration }}
 podAnnotations:
