@@ -1,6 +1,6 @@
-{{- define "immich.server.hardcodedValues" -}}
+{{- define "immich.microservices.hardcodedValues" -}}
 global:
-  nameOverride: server
+  nameOverride: microservices
 
 env:
   {{ if .Values.immich.metrics.enabled }}
@@ -9,7 +9,7 @@ env:
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
-      IMMICH_WORKERS_INCLUDE: api
+      IMMICH_WORKERS_INCLUDE: microservices
 
 {{- if .Values.immich.configuration }}
 podAnnotations:
@@ -18,27 +18,6 @@ podAnnotations:
 
 controller:
   strategy: RollingUpdate
-
-service:
-  main:
-    enabled: true
-    primary: true
-    type: ClusterIP
-    ports:
-      http:
-        enabled: true
-        primary: true
-        port: 2283
-        protocol: HTTP
-      metrics-api:
-        enabled: {{ .Values.immich.metrics.enabled }}
-        port: 8081
-        protocol: HTTP
-      metrics-ms:
-        enabled: {{ .Values.immich.metrics.enabled }}
-        port: 8082
-        protocol: HTTP
-
 
 serviceMonitor:
   main:
@@ -54,9 +33,10 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+          - pgrep
+          - immich
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -66,9 +46,10 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+          - pgrep
+          - immich
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -87,9 +68,9 @@ persistence:
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
 {{- end }}
 
-{{ if .Values.server.enabled }}
+{{ if .Values.microservices.enabled }}
 {{- $ctx := deepCopy . -}}
-{{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
-{{- $_ = include "immich.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{ end }}

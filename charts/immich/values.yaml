@@ -88,6 +88,23 @@ server:
             - path: "/"
       tls: []
 
+microservices:
+  enabled: true
+  image:
+    repository: ghcr.io/immich-app/immich-server
+    pullPolicy: IfNotPresent
+  ingress:
+    main:
+      enabled: false
+      annotations:
+        # proxy-body-size is set to 0 to remove the body limit on file uploads
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: immich.local
+          paths:
+            - path: "/"
+      tls: []
+
 machine-learning:
   enabled: true
   image:
