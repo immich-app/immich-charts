@@ -55,7 +55,7 @@ probes:
     spec:
       exec:
         command:
-          - pgrep
+          - /usr/bin/pgrep
           - immich
       initialDelaySeconds: 0
       periodSeconds: 10
@@ -68,7 +68,7 @@ probes:
     spec:
       exec:
         command:
-          - pgrep
+          - /usr/bin/pgrep
           - immich
       initialDelaySeconds: 0
       periodSeconds: 10
