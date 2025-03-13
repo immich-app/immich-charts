@@ -20,7 +20,7 @@ controller:
 
 service:
   main:
-    enabled: true
+    enabled: false
     primary: true
     type: ClusterIP
     ports:
@@ -52,9 +52,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+        - immich-healthcheck
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -64,9 +64,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+        - immich-healthcheck
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
