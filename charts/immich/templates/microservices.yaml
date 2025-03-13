@@ -9,7 +9,6 @@ env:
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
-      IMMICH_WORKERS_INCLUDE: microservices
 
 {{- if .Values.immich.configuration }}
 podAnnotations:
@@ -53,10 +52,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      exec:
-        command:
-          - /usr/bin/pgrep
-          - immich
+      httpGet:
+        path: /api/server/ping
+        port: http
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -66,10 +64,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      exec:
-        command:
-          - /usr/bin/pgrep
-          - immich
+      httpGet:
+        path: /api/server/ping
+        port: http
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
