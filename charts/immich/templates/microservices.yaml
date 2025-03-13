@@ -19,6 +19,26 @@ podAnnotations:
 controller:
   strategy: RollingUpdate
 
+service:
+  main:
+    enabled: false
+    primary: true
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        primary: true
+        port: 2283
+        protocol: HTTP
+      metrics-api:
+        enabled: {{ .Values.immich.metrics.enabled }}
+        port: 8081
+        protocol: HTTP
+      metrics-ms:
+        enabled: {{ .Values.immich.metrics.enabled }}
+        port: 8082
+        protocol: HTTP
+
 serviceMonitor:
   main:
     enabled: {{ .Values.immich.metrics.enabled }}
