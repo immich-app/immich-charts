@@ -16,7 +16,7 @@ podAnnotations:
 {{- end }}
 
 controller:
-  strategy: RollingUpdate
+  strategy: Recreate
 
 service:
   main:
