@@ -21,8 +21,21 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: run chart-releaser
+        id: cr
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_GENERATE_RELEASE_NOTES: true
           CR_SKIP_EXISTING: true
+
+      - name: Login to GitHub Container Registry
+        if: ${{ steps.cr.outputs.changed_charts }}
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ steps.cr.outputs.changed_charts }}
+        name: Push Chart
+        run: helm push .cr-release-packages/immich-*.tgz oci://ghcr.io/${{ github.repository }}
