@@ -12,8 +12,7 @@ It leverages the bjw-s [common-library chart](https://github.com/bjw-s/helm-char
 # Installation
 
 ```
-$ helm repo add immich https://immich-app.github.io/immich-charts
-$ helm install --create-namespace --namespace immich immich immich/immich -f values.yaml
+$ helm install --create-namespace --namespace immich immich oci://ghcr.io/immich-app/immich-charts/immich -f values.yaml
 ```
 
 You should not copy the full values.yaml from this repository. Only set the values that you want to override.
