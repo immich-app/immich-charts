@@ -1,6 +1,6 @@
-{{- define "immich.server.hardcodedValues" -}}
+{{- define "immich.microservices.hardcodedValues" -}}
 global:
-  nameOverride: server
+  nameOverride: microservices
 
 env:
   {{ if .Values.immich.metrics.enabled }}
@@ -9,7 +9,6 @@ env:
   {{- if .Values.immich.configuration }}
       IMMICH_CONFIG_FILE: /config/immich-config.yaml
   {{- end }}
-      IMMICH_WORKERS_INCLUDE: api
 
 {{- if .Values.immich.configuration }}
 podAnnotations:
@@ -21,7 +20,7 @@ controller:
 
 service:
   main:
-    enabled: true
+    enabled: false
     primary: true
     type: ClusterIP
     ports:
@@ -39,7 +38,6 @@ service:
         port: 8082
         protocol: HTTP
 
-
 serviceMonitor:
   main:
     enabled: {{ .Values.immich.metrics.enabled }}
@@ -54,9 +52,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+        - immich-healthcheck
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -66,9 +64,9 @@ probes:
     enabled: true
     custom: true
     spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
+      exec:
+        command:
+        - immich-healthcheck
       initialDelaySeconds: 0
       periodSeconds: 10
       timeoutSeconds: 1
@@ -87,9 +85,9 @@ persistence:
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
 {{- end }}
 
-{{ if .Values.server.enabled }}
+{{ if .Values.microservices.enabled }}
 {{- $ctx := deepCopy . -}}
-{{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
-{{- $_ = include "immich.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $_ := get .Values "microservices" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "immich.microservices.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{ end }}
