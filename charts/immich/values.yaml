@@ -73,6 +73,7 @@ redis:
 
 server:
   enabled: true
+  strategy: RollingUpdate
   image:
     repository: ghcr.io/immich-app/immich-server
     pullPolicy: IfNotPresent
