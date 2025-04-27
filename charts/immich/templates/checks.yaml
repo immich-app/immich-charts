@@ -1,1 +1,5 @@
 {{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}
+
+{{ if .Values.postgresql }}
+    {{ fail "The postgres subchart has been removed. Please see https://github.com/immich-app/immich-charts/issues/149 for more detail." }}
+{{ end }}
