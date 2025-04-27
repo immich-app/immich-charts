@@ -1,7 +1,1 @@
 {{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}
-
-{{ if .Values.postgresql.enabled }}
-  {{ if not .Values.useDeprecatedPostgresChart}}
-    {{ fail "The postgres subchart is deprecated. Please see https://github.com/immich-app/immich-charts/issues/149 for more detail." }}
-  {{ end }}
-{{ end }}
