@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: immich-database-secret
+type: kubernetes.io/basic-auth
+stringData:
+  username: immich
+  password: <set-a-password>
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-database
+spec:
+  instances: 1
+
+  storage:
+    size: 1Gi
+
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16
+
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: immich-database-secret
+      postInitApplicationSQL:
+        # Commands based on: https://immich.app/docs/administration/postgres-standalone/#without-superuser-permission
+        - CREATE EXTENSION vectors;
+        - CREATE EXTENSION earthdistance CASCADE;
+        - ALTER DATABASE immich SET search_path TO "$user", public, vectors;
+        - ALTER SCHEMA vectors OWNER TO immich;
