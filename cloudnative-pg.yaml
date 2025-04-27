@@ -18,7 +18,7 @@ spec:
   storage:
     size: 1Gi
 
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16-v0.3.0
 
   postgresql:
     shared_preload_libraries:
