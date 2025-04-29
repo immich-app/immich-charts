@@ -85,6 +85,8 @@ persistence:
     mountPath: /usr/src/app/upload
     {{- if .Values.immich.persistence.library.existingClaim }}
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+    {{- else if .Values.immich.persistence.library.claimName }}
+    existingClaim: {{ .Values.immich.persistence.library.claimName }}
     {{- else }}
     existingClaim: {{ .Release.Name }}-library
     {{- end }}

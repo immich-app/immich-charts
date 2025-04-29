@@ -28,12 +28,14 @@ immich:
       existingClaim:
       # Alternatively, the chart can create a new PersistentVolumeClaim using the specified StorageClass
       # and additional parameters below.
-      storageClass: ""
+      storageClass:
       size: "10Gi"
       accessModes:
         - ReadWriteOnce
-      # Optionallyvolume name to bind to.
-      volumeName: ""
+      # Optionally specify the name of the PersistentVolumeClaim to create.
+      claimName:
+      # Optionally volume name to bind to.
+      volumeName:
       # Optional annotations for PersistentVolumeClaim
       annotations: {}
   # configuration is immich-config.json converted to yaml

@@ -3,6 +3,7 @@
 {{- $chartName := .Chart.Name -}}
 {{- $name := .name | default "library" -}}
 {{- $existingClaim := .existingClaim -}}
+{{- $claimName := .claimName -}}
 {{- $storageClass := .storageClass -}}
 {{- $size := .size | default "10Gi" -}}
 {{- $accessModes := .accessModes | default (list "ReadWriteOnce") -}}
@@ -12,7 +13,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ printf "%s-%s" $releaseName $name }}
+  name: {{ if $claimName }}{{ $claimName }}{{ else }}{{ $releaseName }}-{{ $name }}{{ end }}
   labels:
     app.kubernetes.io/name: {{ $chartName }}
     app.kubernetes.io/instance: {{ $releaseName }}
@@ -38,7 +39,7 @@ spec:
 
 {{- if .Values.server.enabled }}
 {{- if not .Values.immich.persistence.library.existingClaim }}
-{{- $ctx := dict "name" "library" "existingClaim" .Values.immich.persistence.library.existingClaim "storageClass" .Values.immich.persistence.library.storageClass "size" .Values.immich.persistence.library.size "accessModes" .Values.immich.persistence.library.accessModes "volumeName" .Values.immich.persistence.library.volumeName }}
+{{- $ctx := dict "name" "library" "existingClaim" .Values.immich.persistence.library.existingClaim "claimName" .Values.immich.persistence.library.claimName "storageClass" .Values.immich.persistence.library.storageClass "size" .Values.immich.persistence.library.size "accessModes" .Values.immich.persistence.library.accessModes "volumeName" .Values.immich.persistence.library.volumeName }}
 {{- $_ := merge $ctx (dict "Values" .Values) }}
 {{- $_ := set $ctx "Release" .Release }}
 {{- $_ := set $ctx "Chart" .Chart }}
