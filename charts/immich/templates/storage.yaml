@@ -8,6 +8,8 @@
 {{- $size := .size | default "10Gi" -}}
 {{- $accessModes := .accessModes | default (list "ReadWriteOnce") -}}
 {{- $volumeName := .volumeName -}}
+{{- $retain := .retain | default true -}}
+{{- $annotations := .annotations | default dict -}}
 
 {{- if not $existingClaim -}}
 apiVersion: v1
@@ -18,9 +20,12 @@ metadata:
     app.kubernetes.io/name: {{ $chartName }}
     app.kubernetes.io/instance: {{ $releaseName }}
     app.kubernetes.io/component: {{ $name }}
-  {{- with .annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+  {{- if $retain }}
+    "helm.sh/resource-policy": keep
+  {{- end }}
+  {{- if $annotations }}
+    {{- toYaml $annotations | nindent 4 }}
   {{- end }}
 spec:
   accessModes:
@@ -39,7 +44,7 @@ spec:
 
 {{- if .Values.server.enabled }}
 {{- if not .Values.immich.persistence.library.existingClaim }}
-{{- $ctx := dict "name" "library" "existingClaim" .Values.immich.persistence.library.existingClaim "claimName" .Values.immich.persistence.library.claimName "storageClass" .Values.immich.persistence.library.storageClass "size" .Values.immich.persistence.library.size "accessModes" .Values.immich.persistence.library.accessModes "volumeName" .Values.immich.persistence.library.volumeName }}
+{{- $ctx := dict "name" "library" "existingClaim" .Values.immich.persistence.library.existingClaim "claimName" .Values.immich.persistence.library.claimName "storageClass" .Values.immich.persistence.library.storageClass "size" .Values.immich.persistence.library.size "accessModes" .Values.immich.persistence.library.accessModes "volumeName" .Values.immich.persistence.library.volumeName "retain" .Values.immich.persistence.library.retain "annotations" .Values.immich.persistence.library.annotations }}
 {{- $_ := merge $ctx (dict "Values" .Values) }}
 {{- $_ := set $ctx "Release" .Release }}
 {{- $_ := set $ctx "Chart" .Chart }}
