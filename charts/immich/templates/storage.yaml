@@ -1,0 +1,47 @@
+{{- define "immich.createPVC" -}}
+{{- $releaseName := .Release.Name -}}
+{{- $chartName := .Chart.Name -}}
+{{- $name := .name | default "library" -}}
+{{- $existingClaim := .existingClaim -}}
+{{- $storageClass := .storageClass -}}
+{{- $size := .size | default "10Gi" -}}
+{{- $accessModes := .accessModes | default (list "ReadWriteOnce") -}}
+{{- $volumeName := .volumeName -}}
+
+{{- if not $existingClaim -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ printf "%s-%s" $releaseName $name }}
+  labels:
+    app.kubernetes.io/name: {{ $chartName }}
+    app.kubernetes.io/instance: {{ $releaseName }}
+    app.kubernetes.io/component: {{ $name }}
+  {{- with .annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- toYaml $accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ $size }}
+  {{- if $storageClass }}
+  storageClassName: {{ $storageClass }}
+  {{- end }}
+  {{- if $volumeName }}
+  volumeName: {{ $volumeName }}
+  {{- end }}
+{{- end -}}
+{{- end -}}
+
+{{- if .Values.server.enabled }}
+{{- if not .Values.immich.persistence.library.existingClaim }}
+{{- $ctx := dict "name" "library" "existingClaim" .Values.immich.persistence.library.existingClaim "storageClass" .Values.immich.persistence.library.storageClass "size" .Values.immich.persistence.library.size "accessModes" .Values.immich.persistence.library.accessModes "volumeName" .Values.immich.persistence.library.volumeName }}
+{{- $_ := merge $ctx (dict "Values" .Values) }}
+{{- $_ := set $ctx "Release" .Release }}
+{{- $_ := set $ctx "Chart" .Chart }}
+{{- include "immich.createPVC" $ctx }}
+{{- end }}
+{{- end }}

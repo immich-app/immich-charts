@@ -23,9 +23,19 @@ immich:
   persistence:
     # Main data store for all photos shared between different components.
     library:
-      # Automatically creating the library volume is not supported by this chart
-      # You have to specify an existing PVC to use
+      # You can choose to privide an existing PersistentVolumeClaim here.
+      # In this case, the other storage parameters below will be ignored.
       existingClaim:
+      # Alternatively, the chart can create a new PersistentVolumeClaim using the specified StorageClass
+      # and additional parameters below.
+      storageClass: ""
+      size: "10Gi"
+      accessModes:
+        - ReadWriteOnce
+      # Optionallyvolume name to bind to.
+      volumeName: ""
+      # Optional annotations for PersistentVolumeClaim
+      annotations: {}
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #
