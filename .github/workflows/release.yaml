@@ -33,7 +33,7 @@ jobs:
 
       - name: run chart-releaser
         id: cr
-        if: ${{ steps.version.outputs.should_release }}
+        if: ${{ steps.version.outputs.should_release == 'true' }}
         uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -41,13 +41,13 @@ jobs:
           CR_SKIP_EXISTING: true
 
       - name: Login to GitHub Container Registry
-        if: ${{ steps.version.outputs.should_release }}
+        if: ${{ steps.version.outputs.should_release == 'true' }}
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.version.outputs.should_release }}
+      - if: ${{ steps.version.outputs.should_release == 'true' }}
         name: Push Chart
         run: helm push .cr-release-packages/immich-*.tgz oci://ghcr.io/${{ github.repository }}
