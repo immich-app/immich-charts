@@ -25,7 +25,7 @@ dependencies:
   - name: redis
     condition: redis.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 20.11.3
+    version: 20.13.2
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
