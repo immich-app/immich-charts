@@ -25,7 +25,7 @@ jobs:
         run: |
           tag=$(curl -s https://api.github.com/repos/immich-app/immich-charts/releases/latest | jq '.tag_name' -r)
           chart_version=$(yq '.version' charts/immich/Chart.yaml)
-          if [ "$chart_version" != "${tag#immich-}" }}; then
+          if [[ "$chart_version" != "${tag#immich-}" ]]; then
             echo "should_release=true" >> $GITHUB_OUTPUT
           else
             echo "should_release=false" >> $GITHUB_OUTPUT
