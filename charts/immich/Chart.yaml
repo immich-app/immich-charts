@@ -16,7 +16,7 @@ maintainers:
     email: immich@bo0tzz.me
 dependencies:
   - name: common
-    repository: https://bjw-s.github.io/helm-charts
+    repository: https://bjw-s-labs.github.io/helm-charts
     version: 1.4.0
   - name: postgresql
     condition: postgresql.enabled
