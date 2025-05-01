@@ -8,6 +8,42 @@ entries:
           description: Made chart available through OCI repository
     apiVersion: v2
     appVersion: v1.119.0
+    created: "2025-05-01T13:38:38.074200359Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 1.4.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.0
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.2
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: 2379923d3bd6f7173107ef516ea83c7dd159c51d669452958ebc6844030aff32
+    home: https://immich.app/
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: immich@bo0tzz.me
+      name: bo0tzz
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.9.3/immich-0.9.3.tgz
+    version: 0.9.3
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Made chart available through OCI repository
+    apiVersion: v2
+    appVersion: v1.119.0
     created: "2025-03-25T15:05:43.189666176Z"
     dependencies:
     - name: common
@@ -850,4 +886,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2025-03-25T15:05:43.18980239Z"
+generated: "2025-05-01T13:38:38.074405362Z"
