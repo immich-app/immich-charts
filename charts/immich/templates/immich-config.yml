@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    helm.sh/chart: {{ printf "%s-%s\n" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 data:
   immich-config.yaml: |
 {{- .Values.immich.configuration | toYaml | nindent 4 }}
