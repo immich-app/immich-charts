@@ -7,7 +7,7 @@ from your mobile phone.
 
 This repo contains helm charts the immich community developed to help deploy Immich on Kubernetes cluster.
 
-It leverages the bjw-s [common-library chart](https://github.com/bjw-s/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common) to make configuration as easy as possible. 
+It leverages the bjw-s [common-library chart](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common) to make configuration as easy as possible. 
 
 # Installation
 
@@ -31,7 +31,7 @@ of all possible changes within the `charts/immich/values.yaml` file.
 
 ## Chart architecture 
 
-This chart uses the [common library](https://github.com/bjw-s/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common). The top level `env` and `image` keys are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s/helm-charts/blob/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common/values.yaml) to see what keys are available.
+This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common). The top level `env` and `image` keys are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common/values.yaml) to see what keys are available.
 
 ## Uninstalling the Chart
 
