@@ -16,12 +16,12 @@ maintainers:
     email: immich@bo0tzz.me
 dependencies:
   - name: common
-    repository: https://bjw-s.github.io/helm-charts
+    repository: https://bjw-s-labs.github.io/helm-charts
     version: 1.4.0
   - name: redis
     condition: redis.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 20.11.3
+    version: 20.13.2
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
