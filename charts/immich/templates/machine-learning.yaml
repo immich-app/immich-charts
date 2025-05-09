@@ -2,45 +2,53 @@
 global:
   nameOverride: machine-learning
 
-controller:
-  strategy: RollingUpdate
+controllers:
+  main:
+    strategy: RollingUpdate
+    containers:
+      immich-machine-learning:
+        image:
+          tag: {{ .Values.image.tag }}
+        env:
+          {{ toYaml .Values.env | nindent 10 }}
+        ports:
+          - name: http
+            containerPort: &port 3003
+            protocol: TCP
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 60
 
 service:
   main:
-    enabled: true
-    primary: true
+    controller: main
     type: ClusterIP
     ports:
       http:
-        enabled: true
-        primary: true
-        port: 3003
+        port: *port
         protocol: HTTP
 
-probes:
-  liveness: &probes
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 3
-  readiness: *probes
-  startup:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 60
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}
