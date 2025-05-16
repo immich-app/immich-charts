@@ -12,7 +12,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     container:
-      image: alpine/helm:3.17.2@sha256:b80eb190fca14707e94a5090235a3f1bf2f206f26761f2890d16a1e570386236
+      image: alpine/helm:3.17.3@sha256:143177e05c79702e78d8ff25db2fbda3d2019e98f8da8b926bded88a691796c3
     steps:
       - name: checkout pr head
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -46,7 +46,7 @@ jobs:
         run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee main/charts/immich/build/manifest.yaml
 
       - name: create diff comment
-        uses: int128/diff-action@020919da2937bfb7f3e4b39e513ec02a26f76b5a # v1
+        uses: int128/diff-action@11d13836f3903363aa010d55be585ed77c9d6ea8 # v1.54.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
