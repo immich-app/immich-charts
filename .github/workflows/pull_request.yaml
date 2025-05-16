@@ -46,7 +46,7 @@ jobs:
         run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee main/charts/immich/build/manifest.yaml
 
       - name: create diff comment
-        uses: int128/diff-action@11d13836f3903363aa010d55be585ed77c9d6ea8 # v1
+        uses: int128/diff-action@11d13836f3903363aa010d55be585ed77c9d6ea8 # v1.54.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
