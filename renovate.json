@@ -1,6 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>immich-app/.github:renovate-config"
+  "extends": ["local>immich-app/.github:renovate-config"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["ghcr.io/immich-app/immich-server"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "immich image updates",
+      "automerge": true,
+      "automergeType": "pr",
+      "enabled": true
+    },
+    {
+      "matchPackageNames": ["ghcr.io/immich-app/immich-server"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "immich image updates",
+      "automerge": false,
+      "enabled": true
+    }
   ]
 }
