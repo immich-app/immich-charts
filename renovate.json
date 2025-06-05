@@ -1,6 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>immich-app/.github:renovate-config"
-  ]
+    "local>maybeanerd/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "Immich minor releases are unstable and could always be breaking",
+      "automerge": false,
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/immich-app/{/,}**"
+      ]
+    }
+  ],
+  "bumpVersion": "patch",
+  "automerge": false
 }
