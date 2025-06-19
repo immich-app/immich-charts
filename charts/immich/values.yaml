@@ -14,6 +14,7 @@ env:
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
+  # renovate: datasource=github-releases depName=immich-app/immich
   tag: v1.119.0
 
 immich:
