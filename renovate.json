@@ -17,5 +17,6 @@
     }
   ],
   "bumpVersion": "patch",
-  "automerge": false
+  "automerge": false,
+  "forkProcessing": "enabled"
 }
