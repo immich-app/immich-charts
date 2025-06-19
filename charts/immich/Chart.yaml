@@ -2,7 +2,7 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.9.5
+version: 0.9.6
 appVersion: v1.119.0
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
@@ -10,10 +10,8 @@ sources:
   - https://github.com/immich-app/immich-charts/tree/main/charts/immich
   - https://github.com/immich-app/immich
 maintainers:
-  - name: PixelJonas
-    email: 5434875+PixelJonas@users.noreply.github.com
-  - name: bo0tzz
-    email: immich@bo0tzz.me
+  - name: sebastian
+    email: sebastian@diluz.io
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
@@ -21,7 +19,7 @@ dependencies:
   - name: postgresql
     condition: postgresql.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 16.0.0
+    version: 16.7.12
   - name: redis
     condition: redis.enabled
     repository: https://charts.bitnami.com/bitnami
@@ -29,5 +27,8 @@ dependencies:
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
-    - kind: added
-      description: Made chart available through OCI repository
+    - kind: changed
+      description: Check the Release Notes on GitHub
+      links:
+        - name: Release Notes
+          url: https://github.com/maybeanerd/immich-charts/releases

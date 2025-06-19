@@ -1,0 +1,15 @@
+{{- if and .Values.immich.persistence.external.enabled .Values.immich.persistence.external.create }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: immich-external
+spec:
+  accessModes:
+    - {{ .Values.immich.persistence.external.accessMode | quote }}
+  {{- if .Values.immich.persistence.external.storageClass }}
+  storageClassName: {{ .Values.immich.persistence.external.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.immich.persistence.external.size | quote }}
+  {{- end }}

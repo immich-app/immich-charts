@@ -1,5 +1,5 @@
-## This chart relies on the common library chart from bjw-s
-## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common
+## This chart relies on the common library chart from bjw-s-labs
+## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/main/charts/library/common
 ## Refer there for more detail about the supported values
 
 # These entries are shared between all the Immich components
@@ -15,7 +15,7 @@ env:
 
 image:
   # renovate: datasource=github-releases depName=immich-app/immich
-  tag: v1.119.0
+  tag: v1.135.0
 
 immich:
   metrics:
@@ -24,13 +24,24 @@ immich:
   persistence:
     # Main data store for all photos shared between different components.
     library:
-      # Automatically creating the library volume is not supported by this chart
-      # You have to specify an existing PVC to use
-      existingClaim:
+      existingClaim: immich-library
+      enabled: false
+      create: true # create a PVC called immich-library from this chart
+      accessMode: ReadWriteMany
+      size: 1Ti
+      storageClass: # provide your storage class
+    external:
+      existingClaim: immich-external
+      enabled: false
+      create: true # create a PVC called immich-external from this chart
+      accessMode: ReadWriteMany
+      size: 1Ti
+      storageClass: # provide your storage class
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #
-  configuration: {}
+  configuration:
+    {}
     # trash:
     #   enabled: false
     #   days: 30
@@ -40,33 +51,55 @@ immich:
 
 # Dependencies
 
-# DEPRECATED
-# The postgres subchart is deprecated and will be removed in chart version 0.10.0
-# See https://github.com/immich-app/immich-charts/issues/149 for more detail.
 postgresql:
-  enabled: false
+  enabled: true
   image:
     repository: tensorchord/pgvecto-rs
-    tag: pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
+    tag: pg14-v0.3.0
   global:
     postgresql:
       auth:
         username: immich
         database: immich
         password: immich
+    security:
+      allowInsecureImages: true
   primary:
-    containerSecurityContext:
-      readOnlyRootFilesystem: false
+    customLivenessProbe:
+      tcpSocket:
+        port: tcp-postgresql
+    customReadinessProbe:
+      tcpSocket:
+        port: tcp-postgresql
+    customStartupProbe:
+      tcpSocket:
+        port: tcp-postgresql
+    persistence:
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 100Gi
+      storageClass: # provide your storage class
+    startupProbe:
+      enabled: true
+      # Give DB time to revive itself from interruption ; Default is 15
+      failureThreshold: 256
     initdb:
       scripts:
         create-extensions.sql: |
           CREATE EXTENSION cube;
           CREATE EXTENSION earthdistance;
           CREATE EXTENSION vectors;
+    containerSecurityContext:
+      readOnlyRootFilesystem: false
+    extendedConfiguration: |
+      logging_collector = off
 
 redis:
-  enabled: false
+  enabled: true
   architecture: standalone
+  master:
+    persistence:
+      enabled: false
   auth:
     enabled: false
 
@@ -103,4 +136,4 @@ machine-learning:
       # Optional: Set this to pvc to avoid downloading the ML models every start.
       type: emptyDir
       accessMode: ReadWriteMany
-      # storageClass: your-class
+      storageClass: # provide your storage class

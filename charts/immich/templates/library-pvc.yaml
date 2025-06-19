@@ -1,0 +1,15 @@
+{{- if and .Values.immich.persistence.library.enabled .Values.immich.persistence.library.create }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: immich-library
+spec:
+  accessModes:
+    - {{ .Values.immich.persistence.library.accessMode | quote }}
+  {{- if .Values.immich.persistence.library.storageClass }}
+  storageClassName: {{ .Values.immich.persistence.library.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.immich.persistence.library.size | quote }}
+  {{- end }}

@@ -2,6 +2,9 @@
 global:
   nameOverride: server
 
+controller:
+  strategy: RollingUpdate
+
 env:
   {{ if .Values.immich.metrics.enabled }}
       IMMICH_TELEMETRY_INCLUDE: all
@@ -14,9 +17,6 @@ env:
 podAnnotations:
   checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
 {{- end }}
-
-controller:
-  strategy: RollingUpdate
 
 service:
   main:
@@ -37,7 +37,6 @@ service:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8082
         protocol: HTTP
-
 
 serviceMonitor:
   main:
@@ -84,6 +83,12 @@ persistence:
     enabled: true
     mountPath: /usr/src/app/upload
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{ if .Values.immich.persistence.external.enabled }}
+  external:
+    enabled: true
+    mountPath: /usr/src/app/external
+    existingClaim: {{ .Values.immich.persistence.external.existingClaim }}
+{{- end }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
