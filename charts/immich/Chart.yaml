@@ -2,7 +2,7 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.9.3
+version: 0.9.4
 appVersion: v1.119.0
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
@@ -25,7 +25,7 @@ dependencies:
   - name: redis
     condition: redis.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 20.13.2
+    version: 20.13.4
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
