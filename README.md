@@ -1,3 +1,15 @@
+# Disclaimer
+
+This is a soft fork from the [official immich-charts](https://github.com/immich-app/immich-charts) repo. The aim is to provide a better developer experience, more granular releases (including all immich versions), and a more comprehensive chart (including DB, e.g.)
+
+It was created based on the discussions in the following issue: https://github.com/immich-app/immich-charts/issues/68#issuecomment-2291250875
+
+THIS IS A WIP.
+
+Do not use this in production. It's a true [zero-ver](https://semver.org/#spec-item-4), which means every other release might include breaking changes. We have just started, and need to first adjust the chart to the expectations we have, before we can provide the value it's supposed to provide.
+
+Feel free to play around with it. Please try and test it. But don't expect it to work as a replacement of the old chart quite yet.
+
 # Immich Charts
 
 Installs [Immich](https://github.com/immich-app/immich), a self-hosted photo and video backup solution directly 
