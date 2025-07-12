@@ -73,9 +73,13 @@ redis:
 
 server:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        immich-server:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
   ingress:
     main:
       enabled: false
@@ -90,11 +94,15 @@ server:
 
 machine-learning:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
-  env:
-    TRANSFORMERS_CACHE: /cache
+  controllers:
+    main:
+      containers:
+        immich-machine-learning:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
   persistence:
     cache:
       enabled: true
