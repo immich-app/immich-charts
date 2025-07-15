@@ -1,6 +1,4 @@
-## This chart relies on the common library chart from bjw-s-labs
-## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/main/charts/library/common
-## Refer there for more detail about the supported values
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-4.1.2/charts/other/app-template/values.schema.json
 
 # These entries are shared between all the Immich components
 
