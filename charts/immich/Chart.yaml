@@ -16,7 +16,7 @@ maintainers:
     email: immich@bo0tzz.me
 dependencies:
   - name: common
-    repository: https://bjw-s.github.io/helm-charts
+    repository: https://bjw-s-labs.github.io/helm-charts
     version: 1.4.0
   - name: postgresql
     condition: postgresql.enabled
@@ -25,12 +25,9 @@ dependencies:
   - name: redis
     condition: redis.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 19.5.3
+    version: 20.13.2
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
-    - kind: deprecated
-      description: Deprecated postgres chart dependency
-      links:
-        - name: Details
-          url: https://github.com/immich-app/immich-charts/issues/149
+    - kind: added
+      description: Made chart available through OCI repository

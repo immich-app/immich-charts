@@ -15,6 +15,9 @@ podAnnotations:
   checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
 {{- end }}
 
+controller:
+  strategy: RollingUpdate
+
 service:
   main:
     enabled: true
