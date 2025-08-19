@@ -15,7 +15,7 @@ jobs:
       image: alpine/helm:3.18.0@sha256:2174b15dcd4159888dae175b5f033583f903cbc39b16711c95e83021a79cfd21
     steps:
       - name: checkout pr head
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
         run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0
           ref: main
