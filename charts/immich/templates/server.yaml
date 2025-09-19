@@ -15,19 +15,51 @@ podAnnotations:
   checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
 {{- end }}
 
-controller:
-  strategy: RollingUpdate
+controllers:
+  main:
+    strategy: RollingUpdate
+    containers:
+      &app immich-server:
+        image:
+          tag: {{ .Values.image.tag }}
+        env:
+          {{ toYaml .Values.env | nindent 10 }}
+        ports:
+          - name: http
+            containerPort: &port 2283
+            protocol: TCP
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/server/ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/server/ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 30
 
 service:
   main:
-    enabled: true
-    primary: true
+    controller: main
     type: ClusterIP
     ports:
       http:
-        enabled: true
-        primary: true
-        port: 2283
+        port: *port
         protocol: HTTP
       metrics-api:
         enabled: {{ .Values.immich.metrics.enabled }}
@@ -48,42 +80,18 @@ serviceMonitor:
       - port: metrics-ms
         scheme: http
 
-probes:
-  liveness: &probes
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 3
-  readiness: *probes
-  startup:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /api/server/ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 30
-
 persistence:
 {{- if .Values.immich.configuration }}
   config:
-    enabled: true
     type: configMap
     name: {{ .Release.Name }}-immich-config
 {{- end }}
   library:
-    enabled: true
-    mountPath: /usr/src/app/upload
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+    advancedMounts:
+      main:
+        *app:
+          - path: /usr/src/app/upload
 {{- end }}
 
 {{ if .Values.server.enabled }}
