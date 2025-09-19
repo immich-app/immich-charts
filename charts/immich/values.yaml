@@ -88,6 +88,14 @@ server:
             - path: "/"
       tls: []
 
+microservices:
+  enabled: false
+  image:
+    repository: ghcr.io/immich-app/immich-server
+    pullPolicy: IfNotPresent
+  controller:
+    replicas: 1
+
 machine-learning:
   enabled: true
   image:
