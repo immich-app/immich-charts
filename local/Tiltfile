@@ -1,0 +1,43 @@
+k8s_yaml(local('curl -sL https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.24/releases/cnpg-1.24.1.yaml'))
+
+k8s_resource(
+    'cnpg-controller-manager',
+    labels=['cnpg']
+)
+
+k8s_yaml('cloudnative-pg.yaml')
+
+k8s_resource(
+    objects=['immich-database:cluster'],
+    new_name='postgres-cluster',
+    resource_deps=['cnpg-controller-manager'],
+    labels=['database']
+)
+
+k8s_yaml('pvc.yaml')
+
+k8s_yaml(helm(
+    '../charts/immich',
+    name='immich',
+    namespace='default',
+    values=['values.yaml']
+))
+
+k8s_resource(
+    workload='immich-server',
+    port_forwards=['2283:2283'],
+    resource_deps=['postgres-cluster'],
+    labels=['immich']
+)
+
+k8s_resource(
+    workload='immich-machine-learning',
+    resource_deps=['postgres-cluster'],
+    labels=['immich']
+)
+
+k8s_resource(
+    workload='immich-valkey',
+    resource_deps=['postgres-cluster'],
+    labels=['immich']
+)
