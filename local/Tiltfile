@@ -1,16 +1,23 @@
 k8s_yaml(local('curl -sL https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.24/releases/cnpg-1.24.1.yaml'))
 
 k8s_resource(
-    'cnpg-controller-manager',
+    workload='cnpg-controller-manager',
     labels=['cnpg']
+)
+
+# Wait for webhook service to have endpoints
+local_resource(
+    'wait-cnpg-webhook',
+    cmd='kubectl wait --for=jsonpath=.subsets[0].addresses[0].ip --timeout=60s endpoints/cnpg-webhook-service -n cnpg-system',
+    resource_deps=['cnpg-controller-manager']
 )
 
 k8s_yaml('cloudnative-pg.yaml')
 
 k8s_resource(
     objects=['immich-database:cluster'],
-    new_name='postgres-cluster',
-    resource_deps=['cnpg-controller-manager'],
+    new_name='immich-database',
+    resource_deps=['wait-cnpg-webhook'],
     labels=['database']
 )
 
@@ -26,18 +33,18 @@ k8s_yaml(helm(
 k8s_resource(
     workload='immich-server',
     port_forwards=['2283:2283'],
-    resource_deps=['postgres-cluster'],
+    resource_deps=['immich-database'],
     labels=['immich']
 )
 
 k8s_resource(
     workload='immich-machine-learning',
-    resource_deps=['postgres-cluster'],
+    resource_deps=['immich-database'],
     labels=['immich']
 )
 
 k8s_resource(
     workload='immich-valkey',
-    resource_deps=['postgres-cluster'],
+    resource_deps=['immich-database'],
     labels=['immich']
 )
