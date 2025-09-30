@@ -5,10 +5,21 @@ kind = "0.30.0"
 kubectl = "1.34.0"
 tilt = "0.35.1"
 
+[tasks."local:cluster:up"]
+description = "Create the local Kind cluster with registry"
+run = "ctlptl apply -f local/clusters.yaml"
+
+[tasks."local:cluster:down"]
+description = "Delete the local Kind cluster"
+run = "ctlptl delete -f local/clusters.yaml"
+
 [tasks."local:up"]
 description = "Start the local development environment"
-run = ["ctlptl apply -f local/clusters.yaml", "tilt up --file local/Tiltfile"]
+depends = ["local:cluster:up"]
+run = "tilt up --file local/Tiltfile"
 
-[tasks."local:down"]
-description = "Stop and clean up the local development environment"
-run = "ctlptl delete -f local/clusters.yaml"
+[tasks."local:ci"]
+description = "Run Tilt in CI mode for validation"
+depends = ["local:cluster:up"]
+run = "tilt ci --file local/Tiltfile"
+
