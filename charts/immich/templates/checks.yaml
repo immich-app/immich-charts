@@ -5,3 +5,9 @@
     {{ fail "The postgres subchart is deprecated. Please see https://github.com/immich-app/immich-charts/issues/149 for more detail." }}
   {{ end }}
 {{ end }}
+
+{{ if hasKey .Values "redis" }}
+  {{ if .Values.redis.enabled }}
+    {{ fail "The bitnami redis subchart has been deprecated and removed. Please use the included valkey deployment or an external instance."}}
+  {{ end }}
+{{ end }}

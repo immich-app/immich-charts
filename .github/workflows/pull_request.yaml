@@ -23,12 +23,12 @@ jobs:
         run: helm dependency build charts/immich
 
       - name: lint helm chart
-        run: helm lint charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true
+        run: helm lint charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true
 
       - name: prepare
         run: mkdir -p charts/immich/build
       - name: create full manifest from pr head
-        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee charts/immich/build/manifest.yaml
+        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -43,7 +43,7 @@ jobs:
       - name: prepare
         run: mkdir -p main/charts/immich/build
       - name: create full manifest from main
-        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee main/charts/immich/build/manifest.yaml
+        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee main/charts/immich/build/manifest.yaml
 
       - name: create diff comment
         uses: int128/diff-action@4919d5826a9bc511508659f6eeb6afff2f21053e # v1.55.0
