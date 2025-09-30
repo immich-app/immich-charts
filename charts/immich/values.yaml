@@ -5,7 +5,7 @@
 # These entries are shared between all the Immich components
 
 env:
-  REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
+  REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
@@ -33,11 +33,21 @@ immich:
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
 
 # Dependencies
-redis:
+
+valkey:
   enabled: false
-  architecture: standalone
-  auth:
-    enabled: false
+  image:
+    repository: docker.io/valkey/valkey
+    tag: 8.0-alpine
+    pullPolicy: IfNotPresent
+  persistence:
+    data:
+      enabled: true
+      size: 1Gi
+      # Optional: Set this to pvc to keep job queues persistent
+      type: emptyDir
+      accessMode: ReadWriteOnce
+      # storageClass: your-class
 
 # Immich components
 
