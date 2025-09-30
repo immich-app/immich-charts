@@ -12,10 +12,10 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     container:
-      image: alpine/helm:3.17.2@sha256:b80eb190fca14707e94a5090235a3f1bf2f206f26761f2890d16a1e570386236
+      image: alpine/helm:3.18.6@sha256:c6d8088ddb279625a2e1ca3b08b22c18c946d1f65c8b810f28f1597435a1134c
     steps:
       - name: checkout pr head
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0
 
@@ -31,7 +31,7 @@ jobs:
         run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           fetch-depth: 0
           ref: main
@@ -46,7 +46,7 @@ jobs:
         run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set redis.enabled=true | tee main/charts/immich/build/manifest.yaml
 
       - name: create diff comment
-        uses: int128/diff-action@020919da2937bfb7f3e4b39e513ec02a26f76b5a # v1
+        uses: int128/diff-action@4919d5826a9bc511508659f6eeb6afff2f21053e # v1.55.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
