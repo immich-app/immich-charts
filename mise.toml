@@ -1,0 +1,14 @@
+[tools]
+ctlptl = "0.8.43"
+helm = "3.18.6"
+kind = "0.30.0"
+kubectl = "1.34.0"
+tilt = "0.35.1"
+
+[tasks."local:up"]
+description = "Start the local development environment"
+run = ["ctlptl apply -f local/clusters.yaml", "tilt up --file local/Tiltfile"]
+
+[tasks."local:down"]
+description = "Stop and clean up the local development environment"
+run = "ctlptl delete -f local/clusters.yaml"
