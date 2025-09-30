@@ -16,6 +16,8 @@ service:
         primary: true
         port: 6379
         protocol: TCP
+      http:
+        enabled: false
 
 probes:
   liveness:
