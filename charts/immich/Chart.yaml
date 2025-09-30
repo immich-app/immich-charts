@@ -18,10 +18,6 @@ dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
     version: 1.4.0
-  - name: postgresql
-    condition: postgresql.enabled
-    repository: https://charts.bitnami.com/bitnami
-    version: 16.0.0
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
