@@ -22,10 +22,6 @@ dependencies:
     condition: postgresql.enabled
     repository: https://charts.bitnami.com/bitnami
     version: 16.0.0
-  - name: redis
-    condition: redis.enabled
-    repository: https://charts.bitnami.com/bitnami
-    version: 20.13.2
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
