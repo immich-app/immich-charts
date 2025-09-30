@@ -5,16 +5,11 @@
 # These entries are shared between all the Immich components
 
 env:
-  REDIS_HOSTNAME: '{{ printf "%s-redis-master" .Release.Name }}'
-  DB_HOSTNAME: "{{ .Release.Name }}-postgresql"
-  DB_USERNAME: "{{ .Values.postgresql.global.postgresql.auth.username }}"
-  DB_DATABASE_NAME: "{{ .Values.postgresql.global.postgresql.auth.database }}"
-  # -- You should provide your own secret outside of this helm-chart and use `postgresql.global.postgresql.auth.existingSecret` to provide credentials to the postgresql instance
-  DB_PASSWORD: "{{ .Values.postgresql.global.postgresql.auth.password }}"
+  REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 image:
-  tag: v1.119.0
+  tag: v1.143.1
 
 immich:
   metrics:
@@ -39,35 +34,20 @@ immich:
 
 # Dependencies
 
-# DEPRECATED
-# The postgres subchart is deprecated and will be removed in chart version 0.10.0
-# See https://github.com/immich-app/immich-charts/issues/149 for more detail.
-postgresql:
+valkey:
   enabled: false
   image:
-    repository: tensorchord/pgvecto-rs
-    tag: pg14-v0.2.0@sha256:739cdd626151ff1f796dc95a6591b55a714f341c737e27f045019ceabf8e8c52
-  global:
-    postgresql:
-      auth:
-        username: immich
-        database: immich
-        password: immich
-  primary:
-    containerSecurityContext:
-      readOnlyRootFilesystem: false
-    initdb:
-      scripts:
-        create-extensions.sql: |
-          CREATE EXTENSION cube;
-          CREATE EXTENSION earthdistance;
-          CREATE EXTENSION vectors;
-
-redis:
-  enabled: false
-  architecture: standalone
-  auth:
-    enabled: false
+    repository: docker.io/valkey/valkey
+    tag: 8.0-alpine
+    pullPolicy: IfNotPresent
+  persistence:
+    data:
+      enabled: true
+      size: 1Gi
+      # Optional: Set this to pvc to keep job queues persistent
+      type: emptyDir
+      accessMode: ReadWriteOnce
+      # storageClass: your-class
 
 # Immich components
 

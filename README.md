@@ -21,7 +21,7 @@ There are a few things that you are required to configure in your values.yaml be
 * You need to separately create a PVC for your library volume and configure `immich.persistence.library.existingClaim` to reference that PVC
 * You need to make sure that Immich has access to a redis and postgresql instance. 
   * Redis can be enabled directly in the values.yaml, or by manually setting the `env` to point to an existing instance.
-  * You need to deploy a suitable postgres instance with the pgvecto.rs extension yourself.
+  * You need to deploy a suitable postgres instance with the vectorchord extension yourself. It is recommended to use [cloudnative-pg](https://cloudnative-pg.io/) with the [tensorchord/cloudnative-vectorchord](https://github.com/tensorchord/cloudnative-vectorchord/pkgs/container/cloudnative-vectorchord) container image. An example cluster manifest can be found [here](./local/cloudnative-pg.yaml).
 * You need to set `image.tag` to the version you want to use, as this chart does not update with every Immich release.
 
 # Configuration

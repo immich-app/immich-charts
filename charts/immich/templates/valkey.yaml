@@ -1,0 +1,69 @@
+{{- define "valkey.hardcodedValues" -}}
+global:
+  nameOverride: valkey
+
+controller:
+  strategy: Recreate
+
+service:
+  main:
+    enabled: true
+    primary: true
+    type: ClusterIP
+    ports:
+      redis:
+        enabled: true
+        primary: true
+        port: 6379
+        protocol: TCP
+      http:
+        enabled: false
+
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - sh
+          - -c
+          - "valkey-cli ping | grep PONG"
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - sh
+          - -c
+          - "valkey-cli ping | grep PONG"
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - sh
+          - -c
+          - "valkey-cli ping | grep PONG"
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 30
+{{- end }}
+
+{{ if .Values.valkey.enabled }}
+{{- $ctx := deepCopy . -}}
+{{- $_ := get .Values "valkey" | mergeOverwrite $ctx.Values -}}
+{{- $_ = include "valkey.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- include "bjw-s.common.loader.all" $ctx }}
+{{ end }}
