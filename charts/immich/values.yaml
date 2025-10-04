@@ -4,13 +4,6 @@
 
 # These entries are shared between all the Immich components
 
-# securityContext:
-#   runAsNonRoot: true
-#   runAsUser: 1027
-#   runAsGroup: 100
-#   fsGroup: 100
-#   fsGroupChangePolicy: "OnRootMismatch"
-
 env:
   REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
@@ -36,9 +29,9 @@ immich:
       nfs:
         enabled: false
         # NFS server hostname or IP address
-        server: nas1-10g.l0l0.lol
+        # server: <nfs-server>
         # Path to the NFS export
-        path: "/volume1/media"
+        # path: "/volume1/media"
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #

@@ -18,7 +18,9 @@ $ helm install --create-namespace --namespace immich immich oci://ghcr.io/immich
 You should not copy the full values.yaml from this repository. Only set the values that you want to override.
 
 There are a few things that you are required to configure in your values.yaml before installing the chart:
-* You need to separately create a PVC for your library volume and configure `immich.persistence.library.existingClaim` to reference that PVC
+* You need to configure storage for your library volume using **one** of these options:
+  * **Option 1**: Create a PVC for your library volume and configure `immich.persistence.library.existingClaim` to reference that PVC
+  * **Option 2**: Use an NFS mount by setting `immich.persistence.library.nfs.enabled: true` and configuring the `server` and `path` values
 * You need to make sure that Immich has access to a redis and postgresql instance. 
   * Redis can be enabled directly in the values.yaml, or by manually setting the `env` to point to an existing instance.
   * You need to deploy a suitable postgres instance with the vectorchord extension yourself. It is recommended to use [cloudnative-pg](https://cloudnative-pg.io/) with the [tensorchord/cloudnative-vectorchord](https://github.com/tensorchord/cloudnative-vectorchord/pkgs/container/cloudnative-vectorchord) container image. An example cluster manifest can be found [here](./local/cloudnative-pg.yaml).
