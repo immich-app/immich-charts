@@ -83,7 +83,13 @@ persistence:
   library:
     enabled: true
     mountPath: /usr/src/app/upload
+{{- if .Values.immich.persistence.library.existingClaim }}
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- else if .Values.immich.persistence.library.nfs.enabled }}
+    type: nfs
+    server: {{ .Values.immich.persistence.library.nfs.server }}
+    path: {{ .Values.immich.persistence.library.nfs.path }}
+{{- end }}
 {{- end }}
 
 {{ if .Values.server.enabled }}

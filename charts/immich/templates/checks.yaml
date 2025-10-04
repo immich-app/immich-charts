@@ -1,5 +1,20 @@
-{{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}
-{{- if not (kindIs "string" $name) -}}{{- fail ".Values.immich.persistence.library.existingClaim must be a string" -}}{{- end -}}
+{{- $hasExistingClaim := .Values.immich.persistence.library.existingClaim -}}
+{{- $hasNfs := .Values.immich.persistence.library.nfs.enabled -}}
+{{- if and (not $hasExistingClaim) (not $hasNfs) -}}
+  {{- fail "Either .Values.immich.persistence.library.existingClaim or .Values.immich.persistence.library.nfs.enabled must be set." -}}
+{{- end -}}
+{{- if and $hasExistingClaim $hasNfs -}}
+  {{- fail "Cannot set both .Values.immich.persistence.library.existingClaim and .Values.immich.persistence.library.nfs.enabled. Choose one." -}}
+{{- end -}}
+{{- if $hasExistingClaim -}}
+  {{- if not (kindIs "string" $hasExistingClaim) -}}{{- fail ".Values.immich.persistence.library.existingClaim must be a string" -}}{{- end -}}
+{{- end -}}
+{{- if $hasNfs -}}
+  {{- $nfsServer := .Values.immich.persistence.library.nfs.server | required ".Values.immich.persistence.library.nfs.server is required when nfs.enabled is true." -}}
+  {{- $nfsPath := .Values.immich.persistence.library.nfs.path | required ".Values.immich.persistence.library.nfs.path is required when nfs.enabled is true." -}}
+  {{- if not (kindIs "string" $nfsServer) -}}{{- fail ".Values.immich.persistence.library.nfs.server must be a string" -}}{{- end -}}
+  {{- if not (kindIs "string" $nfsPath) -}}{{- fail ".Values.immich.persistence.library.nfs.path must be a string" -}}{{- end -}}
+{{- end -}}
 
 {{ if .Values.postgresql }}
     {{ fail "The postgres subchart has been removed. Please see https://github.com/immich-app/immich-charts/issues/149 for more detail." }}

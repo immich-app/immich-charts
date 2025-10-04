@@ -4,6 +4,13 @@
 
 # These entries are shared between all the Immich components
 
+# securityContext:
+#   runAsNonRoot: true
+#   runAsUser: 1027
+#   runAsGroup: 100
+#   fsGroup: 100
+#   fsGroupChangePolicy: "OnRootMismatch"
+
 env:
   REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
   IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
@@ -19,8 +26,19 @@ immich:
     # Main data store for all photos shared between different components.
     library:
       # Automatically creating the library volume is not supported by this chart
-      # You have to specify an existing PVC to use
+      # You must specify either an existing PVC or an NFS mount (but not both)
+
+      # Option 1: Use an existing PVC
+      # existingClaim: my-immich-library-pvc
       existingClaim:
+
+      # Option 2: Use an NFS mount
+      nfs:
+        enabled: false
+        # NFS server hostname or IP address
+        server: nas1-10g.l0l0.lol
+        # Path to the NFS export
+        path: "/volume1/media"
   # configuration is immich-config.json converted to yaml
   # ref: https://immich.app/docs/install/config-file/
   #
