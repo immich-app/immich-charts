@@ -4,12 +4,15 @@
 
 # These entries are shared between all the Immich components
 
-env:
-  REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
-
-image:
-  tag: v1.143.1
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          tag: v1.143.1
+        env:
+          REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
+          IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
 
 immich:
   metrics:
@@ -36,10 +39,14 @@ immich:
 
 valkey:
   enabled: false
-  image:
-    repository: docker.io/valkey/valkey
-    tag: 8.0-alpine
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: docker.io/valkey/valkey
+            tag: 8.0-alpine
+            pullPolicy: IfNotPresent
   persistence:
     data:
       enabled: true
@@ -53,9 +60,13 @@ valkey:
 
 server:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
   ingress:
     main:
       enabled: false
@@ -66,15 +77,21 @@ server:
         - host: immich.local
           paths:
             - path: "/"
+              service:
+                identifier: main
       tls: []
 
 machine-learning:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
-  env:
-    TRANSFORMERS_CACHE: /cache
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
   persistence:
     cache:
       enabled: true

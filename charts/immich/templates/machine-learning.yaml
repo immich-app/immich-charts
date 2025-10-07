@@ -2,12 +2,45 @@
 global:
   nameOverride: machine-learning
 
-controller:
-  strategy: RollingUpdate
+controllers:
+  main:
+    type: deployment
+    strategy: RollingUpdate
+    containers:
+      main:
+        ports:
+          - name: http
+            containerPort: 3003
+            protocol: TCP
+        probes:
+          liveness: &probes
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 3
+          readiness: *probes
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ping
+                port: http
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 1
+              failureThreshold: 60
 
 service:
   main:
     enabled: true
+    controller: main
     primary: true
     type: ClusterIP
     ports:
@@ -15,32 +48,8 @@ service:
         enabled: true
         primary: true
         port: 3003
+        targetPort: http
         protocol: HTTP
-
-probes:
-  liveness: &probes
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 3
-  readiness: *probes
-  startup:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /ping
-        port: http
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      failureThreshold: 60
 {{- end }}
 
 {{- /* Have to reference with index here because the dash breaks a normal dereference */}}
