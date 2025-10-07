@@ -44,7 +44,7 @@ jobs:
 
       - name: create diff comment
         if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: int128/diff-action@4919d5826a9bc511508659f6eeb6afff2f21053e # v1.55.0
+        uses: int128/diff-action@24c9b9d1611bd1a66416df608b4411dc991acb88 # v1.56.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
