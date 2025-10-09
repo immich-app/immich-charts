@@ -45,7 +45,7 @@ valkey:
         main:
           image:
             repository: docker.io/valkey/valkey
-            tag: 8.0-alpine@sha256:21edf5ca7cec694ee226f18fa8f86a312d149ddaf2006fd77d84f58211df864c
+            tag: 8.1-alpine@sha256:e706d1213aaba6896c162bb6a3a9e1894e1a435f28f8f856d14fab2e10aa098b
             pullPolicy: IfNotPresent
   persistence:
     data:
