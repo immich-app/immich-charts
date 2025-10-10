@@ -7,7 +7,7 @@ from your mobile phone.
 
 This repo contains helm charts the immich community developed to help deploy Immich on Kubernetes cluster.
 
-It leverages the bjw-s [common-library chart](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common) to make configuration as easy as possible. 
+It leverages the bjw-s [common-library chart](https://github.com/bjw-s-labs/helm-charts/tree/common-4.3.0/charts/library/common) to make configuration as easy as possible. 
 
 # Installation
 
@@ -27,11 +27,11 @@ There are a few things that you are required to configure in your values.yaml be
 # Configuration
 
 The immich chart is highly customizable. You can see a detailed documentation
-of all possible changes within the `charts/immich/values.yaml` file.
+of all possible changes within the `charts/immich/values.yaml` file. Anything not covered there can be done by making direct use of the underlying common library chart (see below).
 
 ## Chart architecture 
 
-This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common). The top level `env` and `image` keys are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common/values.yaml) to see what keys are available.
+This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/common-4.3.0/charts/library/common). Top level keys like `controllers` are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/common-4.3.0/charts/library/common/values.yaml) to see what keys are available.
 
 ## Uninstalling the Chart
 
