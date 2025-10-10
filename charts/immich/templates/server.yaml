@@ -99,11 +99,9 @@ persistence:
     type: configMap
     name: {{ .Release.Name }}-immich-config
 {{- end }}
-  library:
+  data:
     enabled: true
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
-    globalMounts:
-      - path: /usr/src/app/upload
 {{- end }}
 
 {{ if .Values.server.enabled }}
