@@ -51,7 +51,7 @@ valkey:
     data:
       enabled: true
       size: 1Gi
-      # Optional: Set this to pvc to keep job queues persistent
+      # Optional: Set this to persistentVolumeClaim to keep job queues persistent
       type: emptyDir
       accessMode: ReadWriteOnce
       # storageClass: your-class
@@ -96,7 +96,7 @@ machine-learning:
     cache:
       enabled: true
       size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      # Optional: Set this to persistentVolumeClaim to avoid downloading the ML models every start.
       type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class
