@@ -35,7 +35,7 @@ k8s_resource(
     labels=['database']
 )
 
-k8s_yaml('database.yaml')
+k8s_yaml('cloudnative-pg-database.yaml')
 
 k8s_resource(
     objects=['immich-database:database'],

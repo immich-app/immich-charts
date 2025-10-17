@@ -16,6 +16,7 @@ spec:
     shared_preload_libraries:
       - "vchord.so"
 
+    # This extension is loaded via the Database CRD at cloudnative-pg-database.yaml
     extensions:
       - name: vchord
         image:
