@@ -32,9 +32,9 @@ local_resource(
 
 k8s_custom_deploy(
     'immich-database-cluster-full',
-    apply_cmd='kubectl apply -f cloudnative-pg.yaml',
-    delete_cmd='kubectl delete -f cloudnative-pg.yaml',
-    resource_deps=['wait-stripped-cluster'],
+    apply_cmd='kubectl apply -f cloudnative-pg.yaml > /dev/null',
+    delete_cmd='kubectl delete -f cloudnative-pg.yaml || true',
+    deps=['cloudnative-pg.yaml']
 )
 
 k8s_resource(
