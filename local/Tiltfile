@@ -13,29 +13,29 @@ local_resource(
 )
 
 # Apply cluster w/o shared_preload_libraries to workaround loading extension
-stripped_cluster_yaml = local("yq -o=yaml 'del(.spec.postgresql.shared_preload_libraries)' cloudnative-pg.yaml")
-k8s_yaml(stripped_cluster_yaml)
-
-k8s_resource(
-    objects=['immich-database:cluster'],
-    new_name='immich-database-cluster',
-    resource_deps=['wait-cnpg-webhook'],
-    labels=['database']
+local_resource(
+  'apply-stripped-cluster',
+  cmd="yq -o=yaml 'del(.spec.postgresql.shared_preload_libraries)' cloudnative-pg.yaml | kubectl apply -f -",
+  resource_deps=['wait-cnpg-webhook'],
 )
 
 # Wait for cluster w/o shared_preload_libraries to become ready
 local_resource(
     'wait-stripped-cluster',
-    cmd='kubectl wait --for=condition=Ready --timeout=2m cluster/immich-database',
-    resource_deps=['immich-database-cluster']
+    cmd='kubectl wait --for=condition=Ready --timeout=5m cluster/immich-database',
+    resource_deps=['apply-stripped-cluster']
 )
 
-k8s_custom_deploy(
-    'immich-database-cluster-full',
-    apply_cmd='kubectl apply -f cloudnative-pg.yaml > /dev/null',
-    delete_cmd='kubectl delete -f cloudnative-pg.yaml || true',
-    deps=['cloudnative-pg.yaml']
+k8s_yaml('cloudnative-pg.yaml')
+
+k8s_resource(
+    objects=['immich-database:cluster'],
+    new_name='immich-database-cluster',
+    resource_deps=['wait-stripped-cluster'],
+    labels=['database']
 )
+
+k8s_yaml('database.yaml')
 
 k8s_resource(
     objects=['immich-database:database'],
@@ -43,8 +43,6 @@ k8s_resource(
     resource_deps=['immich-database-cluster'],
     labels=['database']
 )
-
-k8s_yaml('database.yaml')
 
 k8s_yaml('pvc.yaml')
 

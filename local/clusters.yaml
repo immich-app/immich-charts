@@ -9,3 +9,5 @@ product: kind
 registry: ctlptl-registry
 kindV1Alpha4Cluster:
   name: immich-local
+  featureGates:
+    ImageVolume: true
