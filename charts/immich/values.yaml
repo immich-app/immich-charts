@@ -13,6 +13,7 @@ controllers:
         env:
           REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
           IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+          # Add the env vars to connect to your database here.
 
 immich:
   metrics:
