@@ -4,6 +4,34 @@ entries:
   - annotations:
       artifacthub.io/category: storage
       artifacthub.io/changes: |-
+        - kind: changed
+          description: Small documentation fixes
+    apiVersion: v2
+    appVersion: v2.0.0
+    created: "2025-10-20T19:26:56.028726865Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.3.0
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: 28dbb8b28c7180eca19f4a6ad7dceae77f7a3552e6c60de59abbde78157b5d17
+    home: https://immich.app/
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: immich@bo0tzz.me
+      name: bo0tzz
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.10.1/immich-0.10.1.tgz
+    version: 0.10.1
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |-
         - kind: removed
           description: Breaking changes
           links:
@@ -923,4 +951,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2025-10-10T13:51:55.76093988Z"
+generated: "2025-10-20T19:26:56.02892692Z"
