@@ -2,7 +2,7 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.10.0
+version: 0.10.1
 appVersion: v2.0.0
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
@@ -21,14 +21,5 @@ dependencies:
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
-    - kind: removed
-      description: Breaking changes
-      links:
-        - name: Release notes
-          url: https://github.com/immich-app/immich-charts/releases/tag/immich-0.10.0
-    - kind: removed
-      description: Postgres subchart
-    - kind: removed
-      description: Redis subchart
     - kind: changed
-      description: Common library dependency update
+      description: Small documentation fixes
