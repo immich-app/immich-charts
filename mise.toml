@@ -1,9 +1,9 @@
 [tools]
 ctlptl = "0.8.43"
-helm = "3.18.6"
+helm = "3.19.0"
 kind = "0.30.0"
-kubectl = "1.34.0"
-tilt = "0.35.1"
+kubectl = "1.34.1"
+tilt = "0.35.2"
 
 [tasks."local:helm:deps"]
 description = "Build Helm chart dependencies"

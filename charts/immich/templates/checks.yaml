@@ -1,12 +1,10 @@
 {{- $name := .Values.immich.persistence.library.existingClaim | required ".Values.immich.persistence.library.existingClaim is required." -}}
 {{- if not (kindIs "string" $name) -}}{{- fail ".Values.immich.persistence.library.existingClaim must be a string" -}}{{- end -}}
 
-{{ if .Values.postgresql }}
-    {{ fail "The postgres subchart has been removed. Please see https://github.com/immich-app/immich-charts/issues/149 for more detail." }}
+{{ if hasKey .Values "postgresql" }}
+    {{ fail "The postgres subchart has been removed. Please see https://github.com/immich-app/immich-charts/releases/tag/immich-0.10.0 for more detail." }}
 {{ end }}
 
 {{ if hasKey .Values "redis" }}
-  {{ if .Values.redis.enabled }}
-    {{ fail "The bitnami redis subchart has been deprecated and removed. Please use the included valkey deployment or an external instance."}}
-  {{ end }}
+    {{ fail "The redis subchart has been removed. Please see https://github.com/immich-app/immich-charts/releases/tag/immich-0.10.0 for more detail."}}
 {{ end }}

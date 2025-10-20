@@ -2,12 +2,61 @@
 global:
   nameOverride: valkey
 
-controller:
-  strategy: Recreate
+controllers:
+  main:
+    type: deployment
+    strategy: Recreate
+    containers:
+      main:
+        ports:
+          - name: redis
+            containerPort: 6379
+            protocol: TCP
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "valkey-cli ping | grep PONG"
+              initialDelaySeconds: 30
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "valkey-cli ping | grep PONG"
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "valkey-cli ping | grep PONG"
+              initialDelaySeconds: 0
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 30
 
 service:
   main:
     enabled: true
+    controller: main
     primary: true
     type: ClusterIP
     ports:
@@ -15,50 +64,10 @@ service:
         enabled: true
         primary: true
         port: 6379
+        targetPort: redis
         protocol: TCP
       http:
         enabled: false
-
-probes:
-  liveness:
-    enabled: true
-    custom: true
-    spec:
-      exec:
-        command:
-          - sh
-          - -c
-          - "valkey-cli ping | grep PONG"
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-  readiness:
-    enabled: true
-    custom: true
-    spec:
-      exec:
-        command:
-          - sh
-          - -c
-          - "valkey-cli ping | grep PONG"
-      initialDelaySeconds: 5
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-  startup:
-    enabled: true
-    custom: true
-    spec:
-      exec:
-        command:
-          - sh
-          - -c
-          - "valkey-cli ping | grep PONG"
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 30
 {{- end }}
 
 {{ if .Values.valkey.enabled }}

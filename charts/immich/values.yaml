@@ -1,15 +1,19 @@
 ## This chart relies on the common library chart from bjw-s
-## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common
+## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/common-4.3.0/charts/library/common
 ## Refer there for more detail about the supported values
 
 # These entries are shared between all the Immich components
 
-env:
-  REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
-  IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
-
-image:
-  tag: v1.143.1
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          tag: v2.0.0
+        env:
+          REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
+          IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+          # Add the env vars to connect to your database here.
 
 immich:
   metrics:
@@ -36,15 +40,19 @@ immich:
 
 valkey:
   enabled: false
-  image:
-    repository: docker.io/valkey/valkey
-    tag: 8.0-alpine
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: docker.io/valkey/valkey
+            tag: 8.1-alpine@sha256:e706d1213aaba6896c162bb6a3a9e1894e1a435f28f8f856d14fab2e10aa098b
+            pullPolicy: IfNotPresent
   persistence:
     data:
       enabled: true
       size: 1Gi
-      # Optional: Set this to pvc to keep job queues persistent
+      # Optional: Set this to persistentVolumeClaim to keep job queues persistent
       type: emptyDir
       accessMode: ReadWriteOnce
       # storageClass: your-class
@@ -53,9 +61,13 @@ valkey:
 
 server:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-server
-    pullPolicy: IfNotPresent
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
   ingress:
     main:
       enabled: false
@@ -66,22 +78,28 @@ server:
         - host: immich.local
           paths:
             - path: "/"
+              service:
+                identifier: main
       tls: []
 
 machine-learning:
   enabled: true
-  image:
-    repository: ghcr.io/immich-app/immich-machine-learning
-    pullPolicy: IfNotPresent
-  env:
-    TRANSFORMERS_CACHE: /cache
-    HF_XET_CACHE: /cache/huggingface-xet
-    MPLCONFIGDIR: /cache/matplotlib-config
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-machine-learning
+            pullPolicy: IfNotPresent
+          env:
+            TRANSFORMERS_CACHE: /cache
+            HF_XET_CACHE: /cache/huggingface-xet
+            MPLCONFIGDIR: /cache/matplotlib-config
   persistence:
     cache:
       enabled: true
       size: 10Gi
-      # Optional: Set this to pvc to avoid downloading the ML models every start.
+      # Optional: Set this to persistentVolumeClaim to avoid downloading the ML models every start.
       type: emptyDir
       accessMode: ReadWriteMany
       # storageClass: your-class

@@ -31,12 +31,20 @@ jobs:
             echo "should_release=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Generate a token
+        id: generate-token
+        if: ${{ steps.version.outputs.should_release == 'true' }}
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        with:
+          app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
+          private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
+      
       - name: run chart-releaser
         id: cr
         if: ${{ steps.version.outputs.should_release == 'true' }}
         uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: ${{ steps.generate-token.outputs.token }}
           CR_GENERATE_RELEASE_NOTES: true
           CR_SKIP_EXISTING: true
 
