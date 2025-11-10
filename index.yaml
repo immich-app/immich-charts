@@ -5,6 +5,34 @@ entries:
       artifacthub.io/category: storage
       artifacthub.io/changes: |-
         - kind: changed
+          description: Set ML cache env vars
+    apiVersion: v2
+    appVersion: v2.0.0
+    created: "2025-11-10T13:31:53.881985401Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.3.0
+    description: A chart to power Immich (immich.app) running on kubernetes
+    digest: b567295d1119d63df4a919b695591b66630587fd21f1cc84724768b5c5153fb4
+    home: https://immich.app/
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
+    maintainers:
+    - email: 5434875+PixelJonas@users.noreply.github.com
+      name: PixelJonas
+    - email: immich@bo0tzz.me
+      name: bo0tzz
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich-charts/tree/main/charts/immich
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/immich-app/immich-charts/releases/download/immich-0.10.2/immich-0.10.2.tgz
+    version: 0.10.2
+  - annotations:
+      artifacthub.io/category: storage
+      artifacthub.io/changes: |-
+        - kind: changed
           description: Small documentation fixes
     apiVersion: v2
     appVersion: v2.0.0
@@ -951,4 +979,4 @@ entries:
     urls:
     - https://github.com/immich-app/immich-charts/releases/download/immich-0.0.4/immich-0.0.4.tgz
     version: 0.0.4
-generated: "2025-10-20T19:26:56.02892692Z"
+generated: "2025-11-10T13:31:53.882211752Z"
