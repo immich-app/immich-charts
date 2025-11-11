@@ -63,6 +63,17 @@ server:
   enabled: true
   controllers:
     main:
+      pod:
+        # Example topologySpreadConstraints configuration:
+        # topologySpreadConstraints:
+        #   - maxSkew: 1
+        #     topologyKey: kubernetes.io/hostname
+        #     whenUnsatisfiable: DoNotSchedule
+        #     labelSelector:
+        #       matchLabels:
+        #         app.kubernetes.io/name: immich
+        #         app.kubernetes.io/component: server
+        topologySpreadConstraints: []
       containers:
         main:
           image:

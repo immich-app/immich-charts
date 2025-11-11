@@ -12,6 +12,11 @@ controllers:
   main:
     type: deployment
     strategy: RollingUpdate
+    pod:
+      {{- with .Values.server.controllers.main.pod.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     containers:
       main:
         env:
