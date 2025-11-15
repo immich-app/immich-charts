@@ -6,8 +6,20 @@ controllers:
   main:
     type: deployment
     strategy: Recreate
+    {{- if .Values.immich.valkey.auth.enabled }}
+    podAnnotations:
+      checksum/valkey-auth: {{ include "valkey.secretChecksum" . }}
+    {{- end }}
     containers:
       main:
+        {{- if .Values.immich.valkey.auth.enabled }}
+        envFrom:
+          - secretRef:
+              name: {{ if .Values.immich.valkey.auth.existingSecret }}{{ .Values.immich.valkey.auth.existingSecret }}{{ else }}{{ printf "%s-valkey-auth" .Release.Name }}{{ end }}
+        args:
+          - --requirepass
+          - $(REDIS_PASSWORD)
+        {{- end }}
         ports:
           - name: redis
             containerPort: 6379
@@ -21,7 +33,7 @@ controllers:
                 command:
                   - sh
                   - -c
-                  - "valkey-cli ping | grep PONG"
+                  - REDISCLI_AUTH="$REDIS_PASSWORD" valkey-cli ping | grep PONG
               initialDelaySeconds: 30
               periodSeconds: 10
               timeoutSeconds: 5
@@ -34,7 +46,7 @@ controllers:
                 command:
                   - sh
                   - -c
-                  - "valkey-cli ping | grep PONG"
+                  - REDISCLI_AUTH="$REDIS_PASSWORD" valkey-cli ping | grep PONG
               initialDelaySeconds: 5
               periodSeconds: 10
               timeoutSeconds: 5
@@ -47,7 +59,7 @@ controllers:
                 command:
                   - sh
                   - -c
-                  - "valkey-cli ping | grep PONG"
+                  - REDISCLI_AUTH="$REDIS_PASSWORD" valkey-cli ping | grep PONG
               initialDelaySeconds: 0
               periodSeconds: 10
               timeoutSeconds: 5

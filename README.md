@@ -29,9 +29,18 @@ There are a few things that you are required to configure in your values.yaml be
 The immich chart is highly customizable. You can see a detailed documentation
 of all possible changes within the `charts/immich/values.yaml` file. Anything not covered there can be done by making direct use of the underlying common library chart (see below).
 
-## Chart architecture 
+## Chart architecture
 
 This chart uses the [common library](https://github.com/bjw-s-labs/helm-charts/tree/common-4.3.0/charts/library/common). Top level keys like `controllers` are applied to every component of the Immich stack, and the entries under the `server`, `microservices`, etc... keys define the specific values for each component. You can freely add more top level keys to be applied to all the components, please reference [the common library's values.yaml](https://github.com/bjw-s-labs/helm-charts/blob/common-4.3.0/charts/library/common/values.yaml) to see what keys are available.
+
+## Valkey authentication
+
+If Valkey is enabled, it is recommended to enable authentication by setting `immich.valkey.auth.enabled` to `true`.
+
+There are two modes for managing the authentication secret:
+
+* Auto-generated secret: If `immich.valkey.auth.existingSecret` is not defined, the chart will automatically generate a secure password and store it in a secret named `<release-name>-valkey-auth`. Helm upgrade does not change the password.
+* If `immich.valkey.auth.existingSecret` is defined, then you must create a kubernetes secret with a `REDIS_PASSWORD` key.
 
 ## Uninstalling the Chart
 

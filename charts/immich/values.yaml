@@ -35,6 +35,12 @@ immich:
     # storageTemplate:
     #   enabled: true
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+  valkey:
+    auth:
+      # Optional: enable Valkey password authentication.
+      enabled: false
+      # If defined, a kubernetes secret with REDIS_PASSWORD key must be created before installing the chart.
+      existingSecret: ""
 
 # Dependencies
 

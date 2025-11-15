@@ -2,11 +2,14 @@
 global:
   nameOverride: server
 
-{{- if .Values.immich.configuration }}
 defaultPodOptions:
   annotations:
+    {{- if .Values.immich.configuration }}
     checksum/config: {{ .Values.immich.configuration | toYaml | sha256sum }}
-{{- end }}
+    {{- end }}
+    {{- if .Values.immich.valkey.auth.enabled }}
+    checksum/valkey-auth: {{ include "valkey.secretChecksum" . }}
+    {{- end }}
 
 controllers:
   main:
@@ -14,6 +17,11 @@ controllers:
     strategy: RollingUpdate
     containers:
       main:
+        {{- if .Values.immich.valkey.auth.enabled }}
+        envFrom:
+          - secretRef:
+              name: {{ include "valkey.secretName" . }}
+        {{- end }}
         env:
           {{ if .Values.immich.metrics.enabled }}
           IMMICH_TELEMETRY_INCLUDE: all
