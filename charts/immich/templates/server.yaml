@@ -86,6 +86,7 @@ service:
 serviceMonitor:
   main:
     enabled: {{ .Values.immich.metrics.enabled }}
+    serviceName: main
     endpoints:
       - port: metrics-api
         scheme: http
