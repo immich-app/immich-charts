@@ -11,9 +11,32 @@ controllers:
         image:
           tag: v2.0.0
         env:
-          REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
-          IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
-          # Add the env vars to connect to your database here.
+          - name: REDIS_HOSTNAME
+            value: '{{ printf "%s-valkey" .Release.Name }}'
+          - name: IMMICH_MACHINE_LEARNING_URL
+            value: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+        # Add the env vars to connect to your database here.
+        # e.g.:
+        # - name: DB_HOSTNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: immich-database-app
+        #       key: host
+        # - name: DB_USERNAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: immich-database-app
+        #       key: user
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #     name: immich-database-app
+        #     key: password
+        # - name: DB_DATABASE_NAME
+        #   valueFrom:
+        #     secretKeyRef:
+        #     name: immich-database-app
+        #     key: dbname
 
 immich:
   metrics:

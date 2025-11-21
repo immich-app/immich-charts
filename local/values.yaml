@@ -4,22 +4,22 @@ server:
       containers:
         main:
           env:
-            DB_HOSTNAME:
+            - name: DB_HOSTNAME
               valueFrom:
                 secretKeyRef:
                   name: immich-database-app
                   key: host
-            DB_USERNAME:
+            - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: immich-database-app
                   key: user
-            DB_PASSWORD:
+            - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: immich-database-app
                   key: password
-            DB_DATABASE_NAME:
+            - name: DB_DATABASE_NAME
               valueFrom:
                 secretKeyRef:
                   name: immich-database-app
