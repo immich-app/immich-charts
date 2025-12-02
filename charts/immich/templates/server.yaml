@@ -96,7 +96,7 @@ persistence:
 {{- if .Values.immich.configuration }}
   config:
     enabled: true
-    {{- if .Values.immich.storeConfigInSecret }}
+    {{- if eq .Values.immich.configurationKind "Secret" }}
     type: secret
     {{- else }}
     type: configMap

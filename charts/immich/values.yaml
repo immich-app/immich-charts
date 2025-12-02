@@ -35,8 +35,8 @@ immich:
     # storageTemplate:
     #   enabled: true
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
-  # Enabling this will store the immich configuration in a kubernetes secret instead of a configmap
-  storeConfigInSecret: false
+  # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
+  configurationKind: ConfigMap
 
 # Dependencies
 

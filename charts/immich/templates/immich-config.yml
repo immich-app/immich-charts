@@ -1,10 +1,6 @@
 {{- if .Values.immich.configuration }}
 apiVersion: v1
-{{- if .Values.immich.storeConfigInSecret }}
-kind: Secret
-{{- else }}
-kind: ConfigMap
-{{- end }}
+kind: {{ .Values.immich.configurationKind }}
 metadata:
   name: {{ .Release.Name }}-immich-config
   labels:
@@ -13,7 +9,7 @@ metadata:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     helm.sh/chart: {{ printf "%s-%s\n" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-{{- if .Values.immich.storeConfigInSecret }}
+{{- if (eq .Values.immich.configurationKind "Secret")}}
 type: Opaque
 stringData:
 {{- else }}
