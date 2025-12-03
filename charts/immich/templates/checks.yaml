@@ -8,3 +8,7 @@
 {{ if hasKey .Values "redis" }}
     {{ fail "The redis subchart has been removed. Please see https://github.com/immich-app/immich-charts/releases/tag/immich-0.10.0 for more detail."}}
 {{ end }}
+
+{{- if and (ne .Values.immich.configurationKind "Secret") (ne .Values.immich.configurationKind "ConfigMap") }}
+    {{- fail "Invalid immich.configurationKind: must be either 'ConfigMap' or 'Secret'" }}
+{{- end }}

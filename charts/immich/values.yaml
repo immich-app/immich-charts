@@ -35,6 +35,8 @@ immich:
     # storageTemplate:
     #   enabled: true
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+  # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
+  configurationKind: ConfigMap
 
 # Dependencies
 
