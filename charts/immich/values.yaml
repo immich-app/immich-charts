@@ -14,6 +14,15 @@ controllers:
           REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
           IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
           # Add the env vars to connect to your database here.
+          # For more information, see https://docs.immich.app/install/environment-variables
+          # DB_HOSTNAME: example.cluster.local
+          # DB_USERNAME: immich
+          # DB_DATABASE_NAME: immich
+          # DB_PASSWORD:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: immich-database-app
+          #       key: password
 
 immich:
   metrics:
