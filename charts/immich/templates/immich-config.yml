@@ -1,4 +1,4 @@
-{{- if .Values.immich.configuration }}
+{{- if and .Values.immich.configuration (not .Values.immich.existingConfigurationName) }}
 apiVersion: v1
 kind: {{ .Values.immich.configurationKind }}
 metadata:

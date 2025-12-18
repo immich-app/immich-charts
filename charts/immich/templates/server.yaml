@@ -93,7 +93,7 @@ serviceMonitor:
         scheme: http
 
 persistence:
-{{- if .Values.immich.configuration }}
+{{- if or .Values.immich.configuration .Values.immich.existingConfigurationName }}
   config:
     enabled: true
     {{- if eq .Values.immich.configurationKind "Secret" }}
@@ -101,7 +101,11 @@ persistence:
     {{- else }}
     type: configMap
     {{- end }}
+    {{- if .Values.immich.existingConfigurationName }}
+    name: {{ .Values.immich.existingConfigurationName }}
+    {{- else }}
     name: {{ .Release.Name }}-immich-config
+    {{- end }}
 {{- end }}
   data:
     enabled: true
