@@ -25,7 +25,7 @@ immich:
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:
-  # configuration is immich-config.json converted to yaml
+  # configuration is immich-config.json converted to yaml. Ignored if existingConfigurationName is set.
   # ref: https://immich.app/docs/install/config-file/
   #
   configuration: {}
@@ -37,6 +37,9 @@ immich:
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
   # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
   configurationKind: ConfigMap
+
+  # Specify existing configuration resource name here to skip creation of a new one
+  existingConfigurationName: ""
 
 # Dependencies
 
