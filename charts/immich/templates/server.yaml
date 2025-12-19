@@ -11,7 +11,7 @@ defaultPodOptions:
 controllers:
   main:
     type: deployment
-    strategy: RollingUpdate
+    strategy: {{ .Values.server.updateStrategy }}
     containers:
       main:
         env:

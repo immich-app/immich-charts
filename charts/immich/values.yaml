@@ -70,6 +70,7 @@ server:
           image:
             repository: ghcr.io/immich-app/immich-server
             pullPolicy: IfNotPresent
+  updateStrategy: RollingUpdate
   ingress:
     main:
       enabled: false

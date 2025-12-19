@@ -12,3 +12,13 @@
 {{- if and (ne .Values.immich.configurationKind "Secret") (ne .Values.immich.configurationKind "ConfigMap") }}
     {{- fail "Invalid immich.configurationKind: must be either 'ConfigMap' or 'Secret'" }}
 {{- end }}
+
+# Validate server.updateStrategy
+{{- $serverUpdateStrategy := .Values.server.updateStrategy | default "RollingUpdate" -}}
+{{- if not (kindIs "string" $serverUpdateStrategy) -}}
+  {{- fail (printf "server.updateStrategy must be a string (got %serverUpdateStrategy)" (kindOf $serverUpdateStrategy)) -}}
+{{- end -}}
+
+{{- if not (has $serverUpdateStrategy (list "RollingUpdate" "Recreate")) -}}
+  {{- fail (printf "server.updateStrategy must be either RollingUpdate or Recreate (got %q)" $serverUpdateStrategy) -}}
+{{- end -}}
