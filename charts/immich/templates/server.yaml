@@ -71,6 +71,7 @@ service:
         port: 2283
         targetPort: http
         protocol: HTTP
+        appProtocol: kubernetes.io/ws
       metrics-api:
         enabled: {{ .Values.immich.metrics.enabled }}
         port: 8081
