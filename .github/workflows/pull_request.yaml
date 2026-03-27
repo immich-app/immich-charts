@@ -42,13 +42,22 @@ jobs:
       - name: create full manifest from main
         run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee main/charts/immich/build/manifest.yaml
 
-      - name: create diff comment
-        if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: int128/diff-action@4829f22189ff4c107f497424c0eb2778f6a167c3 # v1.59.0
+      - name: compute diff
+        id: diff
+        uses: int128/diff-action@c99d6662b60981d976889ecfbb2c4c6d7abe58b4 # v2.18.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
-          comment-header: "## Changes in Final Manifest"
+
+      - name: create diff comment
+        if: ${{ !github.event.pull_request.head.repo.fork }}
+        uses: mshick/add-pr-comment@ffd016c7e151d97d69d21a843022fd4cd5b96fe5 # v3.9.0
+        with:
+          message-id: diff-action
+          message: |
+            ## Changes in Final Manifest
+
+            ${{ steps.diff.outputs.comment-body || 'No diff' }}
 
   tilt_validation:
     name: Validate Tilt deployment and server startup
