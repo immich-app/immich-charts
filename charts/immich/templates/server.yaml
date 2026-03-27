@@ -18,7 +18,7 @@ controllers:
           {{ if .Values.immich.metrics.enabled }}
           IMMICH_TELEMETRY_INCLUDE: all
           {{ end }}
-          {{- if .Values.immich.configuration }}
+          {{- if or .Values.immich.configuration .Values.immich.existingConfiguration }}
           IMMICH_CONFIG_FILE: /config/immich-config.yaml
           {{- end }}
         ports:
@@ -94,7 +94,7 @@ serviceMonitor:
         scheme: http
 
 persistence:
-{{- if .Values.immich.configuration }}
+{{- if or .Values.immich.configuration .Values.immich.existingConfiguration }}
   config:
     enabled: true
     {{- if eq .Values.immich.configurationKind "Secret" }}
@@ -102,7 +102,11 @@ persistence:
     {{- else }}
     type: configMap
     {{- end }}
+    {{- if .Values.immich.existingConfiguration }}
+    name: {{ .Values.immich.existingConfiguration }}
+    {{- else }}
     name: {{ .Release.Name }}-immich-config
+    {{- end }}
 {{- end }}
   data:
     enabled: true
