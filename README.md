@@ -3,6 +3,9 @@
 Installs [Immich](https://github.com/immich-app/immich), a self-hosted photo and video backup solution directly 
 from your mobile phone. 
 
+> [!WARNING]
+> The HTTP-based helm repo at https://immich-app.github.io/immich-charts/ is deprecated and will stop receiving updates soon.
+
 # Goal
 
 This repo contains helm charts the immich community developed to help deploy Immich on Kubernetes cluster.
