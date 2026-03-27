@@ -1,4 +1,7 @@
-{{- if .Values.immich.configuration }}
+{{- if and .Values.immich.configuration .Values.immich.existingConfiguration }}
+{{- fail "immich.configuration and immich.existingConfiguration are mutually exclusive." }}
+{{- end }}
+{{- if and .Values.immich.configuration (not .Values.immich.existingConfiguration) }}
 apiVersion: v1
 kind: {{ .Values.immich.configurationKind }}
 metadata:

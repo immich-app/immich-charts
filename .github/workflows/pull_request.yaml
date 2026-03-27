@@ -9,10 +9,10 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     container:
-      image: alpine/helm:4.0.1@sha256:4677d32ca3ed7181b100c2cb8a75faf4ed46f3a65933309084e8df204a5fa78e
+      image: alpine/helm:4.1.3@sha256:a572075a78666ad6fb1f40cb477a9e2eabbc46f3739beeb81904a6121f6ef027
     steps:
       - name: checkout pr head
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
@@ -28,7 +28,7 @@ jobs:
         run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           ref: main
@@ -42,23 +42,32 @@ jobs:
       - name: create full manifest from main
         run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee main/charts/immich/build/manifest.yaml
 
-      - name: create diff comment
-        if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: int128/diff-action@4829f22189ff4c107f497424c0eb2778f6a167c3 # v1.59.0
+      - name: compute diff
+        id: diff
+        uses: int128/diff-action@c99d6662b60981d976889ecfbb2c4c6d7abe58b4 # v2.18.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
-          comment-header: "## Changes in Final Manifest"
+
+      - name: create diff comment
+        if: ${{ !github.event.pull_request.head.repo.fork }}
+        uses: mshick/add-pr-comment@ffd016c7e151d97d69d21a843022fd4cd5b96fe5 # v3.9.0
+        with:
+          message-id: diff-action
+          message: |
+            ## Changes in Final Manifest
+
+            ${{ steps.diff.outputs.comment-body || 'No diff' }}
 
   tilt_validation:
     name: Validate Tilt deployment and server startup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup Mise
-        uses: immich-app/devtools/actions/use-mise@dab18118da6476e8237ac94080fd937983fecd42 # use-mise-action-v1.1.2
+        uses: immich-app/devtools/actions/use-mise@035e80a7d4355d5f087ffb95db9e4a0944c04e56 # use-mise-action-v1.1.3
 
       - name: Run Tilt CI validation
         run: mise run local:ci

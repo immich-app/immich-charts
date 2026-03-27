@@ -3,7 +3,7 @@ apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
 version: 0.11.0
-appVersion: v2.0.0
+appVersion: v2.6.3
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
 sources:
@@ -17,7 +17,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.5.0
+    version: 4.6.2
 annotations:
   artifacthub.io/category: storage
   artifacthub.io/changes: |-
