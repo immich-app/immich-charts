@@ -8,7 +8,7 @@ on:
 jobs:
   zizmor:
     name: Zizmor
-    uses: immich-app/devtools/.github/workflows/shared-zizmor.yml@f88698ef64e40a764b4b7a81eae5f76634f53a6c # main
+    uses: immich-app/devtools/.github/workflows/shared-zizmor.yml@main
     permissions:
       actions: read
       contents: read
