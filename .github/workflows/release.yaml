@@ -15,6 +15,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Cosign
+        uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
+
       - name: configure git
         run: |
           git config user.name "$GITHUB_ACTOR"
@@ -27,6 +30,7 @@ jobs:
           chart_version=$(yq '.version' charts/immich/Chart.yaml)
           if [[ "$chart_version" != "${tag#immich-}" ]]; then
             echo "should_release=true" >> $GITHUB_OUTPUT
+            echo "chart_version=$chart_version" >> $GITHUB_OUTPUT
           else
             echo "should_release=false" >> $GITHUB_OUTPUT
           fi
@@ -38,7 +42,7 @@ jobs:
         with:
           app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
           private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
-      
+
       - name: run chart-releaser
         id: cr
         if: ${{ steps.version.outputs.should_release == 'true' }}
@@ -59,3 +63,7 @@ jobs:
       - if: ${{ steps.version.outputs.should_release == 'true' }}
         name: Push Chart
         run: helm push .cr-release-packages/immich-*.tgz oci://ghcr.io/${{ github.repository }}
+
+      - if: ${{ steps.version.outputs.should_release == 'true' }}
+        name: Sign Chart
+        run: cosign sign -y oci://ghcr.io/${{ github.repository }}:${{ steps.version.outputs.chart_version }}
