@@ -44,14 +44,14 @@ jobs:
 
       - name: compute diff
         id: diff
-        uses: int128/diff-action@c99d6662b60981d976889ecfbb2c4c6d7abe58b4 # v2.18.0
+        uses: int128/diff-action@7a7e313ee8f41930654defec914b7d76a04f76ee # v2.22.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
 
       - name: create diff comment
         if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: mshick/add-pr-comment@ffd016c7e151d97d69d21a843022fd4cd5b96fe5 # v3.9.0
+        uses: mshick/add-pr-comment@8e4927817251f1ff60c001f04568532b38e0b4a0 # v3.11.0
         with:
           message-id: diff-action
           message: |
