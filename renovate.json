@@ -9,6 +9,14 @@
         "/helm/"
       ],
       "groupName": "helm"
+    },
+    {
+      "matchPackageNames": [
+        "ctlptl",
+        "kind",
+        "tilt"
+      ],
+      "groupName": "testing dependencies"
     }
   ]
 }
