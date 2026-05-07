@@ -14,7 +14,8 @@
       "matchDepNames": [
         "ctlptl",
         "kind",
-        "tilt"
+        "tilt",
+        "kubectl"
       ],
       "groupName": "testing dependencies"
     }
