@@ -11,7 +11,7 @@
       "groupName": "helm"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "ctlptl",
         "kind",
         "tilt"
