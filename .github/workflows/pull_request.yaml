@@ -44,14 +44,14 @@ jobs:
 
       - name: compute diff
         id: diff
-        uses: int128/diff-action@c99d6662b60981d976889ecfbb2c4c6d7abe58b4 # v2.18.0
+        uses: int128/diff-action@4f3410e61ae214893e1f2acc062471a668a525f4 # v2.23.0
         with:
           base: main/charts/immich/build
           head: charts/immich/build
 
       - name: create diff comment
         if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: mshick/add-pr-comment@ffd016c7e151d97d69d21a843022fd4cd5b96fe5 # v3.9.0
+        uses: mshick/add-pr-comment@8e4927817251f1ff60c001f04568532b38e0b4a0 # v3.11.0
         with:
           message-id: diff-action
           message: |
@@ -73,7 +73,7 @@ jobs:
           private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
 
       - name: Setup Mise
-        uses: immich-app/devtools/actions/use-mise@01a4d354b70f99a6baf4a1b72827f6d4922e4978 # use-mise-action-v2.0.0
+        uses: immich-app/devtools/actions/use-mise@cf6e190bacde3d7bda59372a786b36ac7d01536a # use-mise-action-v2.0.1
         with:
           github_token: ${{ steps.token.outputs.token }}
 
