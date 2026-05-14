@@ -11,10 +11,11 @@
       "groupName": "helm"
     },
     {
-      "matchPackageNames": [
+      "matchDepNames": [
         "ctlptl",
         "kind",
-        "tilt"
+        "tilt",
+        "kubectl"
       ],
       "groupName": "testing dependencies"
     }
