@@ -29,3 +29,5 @@ description = "Run Tilt in CI mode for validation"
 depends = ["local:cluster:up", "local:helm:deps"]
 run = "tilt ci --file local/Tiltfile"
 
+[settings]
+lockfile = true
