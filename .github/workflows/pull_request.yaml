@@ -8,24 +8,22 @@ jobs:
     name: lint, validate and diff from main
     permissions: write-all
     runs-on: ubuntu-latest
-    container:
-      image: alpine/helm:4.1.3@sha256:a572075a78666ad6fb1f40cb477a9e2eabbc46f3739beeb81904a6121f6ef027
     steps:
       - name: checkout pr head
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
+      - name: Setup Mise
+        uses: immich-app/devtools/actions/use-mise@cf6e190bacde3d7bda59372a786b36ac7d01536a # use-mise-action-v2.0.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: install chart dependencies
         run: helm dependency build charts/immich
 
       - name: lint helm chart
         run: helm lint charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true
-
-      - name: prepare
-        run: mkdir -p charts/immich/build
-      - name: create full manifest from pr head
-        run: helm template immich charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee charts/immich/build/manifest.yaml
 
       - name: checkout main
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -34,20 +32,21 @@ jobs:
           ref: main
           path: main
 
-      - name: install chart dependencies
+      - name: install main chart dependencies
         run: helm dependency build main/charts/immich
-
-      - name: prepare
-        run: mkdir -p main/charts/immich/build
-      - name: create full manifest from main
-        run: helm template immich main/charts/immich --set immich.persistence.library.existingClaim=test-pvc --set valkey.enabled=true | tee main/charts/immich/build/manifest.yaml
 
       - name: compute diff
         id: diff
-        uses: int128/diff-action@4f3410e61ae214893e1f2acc062471a668a525f4 # v2.23.0
-        with:
-          base: main/charts/immich/build
-          head: charts/immich/build
+        run: |
+          {
+            echo 'diff<<EOF'
+            helm diff local main/charts/immich charts/immich \
+              --release immich \
+              --no-color \
+              --set immich.persistence.library.existingClaim=test-pvc \
+              --set valkey.enabled=true
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: create diff comment
         if: ${{ !github.event.pull_request.head.repo.fork }}
@@ -57,7 +56,13 @@ jobs:
           body: |
             ## Changes in Final Manifest
 
-            ${{ steps.diff.outputs.comment-body || 'No diff' }}
+            <details><summary>Manifest diff</summary>
+
+            ```diff
+            ${{ steps.diff.outputs.diff || 'No diff' }}
+            ```
+
+            </details>
 
   tilt_validation:
     name: Validate Tilt deployment and server startup
