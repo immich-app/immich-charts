@@ -8,16 +8,19 @@ spec:
   storage:
     size: 1Gi
 
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
 
   postgresql:
     shared_preload_libraries:
       - "vchord.so"
 
-  bootstrap:
-    initdb:
-      # TODO: Use managed extensions (pg 18)
-      postInitApplicationSQL:
-        # Commands based on: https://immich.app/docs/administration/postgres-standalone/#without-superuser-permission
-        - CREATE EXTENSION vchord CASCADE;
-        - CREATE EXTENSION earthdistance CASCADE;
+    # This extension is loaded via the Database CRD at cloudnative-pg-database.yaml
+    extensions:
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib
+        extension_control_path:
+          - /usr/share/postgresql/18/
+
