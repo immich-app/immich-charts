@@ -1,5 +1,5 @@
 ## This chart relies on the common library chart from bjw-s
-## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/923ef40a39520979c98f354ea23963ee54f54433/charts/library/common
+## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/common-5.0.1/charts/library/common
 ## Refer there for more detail about the supported values
 
 # These entries are shared between all the Immich components
@@ -9,10 +9,11 @@ controllers:
     containers:
       main:
         image:
-          tag: v2.1.0
+          tag: v2.6.3
         env:
           REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
           IMMICH_MACHINE_LEARNING_URL: '{{ printf "http://%s-machine-learning:3003" .Release.Name }}'
+          # Add the env vars to connect to your database here.
 
 immich:
   metrics:
@@ -24,7 +25,7 @@ immich:
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:
-  # configuration is immich-config.json converted to yaml
+  # configuration is immich-config.json converted to yaml. Ignored if existingConfiguration is set.
   # ref: https://immich.app/docs/install/config-file/
   #
   configuration: {}
@@ -34,6 +35,11 @@ immich:
     # storageTemplate:
     #   enabled: true
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+  # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
+  configurationKind: ConfigMap
+
+  # Specify existing configuration resource name here to skip creation of a new one
+  # existingConfiguration:
 
 # Dependencies
 
@@ -45,7 +51,7 @@ valkey:
         main:
           image:
             repository: docker.io/valkey/valkey
-            tag: 8.1-alpine@sha256:e706d1213aaba6896c162bb6a3a9e1894e1a435f28f8f856d14fab2e10aa098b
+            tag: 9.1-alpine@sha256:34f4f659e02a67cfdf3995d11ae432219c936005055b2cd39a042e86280e053e
             pullPolicy: IfNotPresent
   persistence:
     data:
@@ -92,6 +98,8 @@ machine-learning:
             pullPolicy: IfNotPresent
           env:
             TRANSFORMERS_CACHE: /cache
+            HF_XET_CACHE: /cache/huggingface-xet
+            MPLCONFIGDIR: /cache/matplotlib-config
   persistence:
     cache:
       enabled: true
