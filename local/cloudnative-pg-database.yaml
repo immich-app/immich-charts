@@ -3,7 +3,7 @@ kind: Database
 metadata:
   name: immich-database
 spec:
-  # auto-generated via cnpg
+  # "app"/"app" is auto-generated via cnpg in each cluster, adjust to your user/database
   name: app
   owner: app
   cluster:

@@ -1,4 +1,4 @@
-k8s_yaml(local('curl -sL https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.27/releases/cnpg-1.27.0.yaml'))
+k8s_yaml(local('curl -sL https://github.com/cloudnative-pg/cloudnative-pg/releases/download/v1.29.1/cnpg-1.29.1.yaml'))
 
 k8s_resource(
     workload='cnpg-controller-manager',
@@ -12,26 +12,12 @@ local_resource(
     resource_deps=['cnpg-controller-manager']
 )
 
-# Apply cluster w/o shared_preload_libraries to workaround loading extension
-local_resource(
-  'apply-stripped-cluster',
-  cmd="yq -o=yaml 'del(.spec.postgresql.shared_preload_libraries)' cloudnative-pg.yaml | kubectl apply -f -",
-  resource_deps=['wait-cnpg-webhook'],
-)
-
-# Wait for cluster w/o shared_preload_libraries to become ready
-local_resource(
-    'wait-stripped-cluster',
-    cmd='kubectl wait --for=condition=Ready --timeout=5m cluster/immich-database',
-    resource_deps=['apply-stripped-cluster']
-)
-
 k8s_yaml('cloudnative-pg.yaml')
 
 k8s_resource(
     objects=['immich-database:cluster'],
     new_name='immich-database-cluster',
-    resource_deps=['wait-stripped-cluster'],
+    resource_deps=['wait-cnpg-webhook'],
     labels=['database']
 )
 
@@ -41,6 +27,13 @@ k8s_resource(
     objects=['immich-database:database'],
     new_name='immich-database',
     resource_deps=['immich-database-cluster'],
+    labels=['database']
+)
+
+local_resource(
+    'wait-database-ready',
+    cmd='kubectl wait --for=jsonpath=.status.applied=true --timeout=300s database/immich-database -n default',
+    resource_deps=['immich-database'],
     labels=['database']
 )
 
@@ -56,18 +49,18 @@ k8s_yaml(helm(
 k8s_resource(
     workload='immich-server',
     port_forwards=['2283:2283'],
-    resource_deps=['immich-database'],
+    resource_deps=['wait-database-ready'],
     labels=['immich']
 )
 
 k8s_resource(
     workload='immich-machine-learning',
-    resource_deps=['immich-database'],
+    resource_deps=['wait-database-ready'],
     labels=['immich']
 )
 
 k8s_resource(
     workload='immich-valkey',
-    resource_deps=['immich-database'],
+    resource_deps=['wait-database-ready'],
     labels=['immich']
 )
