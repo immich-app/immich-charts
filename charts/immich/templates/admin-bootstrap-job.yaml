@@ -1,0 +1,105 @@
+{{- if .Values.immich.bootstrap.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-immich-admin-bootstrap
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ .Values.immich.bootstrap.backoffLimit | default 3 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ .Chart.Name }}-admin-bootstrap
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: bootstrap
+          image: {{ printf "%s:%s" .Values.immich.bootstrap.image.repository (.Values.immich.bootstrap.image.tag | toString) | quote }}
+          imagePullPolicy: {{ .Values.immich.bootstrap.image.pullPolicy | default "IfNotPresent" }}
+          {{- with .Values.immich.bootstrap.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.immich.bootstrap.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            {{- if eq .Values.immich.bootstrap.bootstrapKind "Secret" }}
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ required ".Values.immich.bootstrap.existingSecret is required when bootstrapKind is Secret" .Values.immich.bootstrap.existingSecret }}
+                  key: {{ .Values.immich.bootstrap.existingSecretKeys.email | default "email" }}
+            - name: ADMIN_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.immich.bootstrap.existingSecret }}
+                  key: {{ .Values.immich.bootstrap.existingSecretKeys.name | default "name" }}
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.immich.bootstrap.existingSecret }}
+                  key: {{ .Values.immich.bootstrap.existingSecretKeys.password | default "password" }}
+            {{- else }}
+            - name: ADMIN_EMAIL
+              value: {{ required ".Values.immich.bootstrap.adminEmail is required" .Values.immich.bootstrap.adminEmail | quote }}
+            - name: ADMIN_NAME
+              value: {{ .Values.immich.bootstrap.adminName | default "Immich Admin" | quote }}
+            - name: ADMIN_PASSWORD
+              value: {{ required ".Values.immich.bootstrap.defaultPassword is required" .Values.immich.bootstrap.defaultPassword | quote }}
+            {{- end }}
+          command:
+            - sh
+            - -c
+            - |
+              API_URL="{{ .Values.immich.bootstrap.apiUrl | default (printf "http://%s-server:2283" .Release.Name) }}"
+              json_escape() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
+              echo "Waiting for Immich API..."
+              RETRIES=0
+              until curl -sf \
+                {{- if .Values.immich.bootstrap.hostHeader }}
+                -H "Host: {{ .Values.immich.bootstrap.hostHeader }}" \
+                {{- end }}
+                "${API_URL}/api/server/ping" > /dev/null; do
+                RETRIES=$((RETRIES + 1))
+                if [ "$RETRIES" -ge 60 ]; then
+                  echo "Timed out waiting for Immich API after 300 seconds."
+                  exit 1
+                fi
+                sleep 5
+              done
+              echo "Creating admin account..."
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+                -X POST \
+                {{- if .Values.immich.bootstrap.hostHeader }}
+                -H "Host: {{ .Values.immich.bootstrap.hostHeader }}" \
+                {{- end }}
+                -H "Content-Type: application/json" \
+                "${API_URL}/api/auth/admin-sign-up" \
+                -d "{
+                  \"email\": \"$(json_escape "$ADMIN_EMAIL")\",
+                  \"name\": \"$(json_escape "$ADMIN_NAME")\",
+                  \"password\": \"$(json_escape "$ADMIN_PASSWORD")\"
+                }")
+              if [ "$STATUS" = "201" ]; then
+                echo "Admin account created successfully."
+              elif [ "$STATUS" = "400" ]; then
+                echo "Admin account already exists, skipping."
+                exit 0
+              else
+                echo "Unexpected response: $STATUS"
+                exit 1
+              fi
+{{- end }}
