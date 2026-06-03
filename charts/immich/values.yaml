@@ -16,6 +16,72 @@ controllers:
           # Add the env vars to connect to your database here.
 
 immich:
+
+  bootstrap:
+    # Set to true to create the admin account on first install (Helm post-install hook)
+    enabled: false
+
+    # Container image for the bootstrap job
+    # Pinned to a specific version for reproducibility — change tag to upgrade
+    image:
+      repository: curlimages/curl
+      tag: "8.12.1"
+      pullPolicy: IfNotPresent
+
+    # Security context for the bootstrap container
+    # curlimages/curl runs as UID 100 (curl_user) — no root needed
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
+
+    # Resource requests and limits for the bootstrap container
+    resources: {}
+    # resources:
+    #   requests:
+    #     cpu: 10m
+    #     memory: 32Mi
+    #   limits:
+    #     memory: 64Mi
+
+    # Number of retries before the Job is considered failed (Kubernetes default: 6)
+    backoffLimit: 3
+
+    # Admin credentials — used when bootstrapKind is not "Secret"
+    adminEmail: ""
+    adminName: "Immich Admin"
+    defaultPassword: ""
+
+    # Set to "Secret" to read admin credentials from an existing Kubernetes Secret.
+    # Recommended for production to avoid storing passwords in values files.
+    # Example Secret:
+    #   kubectl create secret generic immich-admin \
+    #     --from-literal=email=admin@example.com \
+    #     --from-literal=name="Immich Admin" \
+    #     --from-literal=password=changeme
+    bootstrapKind: ""
+    # Name of the existing Secret (required when bootstrapKind is "Secret")
+    existingSecret: ""
+    # Keys to read from the Secret
+    existingSecretKeys:
+      email: email
+      name: name
+      password: password
+
+    # Override the Immich API URL used during bootstrap.
+    # Defaults to the internal Kubernetes service: http://<release-name>-server:2283
+    # Useful when the server is only reachable via an external URL or a proxy.
+    # Example: http://my-proxy.svc.cluster.local:8080
+    apiUrl: ""
+    # Optional Host header added to every curl request.
+    # Required when routing through a proxy that uses the Host header for routing.
+    # Example: immich.example.com
+    hostHeader: ""
+
   metrics:
     # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
     enabled: false
