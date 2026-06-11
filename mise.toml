@@ -1,6 +1,6 @@
 [tools]
 ctlptl = "0.9.3"
-helm = "4.1.4"
+helm = "4.2.0"
 "asdf:dex4er/asdf-helm-diff" = { version = "3.15.7", depends = ["helm"] }
 kind = "0.31.0"
 kubectl = "1.36.0"
