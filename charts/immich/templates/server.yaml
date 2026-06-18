@@ -111,6 +111,11 @@ persistence:
   data:
     enabled: true
     existingClaim: {{ .Values.immich.persistence.library.existingClaim }}
+{{- if .Values.immich.persistence.externalLibrary.existingClaim }}
+  external:
+    enabled: true
+    existingClaim: {{ .Values.immich.persistence.externalLibrary.existingClaim }}
+{{- end }}
 {{- end }}
 
 {{ if .Values.server.enabled }}
