@@ -25,6 +25,11 @@ immich:
       # Automatically creating the library volume is not supported by this chart
       # You have to specify an existing PVC to use
       existingClaim:
+    # Main data store for all photos shared between different components.
+    externalLibrary:
+      # if present, mount an external library volume.
+      # You have to specify an existing PVC to use it. Or remove external library block if you don<t want to use it.
+      existingClaim:
   # configuration is immich-config.json converted to yaml. Ignored if existingConfiguration is set.
   # ref: https://immich.app/docs/install/config-file/
   #
