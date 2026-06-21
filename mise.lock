@@ -5,28 +5,28 @@ version = "3.15.7"
 backend = "asdf:dex4er/asdf-helm-diff"
 
 [[tools.ctlptl]]
-version = "0.9.3"
+version = "0.9.4"
 backend = "aqua:tilt-dev/ctlptl"
 
 [tools.ctlptl."platforms.linux-arm64"]
-checksum = "sha256:0361e76d6bdf55b58d8f8a6115d5fec5f74d0e375cac35fdef4cbd8b49c541a1"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.3/ctlptl.0.9.3.linux.arm64.tar.gz"
+checksum = "sha256:2f079d3a80feac892b83c5fd842445d879ddc6b0e640021cf5ff604e21337050"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.4/ctlptl.0.9.4.linux.arm64.tar.gz"
 
 [tools.ctlptl."platforms.linux-x64"]
-checksum = "sha256:c5130e27e367750f7d813558720921391233c98f35d6c3221793890b872769db"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.3/ctlptl.0.9.3.linux.x86_64.tar.gz"
+checksum = "sha256:c63a1ec28e60bc3faf6becb76f53355c5cf5e0143dafdd27ad85db5584fa6b1e"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.4/ctlptl.0.9.4.linux.x86_64.tar.gz"
 
 [tools.ctlptl."platforms.macos-arm64"]
-checksum = "sha256:ca047959bdad2cdc225879b26ae1b4be6c608053712587f1f5a53bb4cbd79f32"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.3/ctlptl.0.9.3.mac.arm64.tar.gz"
+checksum = "sha256:5dd227ed5e29e110b1a887e3cadbf8db29514c9447d6e128e9d59f3cfb39490b"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.4/ctlptl.0.9.4.mac.arm64.tar.gz"
 
 [tools.ctlptl."platforms.macos-x64"]
-checksum = "sha256:68761b8768b4cddb849790ca320a3e99e2b470af86e1828392966944cdeaed74"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.3/ctlptl.0.9.3.mac.x86_64.tar.gz"
+checksum = "sha256:2596555a136a5feabd32dd6d1569bdee3c9a85cdf84904f60cd4c37e97227fac"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.4/ctlptl.0.9.4.mac.x86_64.tar.gz"
 
 [tools.ctlptl."platforms.windows-x64"]
-checksum = "sha256:846c019df0437ab2565c416d22bd4557f805ffff26f924ce3bd63c731b36270e"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.3/ctlptl.0.9.3.windows.x86_64.zip"
+checksum = "sha256:9466dc695322ccf28dbe8b0683cf3afa924eebd3ea1e7d30fe128aa0d35ab520"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.4/ctlptl.0.9.4.windows.x86_64.zip"
 
 [[tools.helm]]
 version = "4.1.4"
@@ -53,73 +53,73 @@ checksum = "sha256:f6a7bca730093d5b859a33141d34361f1cc7bc358657b48c75ce36e1e8bdf
 url = "https://get.helm.sh/helm-v4.1.4-windows-amd64.tar.gz"
 
 [[tools.kind]]
-version = "0.31.0"
+version = "0.32.0"
 backend = "aqua:kubernetes-sigs/kind"
 
 [tools.kind."platforms.linux-arm64"]
-checksum = "sha256:8e1014e87c34901cc422a1445866835d1e666f2a61301c27e722bdeab5a1f7e4"
-url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-linux-arm64"
+checksum = "sha256:b92cd615e97585de8ddade28ed5cd7feb4248d717c233eea5b03c37298900f5d"
+url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.32.0/kind-linux-arm64"
 
 [tools.kind."platforms.linux-x64"]
-checksum = "sha256:eb244cbafcc157dff60cf68693c14c9a75c4e6e6fedaf9cd71c58117cb93e3fa"
-url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-linux-amd64"
+checksum = "sha256:50030de23cf40a18505f20426f6a8506bedf13c6e509244bd1fa9463721b0f54"
+url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.32.0/kind-linux-amd64"
 
 [tools.kind."platforms.macos-arm64"]
-checksum = "sha256:88bf554fe9da6311c9f8c2d082613c002911a476f6b5090e9420b35d84e70c5c"
-url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-darwin-arm64"
+checksum = "sha256:dca67911095a110c2b5c36e26df6cac860c602033e456c0db47be498cdef1ebb"
+url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.32.0/kind-darwin-arm64"
 
 [tools.kind."platforms.macos-x64"]
-checksum = "sha256:a8b3cf77b2ad77aec5bf710d1a2589d9117576132af812885cad41e9dede4d4e"
-url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-darwin-amd64"
+checksum = "sha256:295ac6d0d634c9819c9907df45e3017d1f13166bd13c3404c45e79f7faa47498"
+url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.32.0/kind-darwin-amd64"
 
 [tools.kind."platforms.windows-x64"]
-checksum = "sha256:2c3a9ff954de16244380778683cf99e271bfc2fac9c6c4e797e4623c45e59d9d"
-url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-windows-amd64"
+checksum = "sha256:0bcb2d1cfedc1912d664014db716937e8a0e843e91c6807b4db2025dbc8989fa"
+url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.32.0/kind-windows-amd64"
 
 [[tools.kubectl]]
-version = "1.36.0"
+version = "1.36.2"
 backend = "aqua:kubernetes/kubernetes/kubectl"
 
 [tools.kubectl."platforms.linux-arm64"]
-checksum = "sha256:9f9d9c44a7b5264515ac9da5991584e2395bd50662e651132337e7b4d0c56f8f"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/arm64/kubectl"
+checksum = "sha256:c957eb8c4bea27a3bb35b269edd9082e27f027f7b76b20b5bf4afebc726c6d3e"
+url = "https://dl.k8s.io/v1.36.2/bin/linux/arm64/kubectl"
 
 [tools.kubectl."platforms.linux-x64"]
-checksum = "sha256:123d8c8844f46b1244c547fffb3c17180c0c26dac9890589fe7e67763298748e"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/amd64/kubectl"
+checksum = "sha256:1e9045ec32bea85da43de85f0065358529ea7c7a152eca78154fba5b58c27d82"
+url = "https://dl.k8s.io/v1.36.2/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.macos-arm64"]
-checksum = "sha256:4bcf268eacdc1d2df74e37d86f639f27ca7dea3ae185b7b452b73b9fb5ddc14e"
-url = "https://dl.k8s.io/v1.36.0/bin/darwin/arm64/kubectl"
+checksum = "sha256:4408c85c83fd3a31adaa555bdf3c7a6c81f74b19449a9060ba31ab91926f023d"
+url = "https://dl.k8s.io/v1.36.2/bin/darwin/arm64/kubectl"
 
 [tools.kubectl."platforms.macos-x64"]
-checksum = "sha256:06d7e9a3a26a326d43102c70b19f9d233db219d09890e558dbdc3647db732f06"
-url = "https://dl.k8s.io/v1.36.0/bin/darwin/amd64/kubectl"
+checksum = "sha256:ce6c5e55cd17559e87e4fb5e73ebbbc2511bcf2b695d7a40c1b1461a9817d4b3"
+url = "https://dl.k8s.io/v1.36.2/bin/darwin/amd64/kubectl"
 
 [tools.kubectl."platforms.windows-x64"]
-checksum = "sha256:9abf2164fe79d9d80185ff5085f6154eda9d21793ee18fa8dff34dfffffed36d"
-url = "https://dl.k8s.io/v1.36.0/bin/windows/amd64/kubectl.exe"
+checksum = "sha256:df04d82234b28ffbdcd36e79d596b85da6e9c736e1a7a55ff6910c648ff47af2"
+url = "https://dl.k8s.io/v1.36.2/bin/windows/amd64/kubectl.exe"
 
 [[tools.tilt]]
-version = "0.37.3"
+version = "0.37.4"
 backend = "aqua:tilt-dev/tilt"
 
 [tools.tilt."platforms.linux-arm64"]
-checksum = "sha256:826f48198f368ef5edb684e9ae4c87ff76eca84c904f72b2376b29b93bffc019"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.3/tilt.0.37.3.linux.arm64.tar.gz"
+checksum = "sha256:9fae756bda2b40dbac9ccce5bbb62f34f9ba727790984a25b8641988f244408c"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.linux.arm64.tar.gz"
 
 [tools.tilt."platforms.linux-x64"]
-checksum = "sha256:e90bc6cf70882bc7579d8174a27cab2de0284612ec7339e4b32f669cd5de4e5c"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.3/tilt.0.37.3.linux.x86_64.tar.gz"
+checksum = "sha256:81fc090117ef25478c98b9752fdc86e44eaf522c4e8421424d7ddf1fb4cfac21"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.linux.x86_64.tar.gz"
 
 [tools.tilt."platforms.macos-arm64"]
-checksum = "sha256:4d1f4e604aa5ca65a2df0d19c9e9b351cf9703be886f52fa5f3afd317d968ffd"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.3/tilt.0.37.3.mac.arm64.tar.gz"
+checksum = "sha256:d25cd4470480325b31effa787e46f002601205c81e41b3c7f412e2defec6c4aa"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.mac.arm64.tar.gz"
 
 [tools.tilt."platforms.macos-x64"]
-checksum = "sha256:c8e2b58fb7efdec9ae7e3fc4249b4f662dc6520eabe8efcac84b80856f20d31b"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.3/tilt.0.37.3.mac.x86_64.tar.gz"
+checksum = "sha256:e4c7c39d28b4223378d53be292c21c30d6f80497e25cff8b2e5142c14f0144ee"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.mac.x86_64.tar.gz"
 
 [tools.tilt."platforms.windows-x64"]
-checksum = "sha256:9e6cf1696618397a43fc4c80627d42a1ef65937a863ac1a57aa8cf78e077409e"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.3/tilt.0.37.3.windows.x86_64.zip"
+checksum = "sha256:41d38b2ecd569e9b0ec73bc7d753fdb67bd24fcf1e434610b72d59c9a22c3041"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.windows.x86_64.zip"
