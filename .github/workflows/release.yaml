@@ -62,7 +62,7 @@ jobs:
 
       - if: ${{ steps.version.outputs.should_release == 'true' }}
         name: Setup Mise
-        uses: immich-app/devtools/actions/use-mise@34c675b2d928745d523a909341000ec1e96aba2b # use-mise-action-v3.0.0
+        uses: immich-app/devtools/actions/use-mise@3bca63ca3c15020293b36b51737a3ee2c773340b # use-mise-action-v3.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
