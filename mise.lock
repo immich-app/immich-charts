@@ -100,6 +100,30 @@ url = "https://dl.k8s.io/v1.36.0/bin/darwin/amd64/kubectl"
 checksum = "sha256:9abf2164fe79d9d80185ff5085f6154eda9d21793ee18fa8dff34dfffffed36d"
 url = "https://dl.k8s.io/v1.36.0/bin/windows/amd64/kubectl.exe"
 
+[[tools.oras]]
+version = "1.3.2"
+backend = "aqua:oras-project/oras"
+
+[tools.oras."platforms.linux-arm64"]
+checksum = "sha256:8db4a223bd6034deff198e791ea7cb3af0840df25b7e9f370e2f1f3fd20d389b"
+url = "https://github.com/oras-project/oras/releases/download/v1.3.2/oras_1.3.2_linux_arm64.tar.gz"
+
+[tools.oras."platforms.linux-x64"]
+checksum = "sha256:9229ccc6d17bb282039ad4a69abb16dcb887a5bce567c075d731d9b3c7ad8eaf"
+url = "https://github.com/oras-project/oras/releases/download/v1.3.2/oras_1.3.2_linux_amd64.tar.gz"
+
+[tools.oras."platforms.macos-arm64"]
+checksum = "sha256:7929f792cf272268412375ecad6f0fb3c20f164368d5b57966e67ad6d36eca53"
+url = "https://github.com/oras-project/oras/releases/download/v1.3.2/oras_1.3.2_darwin_arm64.tar.gz"
+
+[tools.oras."platforms.macos-x64"]
+checksum = "sha256:2621f6b252b222f6fbf4e114d2fcaa0cec6b632624ffaf73143f66e4e0994f86"
+url = "https://github.com/oras-project/oras/releases/download/v1.3.2/oras_1.3.2_darwin_amd64.tar.gz"
+
+[tools.oras."platforms.windows-x64"]
+checksum = "sha256:c896f26245f11e6385d52010bb0a65a4e500e1f3244680a6556ed05462fa1c0d"
+url = "https://github.com/oras-project/oras/releases/download/v1.3.2/oras_1.3.2_windows_amd64.zip"
+
 [[tools.tilt]]
 version = "0.37.3"
 backend = "aqua:tilt-dev/tilt"

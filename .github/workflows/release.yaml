@@ -59,3 +59,19 @@ jobs:
       - if: ${{ steps.version.outputs.should_release == 'true' }}
         name: Push Chart
         run: helm push .cr-release-packages/immich-*.tgz oci://ghcr.io/${{ github.repository }}
+
+      - if: ${{ steps.version.outputs.should_release == 'true' }}
+        name: Setup Mise
+        uses: immich-app/devtools/actions/use-mise@34c675b2d928745d523a909341000ec1e96aba2b # use-mise-action-v3.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ steps.version.outputs.should_release == 'true' }}
+        name: Push ArtifactHub metadata
+        run: |
+          created=$(git log -1 --format=%cI -- charts/immich/artifacthub-repo.yml)
+          oras push \
+            ghcr.io/${{ github.repository }}/immich:artifacthub.io \
+            --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
+            --annotation org.opencontainers.image.created="$created" \
+            charts/immich/artifacthub-repo.yml:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
