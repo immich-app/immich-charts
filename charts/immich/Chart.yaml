@@ -10,10 +10,8 @@ sources:
   - https://github.com/immich-app/immich-charts/tree/main/charts/immich
   - https://github.com/immich-app/immich
 maintainers:
-  - name: PixelJonas
-    email: 5434875+PixelJonas@users.noreply.github.com
   - name: bo0tzz
-    email: immich@bo0tzz.me
+    email: boet@futo.org
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
