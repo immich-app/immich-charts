@@ -7,6 +7,9 @@ kubectl = "1.36.2"
 oras = "1.3.2"
 tilt = "0.37.4"
 
+[env]
+HELM_PLUGINS = { value = "{{ tools | get(key='asdf:dex4er/asdf-helm-diff') | get(key='path') }}", tools = true }
+
 [tasks."local:helm:deps"]
 description = "Build Helm chart dependencies"
 sources = ["charts/immich/Chart.yaml", "charts/immich/Chart.lock"]
