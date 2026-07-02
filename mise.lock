@@ -147,3 +147,34 @@ url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.ma
 [tools.tilt."platforms.windows-x64"]
 checksum = "sha256:41d38b2ecd569e9b0ec73bc7d753fdb67bd24fcf1e434610b72d59c9a22c3041"
 url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.4/tilt.0.37.4.windows.x86_64.zip"
+
+[[tools."ubi:yshavit/mdq"]]
+version = "0.10.0"
+backend = "ubi:yshavit/mdq"
+
+[tools."ubi:yshavit/mdq"."platforms.linux-x64-mdq"]
+checksum = "blake3:2fd08f2aa79354a7fb6aa1fa97bc7a742b9d9432fb63c659a857b9787050e4a6"
+
+[[tools.yq]]
+version = "4.53.3"
+backend = "aqua:mikefarah/yq"
+
+[tools.yq."platforms.linux-arm64"]
+checksum = "sha256:578648e463a11c1b6db6010cbf41eafed6bee79466fcffa1bb446672cf7945ea"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_arm64"
+
+[tools.yq."platforms.linux-x64"]
+checksum = "sha256:fa52a4e758c63d38299163fbdd1edfb4c4963247918bf9c1c5d31d84789eded4"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_amd64"
+
+[tools.yq."platforms.macos-arm64"]
+checksum = "sha256:877de31753a4dd2401aa048937aa9a7fc4d5f6ce858cf31508c5802954297213"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_arm64"
+
+[tools.yq."platforms.macos-x64"]
+checksum = "sha256:b4ba1ecce3c47f00803f4f964de38394326c7a32eb6540616e04fb2935a0f08d"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_amd64"
+
+[tools.yq."platforms.windows-x64"]
+checksum = "sha256:e279bc506a452eeafcdf364f91a025455e402a8001169083caf01f4b64a544e2"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_windows_amd64.exe"

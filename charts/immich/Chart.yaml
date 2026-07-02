@@ -18,6 +18,3 @@ dependencies:
     version: 5.0.1
 annotations:
   artifacthub.io/category: storage
-  artifacthub.io/changes: |-
-    - kind: changed
-      description: Dependency updates
