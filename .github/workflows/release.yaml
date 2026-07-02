@@ -24,6 +24,24 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Package README into chart
+        run: cp README.md charts/immich/README.md
+
+      - name: Inject changelog into chart annotations
+        env:
+          NOTES: ${{ github.event.release.body }}
+        run: |
+          changes=$(printf '%s\n' "$NOTES" \
+            | mdq --output plain '-' \
+            | sed -E 's/ \([0-9a-f]{7,40}\)//g; /^[[:space:]]*$/d; s/^/- /' \
+            | awk '!seen[$0]++' || true)
+          if [ -n "$changes" ]; then
+            export changes
+            yq -i '.annotations."artifacthub.io/changes" = strenv(changes)' charts/immich/Chart.yaml
+          else
+            echo "No changelog entries parsed from release notes; leaving annotations unchanged."
+          fi
+
       - name: build chart dependencies
         run: helm dependency build charts/immich
 
