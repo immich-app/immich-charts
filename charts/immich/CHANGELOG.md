@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.2](https://github.com/immich-app/immich-charts/compare/immich-0.13.1...immich-0.13.2) (2026-07-03)
+
+
+### Miscellaneous
+
+* bump create-workflow-token action to v3 ([#385](https://github.com/immich-app/immich-charts/issues/385)) ([52aceac](https://github.com/immich-app/immich-charts/commit/52aceac9bf0941cd00cbfa219d3ce7369a6de5f4))
+
 ## [0.13.1](https://github.com/immich-app/immich-charts/compare/immich-0.13.0...immich-0.13.1) (2026-07-03)
 
 
