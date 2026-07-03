@@ -17,10 +17,7 @@ concurrency: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: write
+    permissions: {}
     steps:
       - name: Generate a token
         id: generate-token
@@ -28,6 +25,8 @@ jobs:
         with:
           client-id: ${{ secrets.PUSH_O_MATIC_APP_CLIENT_ID }}
           private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: run release-please
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
