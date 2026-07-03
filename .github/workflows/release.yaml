@@ -9,6 +9,10 @@ jobs:
   release:
     permissions: write-all
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -62,17 +66,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.version.outputs.should_release == 'true' }}
-        name: Push Chart
-        run: helm push .cr-release-packages/immich-*.tgz oci://ghcr.io/${{ github.repository }}
-
-      - if: ${{ steps.version.outputs.should_release == 'true' }}
-        id: artifact-digest
-        name: Get artifact digest
+      - name: Push Chart
+        id: push
         run: |
-          DIGEST="$(crane digest ghcr.io/${{ github.repository }}:${{ steps.version.outputs.chart_version }})"
-          echo "digest=$DIGEST" >> $GITHUB_OUTPUT
+          output=$(helm push immich-*.tgz oci://ghcr.io/${{ github.repository }} 2>&1)
+          echo "$output"
+          digest=$(echo "$output" | awk '/^Digest:/ { print $2 }')
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
 
-      - if: ${{ steps.version.outputs.should_release == 'true' }}
-        name: Sign Chart
-        run: cosign sign -y ghcr.io/${{ github.repository }}:${{ steps.version.outputs.chart_version }}@${{ steps.artifact-digest.outputs.digest }}
+      - name: Sign Chart
+        run: cosign sign -y "ghcr.io/${{ github.repository }}/immich@${{ steps.push.outputs.digest }}"

@@ -14,6 +14,17 @@ It leverages the bjw-s [common-library chart](https://github.com/bjw-s-labs/helm
 
 # Installation
 
+The chart is signed with [cosign](https://docs.sigstore.dev/) using keyless
+signing on release, so you can verify it was built by this repository's CI
+before installing:
+
+```
+$ cosign verify \
+  --certificate-oidc-issuer=https://token.actions.githubusercontent.com \
+  --certificate-identity-regexp='^https://github\.com/immich-app/immich-charts/\.github/workflows/release\.yaml@refs/tags/immich-' \
+  ghcr.io/immich-app/immich-charts/immich:VERSION
+```
+
 ```
 $ cosign verify \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com \
