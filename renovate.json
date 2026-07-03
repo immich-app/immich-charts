@@ -9,6 +9,15 @@
         "/helm/"
       ],
       "groupName": "helm"
+    },
+    {
+      "matchDepNames": [
+        "ctlptl",
+        "kind",
+        "tilt",
+        "kubectl"
+      ],
+      "groupName": "testing dependencies"
     }
   ]
 }

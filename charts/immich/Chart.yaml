@@ -2,24 +2,19 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.11.0
-appVersion: v2.6.3
+version: 0.12.1
+appVersion: v3.0.0
 home: https://immich.app/
 icon: https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
 sources:
   - https://github.com/immich-app/immich-charts/tree/main/charts/immich
   - https://github.com/immich-app/immich
 maintainers:
-  - name: PixelJonas
-    email: 5434875+PixelJonas@users.noreply.github.com
   - name: bo0tzz
-    email: immich@bo0tzz.me
+    email: boet@futo.org
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.6.2
+    version: 5.0.1
 annotations:
   artifacthub.io/category: storage
-  artifacthub.io/changes: |-
-    - kind: changed
-      description: Dependency updates
