@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Immich Helm chart values",
+  "description": "The controllers, server, machine-learning and valkey sections are full bjw-s common library value sets and are validated against its schema; the immich section is specific to this chart.",
+  "type": "object",
+  "$defs": {
+    "common": {
+      "$ref": "https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json"
+    }
+  },
+  "properties": {
+    "immich": {
+      "description": "Immich-specific configuration.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "metrics": {
+          "description": "Prometheus metrics configuration.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "description": "Create the service monitors needed to monitor Immich with the Prometheus operator.",
+              "type": "boolean"
+            }
+          }
+        },
+        "persistence": {
+          "description": "Persistence shared between Immich components.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "library": {
+              "description": "Main data store for all assets, shared between the components.",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "existingClaim": {
+                  "description": "Name of the existing PersistentVolumeClaim holding the Immich library.",
+                  "type": ["string", "null"]
+                }
+              }
+            }
+          }
+        },
+        "configuration": {
+          "description": "Optional immich-config.json expressed as YAML. Ignored if existingConfiguration is set. See https://immich.app/docs/install/config-file/",
+          "type": "object"
+        },
+        "configurationKind": {
+          "description": "Resource kind used to store the Immich configuration.",
+          "type": "string",
+          "enum": ["ConfigMap", "Secret"]
+        },
+        "existingConfiguration": {
+          "description": "Name of an existing configuration resource to use instead of creating one.",
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "server": {
+      "description": "Immich server component. A full bjw-s common library value set.",
+      "$ref": "#/$defs/common"
+    },
+    "machine-learning": {
+      "description": "Immich machine-learning component. A full bjw-s common library value set.",
+      "$ref": "#/$defs/common"
+    },
+    "valkey": {
+      "description": "Bundled Valkey dependency. A full bjw-s common library value set.",
+      "$ref": "#/$defs/common"
+    }
+  },
+  "allOf": [
+    {
+      "description": "Shared common library values applied to all components.",
+      "$ref": "#/$defs/common"
+    }
+  ]
+}

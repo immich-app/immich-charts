@@ -3,6 +3,21 @@
   "extends": [
     "local>immich-app/.github:renovate-config"
   ],
+  "customManagers": [
+    {
+      "customType": "jsonata",
+      "fileFormat": "json",
+      "managerFilePatterns": [
+        "charts/immich/values.schema.json"
+      ],
+      "matchStrings": [
+        "{ \"currentValue\": $substringBefore($substringAfter($$.`$defs`.common.`$ref`, \"common-\"), \"/\") }"
+      ],
+      "datasourceTemplate": "helm",
+      "depNameTemplate": "common",
+      "registryUrlTemplate": "https://bjw-s-labs.github.io/helm-charts"
+    }
+  ],
   "packageRules": [
     {
       "matchPackageNames": [
