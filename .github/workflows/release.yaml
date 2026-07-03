@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     steps:
       - name: checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -56,7 +57,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Chart
-        run: helm push immich-*.tgz oci://ghcr.io/${{ github.repository }}
+        id: push
+        run: |
+          output=$(helm push immich-*.tgz oci://ghcr.io/${{ github.repository }} 2>&1)
+          echo "$output"
+          digest=$(echo "$output" | awk '/^Digest:/ { print $2 }')
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+
+      - name: Sign Chart
+        run: cosign sign -y "ghcr.io/${{ github.repository }}/immich@${{ steps.push.outputs.digest }}"
 
       - name: Push ArtifactHub metadata
         run: |

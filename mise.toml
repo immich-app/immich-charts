@@ -1,4 +1,5 @@
 [tools]
+cosign = "3.1.1"
 ctlptl = "0.9.4"
 helm = "4.2.2"
 "asdf:dex4er/asdf-helm-diff" = { version = "3.15.7", depends = ["helm"] }
