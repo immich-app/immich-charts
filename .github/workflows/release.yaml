@@ -32,11 +32,13 @@ jobs:
         env:
           NOTES: ${{ github.event.release.body }}
         run: |
-          changes=$(printf '%s\n' "$NOTES" \
+          descs=$(printf '%s\n' "$NOTES" \
             | mdq --output plain '-' \
-            | sed -E 's/ \([0-9a-f]{7,40}\)//g; /^[[:space:]]*$/d; s/^/- /' \
+            | sed -E 's/ \([0-9a-f]{7,40}\)//g; /^[[:space:]]*$/d' \
             | awk '!seen[$0]++' || true)
-          if [ -n "$changes" ]; then
+          if [ -n "$descs" ]; then
+            export descs
+            changes=$(yq -n -o=yaml 'strenv(descs) | split("\n") | map(select(. != "")) | .[] style="double"')
             export changes
             yq -i '.annotations."artifacthub.io/changes" = strenv(changes)' charts/immich/Chart.yaml
           else
