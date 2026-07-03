@@ -26,13 +26,6 @@ $ cosign verify \
 ```
 
 ```
-$ cosign verify \
-  --certificate-oidc-issuer=https://token.actions.githubusercontent.com \
-  --certificate-identity='https://github.com/immich-app/immich-charts/.github/workflows/release.yaml@refs/heads/main' \
-  ghcr.io/immich-app/immich-charts/immich:VERSION
-```
-
-```
 $ helm install --create-namespace --namespace immich immich oci://ghcr.io/immich-app/immich-charts/immich -f values.yaml
 ```
 
