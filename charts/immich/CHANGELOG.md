@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/immich-app/immich-charts/compare/immich-0.13.0...immich-0.13.1) (2026-07-03)
+
+
+### Bug Fixes
+
+* quote changelog entries in artifacthub.io/changes annotation ([#383](https://github.com/immich-app/immich-charts/issues/383)) ([4f12c03](https://github.com/immich-app/immich-charts/commit/4f12c032b230ac21b0c5f0d56e2205f444facff8))
+
 ## [0.13.0](https://github.com/immich-app/immich-charts/compare/immich-0.12.1...immich-0.13.0) (2026-07-03)
 
 
