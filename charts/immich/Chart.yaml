@@ -1,8 +1,8 @@
 apiVersion: v2
 description: A chart to power Immich (immich.app) running on kubernetes
 name: immich
-version: 0.13.1
-appVersion: v3.0.0
+version: 0.13.2
+appVersion: v3.0.2
 home: https://immich.app/
 icon: >-
   https://raw.githubusercontent.com/immich-app/immich/main/design/immich-logo.svg
@@ -18,3 +18,7 @@ dependencies:
     version: 5.0.1
 annotations:
   artifacthub.io/category: storage
+  artifacthub.io/changes: 
+    - kind: changed
+      description: Update the app version to v3.0.2
+  
