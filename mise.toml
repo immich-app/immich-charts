@@ -1,7 +1,7 @@
 [tools]
 cosign = "3.1.1"
 ctlptl = "0.9.4"
-helm = "4.2.2"
+helm = "4.2.4"
 "asdf:dex4er/asdf-helm-diff" = { version = "3.15.7", depends = ["helm"] }
 kind = "0.32.0"
 kubectl = "1.36.2"
