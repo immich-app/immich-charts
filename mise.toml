@@ -8,7 +8,7 @@ kubectl = "1.36.2"
 oras = "1.3.2"
 tilt = "0.37.4"
 "ubi:yshavit/mdq" = "0.10.0"
-yq = "4.53.3"
+yq = "4.53.6"
 
 [env]
 HELM_PLUGINS = { value = "{{ tools | get(key='asdf:dex4er/asdf-helm-diff') | get(key='path') }}", tools = true }
