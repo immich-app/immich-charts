@@ -1,12 +1,12 @@
 [tools]
 cosign = "3.1.1"
-ctlptl = "0.9.4"
+ctlptl = "0.9.5"
 helm = "4.2.2"
 "asdf:dex4er/asdf-helm-diff" = { version = "3.15.7", depends = ["helm"] }
 kind = "0.32.0"
-kubectl = "1.36.2"
+kubectl = "1.37.0"
 oras = "1.3.2"
-tilt = "0.37.4"
+tilt = "0.37.7"
 "ubi:yshavit/mdq" = "0.10.0"
 yq = "4.53.3"
 
