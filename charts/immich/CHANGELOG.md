@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.13.2](https://github.com/immich-app/immich-charts/compare/immich-0.13.1...immich-0.13.2) (2026-09-10)
+
+
+### Miscellaneous
+
+* bump create-workflow-token action to v3 ([#385](https://github.com/immich-app/immich-charts/issues/385)) ([52aceac](https://github.com/immich-app/immich-charts/commit/52aceac9bf0941cd00cbfa219d3ce7369a6de5f4))
+* **deps:** bump Immich version to v3.2.0 ([#401](https://github.com/immich-app/immich-charts/issues/401)) ([e7245d2](https://github.com/immich-app/immich-charts/commit/e7245d2e074b9d4086a49e4674f67775b002ee9d))
+* **deps:** update dependency cosign to v3.1.3 ([#395](https://github.com/immich-app/immich-charts/issues/395)) ([943babf](https://github.com/immich-app/immich-charts/commit/943babfea7f04d3616facbd85b77db4b5462fe1b))
+* **deps:** update dependency helm to v4.2.4 ([#393](https://github.com/immich-app/immich-charts/issues/393)) ([b675a56](https://github.com/immich-app/immich-charts/commit/b675a56a49fadd85a3e6ebd8db66756d10576fc7))
+* **deps:** update dependency kind to v0.33.0 ([#399](https://github.com/immich-app/immich-charts/issues/399)) ([65a6eea](https://github.com/immich-app/immich-charts/commit/65a6eeaff1076df32c447c0d29b5857af0c8c5a3))
+* **deps:** update dependency oras to v1.3.4 ([#394](https://github.com/immich-app/immich-charts/issues/394)) ([b962ad7](https://github.com/immich-app/immich-charts/commit/b962ad7f5658e3032cfce07ae0c322f8407fcac7))
+* **deps:** update dependency yq to v4.53.6 ([#398](https://github.com/immich-app/immich-charts/issues/398)) ([91621f3](https://github.com/immich-app/immich-charts/commit/91621f3f73a3837c0c9ef786bd8c99208023d514))
+* **deps:** update github-actions ([#391](https://github.com/immich-app/immich-charts/issues/391)) ([9006196](https://github.com/immich-app/immich-charts/commit/90061966d4ab50840915b53ed72ef9841bf3b542))
+* **deps:** update helm release common to v5.1.0 ([#400](https://github.com/immich-app/immich-charts/issues/400)) ([23c2cf3](https://github.com/immich-app/immich-charts/commit/23c2cf37700ddc2086dd3b69a408b74fef96d3f1))
+* **deps:** update testing dependencies ([#390](https://github.com/immich-app/immich-charts/issues/390)) ([d38a2cd](https://github.com/immich-app/immich-charts/commit/d38a2cdaf4c0852e158da2246811c733a9a27b13))
+
 ## [0.13.1](https://github.com/immich-app/immich-charts/compare/immich-0.13.0...immich-0.13.1) (2026-07-03)
 
 
