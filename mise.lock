@@ -51,43 +51,43 @@ url_api = "https://api.github.com/repos/sigstore/cosign/releases/assets/50328623
 provenance = "cosign"
 
 [[tools.ctlptl]]
-version = "0.9.5"
+version = "0.9.6"
 backend = "aqua:tilt-dev/ctlptl"
 
 [tools.ctlptl."platforms.linux-arm64"]
-checksum = "sha256:6096babbc4a7998fd3d2d8fee9c7a51efc2435e22e7a8dc990bb815587d03704"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.linux.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634205"
+checksum = "sha256:6817485bee0be90889d5acf56920dcc890d8fbec31477f7a97353e08b86db8ac"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.linux.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108166"
 
 [tools.ctlptl."platforms.linux-arm64-musl"]
-checksum = "sha256:6096babbc4a7998fd3d2d8fee9c7a51efc2435e22e7a8dc990bb815587d03704"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.linux.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634205"
+checksum = "sha256:6817485bee0be90889d5acf56920dcc890d8fbec31477f7a97353e08b86db8ac"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.linux.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108166"
 
 [tools.ctlptl."platforms.linux-x64"]
-checksum = "sha256:cf5f0f918c34de069047706448d825015843beb1a829ec3ab2d3b81f6e309d18"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.linux.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634161"
+checksum = "sha256:a83ad620d04a526fd4186adfab9e757e8d59b9becf9b1244a9416dfaabec610f"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.linux.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108164"
 
 [tools.ctlptl."platforms.linux-x64-musl"]
-checksum = "sha256:cf5f0f918c34de069047706448d825015843beb1a829ec3ab2d3b81f6e309d18"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.linux.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634161"
+checksum = "sha256:a83ad620d04a526fd4186adfab9e757e8d59b9becf9b1244a9416dfaabec610f"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.linux.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108164"
 
 [tools.ctlptl."platforms.macos-arm64"]
-checksum = "sha256:58261c33d32407ccbb69ca8445cc9d014e399e585f966fdd833ccee3b304751a"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.mac.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634160"
+checksum = "sha256:6ef761e27f68e002279054a4f9536887ccb94b118faee7bcf41bc905691ed2a3"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.mac.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108205"
 
 [tools.ctlptl."platforms.macos-x64"]
-checksum = "sha256:d26b3fb661412b84c69d5ce2a740e1fd380d91730e3ee54b36a7268d20ed8c60"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.mac.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634216"
+checksum = "sha256:3b0eee55ab60add887e44dcbd241594b61552cff89ea04cce7ee40e1fc586515"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.mac.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108187"
 
 [tools.ctlptl."platforms.windows-x64"]
-checksum = "sha256:12663e6fdc94aca4452b0b4c1a2c85f3782b73a57230f9cf7a0ffb196ec54f09"
-url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.5/ctlptl.0.9.5.windows.x86_64.zip"
-url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/531634206"
+checksum = "sha256:de70f0a6eaf0b3b1e02f4b4fff6980ccc03631ee300ee9f5dd137fa4d3e49fe6"
+url = "https://github.com/tilt-dev/ctlptl/releases/download/v0.9.6/ctlptl.0.9.6.windows.x86_64.zip"
+url_api = "https://api.github.com/repos/tilt-dev/ctlptl/releases/assets/554108181"
 
 [[tools.helm]]
 version = "4.2.4"
