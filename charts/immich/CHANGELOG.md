@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.13.3](https://github.com/immich-app/immich-charts/compare/immich-0.13.2...immich-0.13.3) (2026-10-06)
+
+
+### Miscellaneous
+
+* **deps:** update dependency helm to v4.3.0 ([#403](https://github.com/immich-app/immich-charts/issues/403)) ([899cb9b](https://github.com/immich-app/immich-charts/commit/899cb9ba5488913fa2e43633b40f254c47a7d6d9))
+* **deps:** update dependency yq to v4.54.1 ([#408](https://github.com/immich-app/immich-charts/issues/408)) ([1b31b7e](https://github.com/immich-app/immich-charts/commit/1b31b7eaf47cf6feae0fbccf96c773d79df6865d))
+* **deps:** update docker.io/valkey/valkey docker tag to v9.2 ([#406](https://github.com/immich-app/immich-charts/issues/406)) ([42d73e2](https://github.com/immich-app/immich-charts/commit/42d73e2be9d051c6601215a4f60bc0bd9e90c2b1))
+* **deps:** update helm release common to v5.2.1 ([#407](https://github.com/immich-app/immich-charts/issues/407)) ([602430f](https://github.com/immich-app/immich-charts/commit/602430ffbf4dcef4060841299f1c72ffdba25dc7))
+* **deps:** update testing dependencies ([#404](https://github.com/immich-app/immich-charts/issues/404)) ([9c6094f](https://github.com/immich-app/immich-charts/commit/9c6094f2f3e830ea25d5b3df9f116861e5a78f5c))
+
 ## [0.13.2](https://github.com/immich-app/immich-charts/compare/immich-0.13.1...immich-0.13.2) (2026-09-10)
 
 
