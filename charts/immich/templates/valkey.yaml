@@ -74,5 +74,6 @@ service:
 {{- $ctx := deepCopy . -}}
 {{- $_ := get .Values "valkey" | mergeOverwrite $ctx.Values -}}
 {{- $_ = include "valkey.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $_ = unset $ctx.Values.immich "configuration" -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{ end }}
