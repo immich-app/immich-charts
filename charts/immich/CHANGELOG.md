@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.4](https://github.com/immich-app/immich-charts/compare/immich-0.13.3...immich-0.13.4) (2026-10-07)
+
+
+### Bug Fixes
+
+* don't template-evaluate immich.configuration ([#411](https://github.com/immich-app/immich-charts/issues/411)) ([62d8050](https://github.com/immich-app/immich-charts/commit/62d8050539a96c02df9e2567ae3341114f4888fc))
+* fully specify image tags ([#412](https://github.com/immich-app/immich-charts/issues/412)) ([7d055bd](https://github.com/immich-app/immich-charts/commit/7d055bdc862bd00c1af5297aa4100b41b8430209))
+
 ## [0.13.3](https://github.com/immich-app/immich-charts/compare/immich-0.13.2...immich-0.13.3) (2026-10-06)
 
 
