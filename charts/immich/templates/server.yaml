@@ -117,5 +117,6 @@ persistence:
 {{- $ctx := deepCopy . -}}
 {{- $_ := get .Values "server" | mergeOverwrite $ctx.Values -}}
 {{- $_ = include "immich.server.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $_ = unset $ctx.Values.immich "configuration" -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{ end }}

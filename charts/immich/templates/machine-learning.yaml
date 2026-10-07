@@ -57,5 +57,6 @@ service:
 {{- $ctx := deepCopy . -}}
 {{- $_ := get .Values "machine-learning" | mergeOverwrite $ctx.Values -}}
 {{- $_ = include "immich.machine-learning.hardcodedValues" . | fromYaml | merge $ctx.Values -}}
+{{- $_ = unset $ctx.Values.immich "configuration" -}}
 {{- include "bjw-s.common.loader.all" $ctx }}
 {{ end }}
