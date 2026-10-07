@@ -8,7 +8,7 @@ spec:
   storage:
     size: 1Gi
 
-  imageName: ghcr.io/cloudnative-pg/postgresql:18-standard-trixie
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-standard-trixie
 
   postgresql:
     shared_preload_libraries:
