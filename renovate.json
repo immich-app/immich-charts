@@ -16,6 +16,30 @@
       "datasourceTemplate": "helm",
       "depNameTemplate": "common",
       "registryUrlTemplate": "https://bjw-s-labs.github.io/helm-charts"
+    },
+    {
+      "customType": "jsonata",
+      "fileFormat": "yaml",
+      "managerFilePatterns": [
+        "charts/immich/Chart.yaml"
+      ],
+      "matchStrings": [
+        "{ \"currentValue\": appVersion }"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/immich-app/immich-server"
+    },
+    {
+      "customType": "jsonata",
+      "fileFormat": "yaml",
+      "managerFilePatterns": [
+        "charts/immich/values.yaml"
+      ],
+      "matchStrings": [
+        "{ \"currentValue\": controllers.main.containers.main.image.tag }"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/immich-app/immich-server"
     }
   ],
   "packageRules": [
@@ -33,6 +57,12 @@
         "kubectl"
       ],
       "groupName": "testing dependencies"
+    },
+    {
+      "matchDepNames": [
+        "ghcr.io/immich-app/immich-server"
+      ],
+      "pinDigests": false
     }
   ]
 }
