@@ -161,36 +161,36 @@ url = "https://github.com/kubernetes-sigs/kind/releases/download/v0.33.0/kind-wi
 url_api = "https://api.github.com/repos/kubernetes-sigs/kind/releases/assets/531396499"
 
 [[tools.kubectl]]
-version = "1.37.1"
+version = "1.37.2"
 backend = "aqua:kubernetes/kubernetes/kubectl"
 
 [tools.kubectl."platforms.linux-arm64"]
-checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
+checksum = "sha256:fcc16f63186659d9722014b7e02d5fdd2d4e669cb8c0ab66365d7d3b8ba03509"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/arm64/kubectl"
 
 [tools.kubectl."platforms.linux-arm64-musl"]
-checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
+checksum = "sha256:fcc16f63186659d9722014b7e02d5fdd2d4e669cb8c0ab66365d7d3b8ba03509"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/arm64/kubectl"
 
 [tools.kubectl."platforms.linux-x64"]
-checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
+checksum = "sha256:c04487523e7aa7d1493f7808174c899db93d7a9cf57531420cd76b9bd415f8f4"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.linux-x64-musl"]
-checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
+checksum = "sha256:c04487523e7aa7d1493f7808174c899db93d7a9cf57531420cd76b9bd415f8f4"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.macos-arm64"]
-checksum = "sha256:fd65982c97ddad3106754b69ffa196d0e543aa591930ae52aed1adfb92f8c77f"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/arm64/kubectl"
+checksum = "sha256:55701af0d51815ee335f240e48acf0959c3c23017ed3fa816e880c4a92bae581"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/arm64/kubectl"
 
 [tools.kubectl."platforms.macos-x64"]
-checksum = "sha256:6851381c486ff6edd691623e3d65c87cb9a5b02887ff8fbbb38d8a031b748387"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/amd64/kubectl"
+checksum = "sha256:88379aff5c8111de6be0a394adffba2819e44cde269f3ab23cef76de1a48eaa8"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/amd64/kubectl"
 
 [tools.kubectl."platforms.windows-x64"]
-checksum = "sha256:14b93c4916a6f37a06fbc1f46b0a1d2404c4f9741be09f00d6caf8af3b05f1d3"
-url = "https://dl.k8s.io/v1.37.1/bin/windows/amd64/kubectl.exe"
+checksum = "sha256:1691938f7de0e931969f9968c3601cf32d6b0d573573afb4ce471f3d28f51984"
+url = "https://dl.k8s.io/v1.37.2/bin/windows/amd64/kubectl.exe"
 
 [[tools.oras]]
 version = "1.3.4"
@@ -232,43 +232,50 @@ url = "https://github.com/oras-project/oras/releases/download/v1.3.4/oras_1.3.4_
 url_api = "https://api.github.com/repos/oras-project/oras/releases/assets/532778547"
 
 [[tools.tilt]]
-version = "0.37.8"
+version = "0.37.9"
 backend = "aqua:tilt-dev/tilt"
 
 [tools.tilt."platforms.linux-arm64"]
-checksum = "sha256:7a21281e830930be158202b7f8405ba62445613788b4d9708512ffe51f5cce90"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.linux.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230460"
+checksum = "sha256:fb180544da945f346757eb64e12f23f5105a6b0ed67846845057861c99cb8d23"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.linux.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905356"
 
 [tools.tilt."platforms.linux-arm64-musl"]
-checksum = "sha256:7a21281e830930be158202b7f8405ba62445613788b4d9708512ffe51f5cce90"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.linux.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230460"
+checksum = "sha256:fb180544da945f346757eb64e12f23f5105a6b0ed67846845057861c99cb8d23"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.linux.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905356"
 
 [tools.tilt."platforms.linux-x64"]
-checksum = "sha256:e39513f958705d30524d55f68b1d46fbef2b46a0da568efd00e6383dee6be44f"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.linux.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230514"
+checksum = "sha256:e70bb856b8e1cddb249b1e4231c1b1edca1f78167415effbdc9a1e893b6b9a19"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.linux.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905350"
 
 [tools.tilt."platforms.linux-x64-musl"]
-checksum = "sha256:e39513f958705d30524d55f68b1d46fbef2b46a0da568efd00e6383dee6be44f"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.linux.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230514"
+checksum = "sha256:e70bb856b8e1cddb249b1e4231c1b1edca1f78167415effbdc9a1e893b6b9a19"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.linux.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905350"
 
 [tools.tilt."platforms.macos-arm64"]
-checksum = "sha256:2d396b13c479f74deb19cb2161a3f0858f6e03f26f15f8d3b3be982d09ff4484"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.mac.arm64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230463"
+checksum = "sha256:b3a3ad44f6c2d92abb49191a2e0dfa16dd1d84a367c97d83074e46af347a0426"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.mac.arm64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905426"
 
 [tools.tilt."platforms.macos-x64"]
-checksum = "sha256:0d03359e43f7faea07a6ed0e7423bb56176d1959462fa155329e9acabf90e6fa"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.mac.x86_64.tar.gz"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230462"
+checksum = "sha256:e8d6a3bddf0118fa1d46e1090608762d07b33cb0dab8578b17bf001979172ced"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.mac.x86_64.tar.gz"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905439"
 
 [tools.tilt."platforms.windows-x64"]
-checksum = "sha256:b8abb4b50e98d45300bd953a717a684f3555b158ee1238c9c938d72d2bea8cbe"
-url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.8/tilt.0.37.8.windows.x86_64.zip"
-url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/602230488"
+checksum = "sha256:ca0f6531ad5930da8a12214de22b83e1757d412ed78c86950c0e8ee9d946cca9"
+checksum_source = "mise-versions"
+url = "https://github.com/tilt-dev/tilt/releases/download/v0.37.9/tilt.0.37.9.windows.x86_64.zip"
+url_api = "https://api.github.com/repos/tilt-dev/tilt/releases/assets/745905347"
 
 [[tools."ubi:yshavit/mdq"]]
 version = "0.10.0"
